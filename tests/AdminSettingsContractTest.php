@@ -23,4 +23,8 @@ foreach (['private function isAdmin()', '$this->groups->isAdmin(', 'Http::STATUS
 foreach (['id="orgsuite-admin"', 'id="orgs-organization-form"', 'id="orgs-permissions-form"', 'ausschließlich hier im Nextcloud-Adminbereich'] as $contract) {
     if (!str_contains($template, $contract)) throw new RuntimeException("Admin-UI-Vertrag fehlt: {$contract}");
 }
+foreach (["\\OCP\\Util::addScript('orgsuite', 'components/hierarchy-board')", "\\OCP\\Util::addScript('orgsuite', 'components/organization-editor')", "\\OCP\\Util::addStyle('orgsuite', 'admin')"] as $contract) {
+    if (!str_contains($template, $contract)) throw new RuntimeException("Admin-Assetvertrag fehlt: {$contract}");
+}
+if (preg_match('/^\\s*(?:script|style)\\s*\\(/m', $template) === 1) throw new RuntimeException('Veralteter globaler Templatehelfer gefunden.');
 echo "AdminSettingsContractTest: OK\n";

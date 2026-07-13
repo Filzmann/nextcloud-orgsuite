@@ -1,10 +1,10 @@
 <?php
-script('localbase', 'api/api-client');
-script('localbase', 'ui/ui');
-script('orgsuite', 'components/hierarchy-board');
-script('orgsuite', 'components/organization-editor');
-script('orgsuite', 'admin');
-style('orgsuite', 'admin');
+\OCP\Util::addScript('localbase', 'api/api-client');
+\OCP\Util::addScript('localbase', 'ui/ui');
+\OCP\Util::addScript('orgsuite', 'components/hierarchy-board');
+\OCP\Util::addScript('orgsuite', 'components/organization-editor');
+\OCP\Util::addScript('orgsuite', 'admin');
+\OCP\Util::addStyle('orgsuite', 'admin');
 ?>
 <section id="orgsuite-admin" class="section orgs-admin" aria-labelledby="orgs-admin-heading">
     <h2 id="orgs-admin-heading">AD-/BR-Suite</h2>
