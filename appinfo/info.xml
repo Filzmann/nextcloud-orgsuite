@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>orgsuite</id>
+    <name>AD- und BR-Suite</name>
+    <summary>Gemeinsame Navigation fuer die AD- und BR-Fachapps.</summary>
+    <description>Buendelt die Einstiege der eigenstaendigen AD- und BR-Apps, ohne Fachdaten oder Berechtigungen zusammenzufuehren.</description>
+    <version>0.1.0</version>
+    <licence>agpl</licence>
+    <author>Simon / Codex-Prototyp</author>
+    <namespace>OrgSuite</namespace>
+    <category>organization</category>
+    <dependencies>
+        <nextcloud min-version="29" max-version="35"/>
+    </dependencies>
+</info>
+

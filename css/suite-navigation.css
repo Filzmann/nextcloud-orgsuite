@@ -1,0 +1,45 @@
+.orgsuite-host {
+    min-width: 0;
+    margin: 0 0 8px;
+}
+
+.orgsuite-nav {
+    max-width: 100%;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.orgsuite-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.orgsuite-nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 4px 12px;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    color: var(--color-main-text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.orgsuite-nav__link:hover,
+.orgsuite-nav__link:focus-visible {
+    background: var(--color-background-hover);
+}
+
+.orgsuite-nav__link:focus-visible {
+    outline: 2px solid var(--color-primary-element);
+    outline-offset: -2px;
+}
+
+.orgsuite-nav__link.is-current {
+    background: var(--color-primary-element-light);
+    color: var(--color-primary-element-light-text);
+}
+
