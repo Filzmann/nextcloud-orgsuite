@@ -14,7 +14,7 @@ for (const contract of [
         throw new Error(`Suite-Menuevertrag fehlt: ${contract}`);
     }
 }
-for (const contract of ['focus-visible', 'flex-wrap: wrap', 'var(--color-border)']) {
+for (const contract of ['focus-visible', 'flex-wrap: wrap', 'var(--color-border)', 'position: sticky', 'top: 0', 'z-index: 20', 'background: var(--color-main-background)']) {
     if (!css.includes(contract)) {
         throw new Error(`Suite-CSS-Vertrag fehlt: ${contract}`);
     }

@@ -2,7 +2,7 @@
 
 ## Projekt
 
-Nextcloud-App `orgsuite` fuer die gemeinsame Navigation der fachlich getrennten AD- und BR-Apps.
+Nextcloud-App `orgsuite` fuer die gemeinsame Navigation der fachlich getrennten AD- und BR-Apps sowie den administrativen Einstieg für organisationsweite Suite-Einstellungen.
 
 Lokale Einstiegspunkte:
 
@@ -20,7 +20,7 @@ OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 - `AD` fuer AD Kalender, Assistenzplanung, AD Urlaub und AD Raumplaner.
 - `BR` fuer BRTop, BR-Stunden und Berechtigungsmatrix.
 
-Die Fachapps bleiben eigenstaendige Repositories, Datenmodelle und Berechtigungsraeume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig.
+Die Fachapps bleiben eigenstaendige Repositories, Datenmodelle und Berechtigungsraeume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig. OrgSuite stellt ausschließlich den Nextcloud-Adminadapter für gemeinsame, in LocalBase persistierte Organisations- und Freigabeverträge bereit.
 
 ## Navigationsvertrag
 
@@ -35,7 +35,7 @@ Die Fachapps bleiben eigenstaendige Repositories, Datenmodelle und Berechtigungs
 - Dieses Verzeichnis ist ein eigenstaendiges Git-Repository.
 - Vor Commits `git status --short`, `git diff --stat` und `git diff --name-only` pruefen.
 - Dateien gezielt stagen; niemals `git add .`.
-- Keine Fachdaten, Gruppenhierarchien oder Fachberechtigungen in diese App verschieben.
+- Keine Fachdaten in diese App verschieben. Organisationsdefinitionen und Freigaben werden hier administriert, ihre Persistenz und ihr gemeinsamer Vertrag bleiben jedoch in LocalBase; die Fachapps lesen und erzwingen ihre Rechte weiterhin selbst.
 
 ## Architektur und UI
 
@@ -43,7 +43,10 @@ Die Fachapps bleiben eigenstaendige Repositories, Datenmodelle und Berechtigungs
 - Nextcloud-Navigation, Suite-Menue und Definitionen bleiben getrennt von den Fachapps.
 - Das Suite-Menue verwendet semantisches `nav`, eine sichtbare Fokusmarkierung und `aria-current="page"`.
 - Das Menue bleibt kompakt, darf umbrechen und darf den Scrollvertrag der einbettenden App nicht veraendern.
+- Das Quermenü bleibt innerhalb des jeweiligen App-Scrollcontainers am oberen Rand sticky sichtbar und besitzt dafür einen deckenden Nextcloud-Hintergrund. Es verändert keine globalen Nextcloud-Container.
 - Keine globalen Nextcloud- oder `body`-Selektoren ueberschreiben.
+- Organisationsweite Einstellungen werden ausschließlich über `OCP\Settings\ISettings` im Nextcloud-Adminbereich angezeigt. Normale App-Einstellungen sind persönliche Einstellungen des eingeloggten Kontos.
+- Administrative API-Endpunkte verzichten auf `NoAdminRequired`, prüfen die aktive Sitzung zusätzlich explizit auf Nextcloud-Adminrechte und behalten den CSRF-Schutz für Schreibzugriffe bei.
 
 ## Tests
 

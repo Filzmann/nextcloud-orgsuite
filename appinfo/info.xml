@@ -3,14 +3,19 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>orgsuite</id>
     <name>AD- und BR-Suite</name>
-    <summary>Gemeinsame Navigation fuer die AD- und BR-Fachapps.</summary>
-    <description>Buendelt die Einstiege der eigenstaendigen AD- und BR-Apps, ohne Fachdaten oder Berechtigungen zusammenzufuehren.</description>
-    <version>0.1.1</version>
+    <summary>Gemeinsame Navigation und Administration für die AD- und BR-Fachapps.</summary>
+    <description>Bündelt die Einstiege der eigenständigen AD- und BR-Apps und stellt den administrativen Einstieg für organisationsweite Suite-Einstellungen bereit.</description>
+    <version>0.2.1</version>
     <licence>agpl</licence>
     <author>Simon / Codex-Prototyp</author>
     <namespace>OrgSuite</namespace>
     <category>organization</category>
     <dependencies>
         <nextcloud min-version="29" max-version="35"/>
+        <app>localbase</app>
     </dependencies>
+    <settings>
+        <admin>OCA\OrgSuite\Settings\Admin</admin>
+        <admin-section>OCA\OrgSuite\Settings\AdminSection</admin-section>
+    </settings>
 </info>
