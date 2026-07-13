@@ -8,6 +8,7 @@
                 Object.freeze({app: 'adcalendar', label: 'Kalender'}),
                 Object.freeze({app: 'adplaner', label: 'Assistenzplanung'}),
                 Object.freeze({app: 'adurlaub', label: 'Urlaub'}),
+                Object.freeze({app: 'adroom', label: 'Räume'}),
             ]),
         }),
         br: Object.freeze({
@@ -67,4 +68,3 @@
         mountAll();
     }
 }());
-

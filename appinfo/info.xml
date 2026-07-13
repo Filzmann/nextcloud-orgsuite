@@ -5,7 +5,7 @@
     <name>AD- und BR-Suite</name>
     <summary>Gemeinsame Navigation fuer die AD- und BR-Fachapps.</summary>
     <description>Buendelt die Einstiege der eigenstaendigen AD- und BR-Apps, ohne Fachdaten oder Berechtigungen zusammenzufuehren.</description>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <licence>agpl</licence>
     <author>Simon / Codex-Prototyp</author>
     <namespace>OrgSuite</namespace>
@@ -14,4 +14,3 @@
         <nextcloud min-version="29" max-version="35"/>
     </dependencies>
 </info>
-

@@ -31,6 +31,8 @@ foreach (['NoAdminRequired', 'NoCSRFRequired', 'RedirectResponse', 'NotFoundResp
         throw new RuntimeException("Weiterleitungsvertrag fehlt: {$contract}");
     }
 }
+foreach (['adcalendar', 'adplaner', 'adurlaub', 'adroom'] as $appId) {
+    if (!str_contains($listener, "'{$appId}'") || !str_contains($controller, "'app' => '{$appId}'")) throw new RuntimeException("AD-Suite-Ziel fehlt: {$appId}");
+}
 
 echo "OrgSuite navigation contract passed\n";
-

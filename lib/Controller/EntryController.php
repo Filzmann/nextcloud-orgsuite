@@ -26,6 +26,7 @@ final class EntryController extends Controller {
             ['app' => 'adcalendar', 'route' => 'adcalendar.page.index'],
             ['app' => 'adplaner', 'route' => 'adplaner.page.index'],
             ['app' => 'adurlaub', 'route' => 'adurlaub.page.index'],
+            ['app' => 'adroom', 'route' => 'adroom.page.index'],
         ],
         'br' => [
             ['app' => 'brtop', 'route' => 'brtop.page.index'],
@@ -70,4 +71,3 @@ final class EntryController extends Controller {
         return new NotFoundResponse();
     }
 }
-

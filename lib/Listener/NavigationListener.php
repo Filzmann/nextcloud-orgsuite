@@ -22,7 +22,7 @@ use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 final class NavigationListener implements IEventListener {
     /** @var array<string, list<string>> */
     private const TARGETS = [
-        'ad' => ['adcalendar', 'adplaner', 'adurlaub'],
+        'ad' => ['adcalendar', 'adplaner', 'adurlaub', 'adroom'],
         'br' => ['brtop', 'brstunden', 'br_permission_matrix'],
     ];
 
@@ -74,4 +74,3 @@ final class NavigationListener implements IEventListener {
         return false;
     }
 }
-

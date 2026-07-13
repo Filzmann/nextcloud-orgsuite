@@ -17,7 +17,7 @@ Nextcloud-App-ID:
 
 OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 
-- `AD` fuer AD Kalender, Assistenzplanung und AD Urlaub.
+- `AD` fuer AD Kalender, Assistenzplanung, AD Urlaub und AD Raumplaner.
 - `BR` fuer BRTop, BR-Stunden und Berechtigungsmatrix.
 
 Die Fachapps bleiben eigenstaendige Repositories, Datenmodelle und Berechtigungsraeume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig.
@@ -56,4 +56,3 @@ Bei Aenderungen an Routen, Dependency Injection oder Navigationsregistrierung zu
 
     ddev exec -d /var/www/html/html php occ status
     ddev exec -d /var/www/html/html php occ app:list | grep -i orgsuite
-

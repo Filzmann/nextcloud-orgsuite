@@ -5,7 +5,7 @@ const source = readFileSync(new URL('../../js/suite-navigation.js', import.meta.
 const css = readFileSync(new URL('../../css/suite-navigation.css', import.meta.url), 'utf8');
 
 for (const contract of [
-    "adcalendar", "adplaner", "adurlaub",
+    "adcalendar", "adplaner", "adurlaub", "adroom",
     "brtop", "brstunden", "br_permission_matrix",
     "aria-current", "document.createElement('nav')", "window.OC.generateUrl",
     "document.querySelectorAll('[data-orgsuite]')",
@@ -51,7 +51,7 @@ const links = nav.children[0].children.map((item) => item.children[0]);
 if (nav.tagName !== 'NAV' || nav.attributes['aria-label'] !== 'AD-Anwendungen') {
     throw new Error('Das Suite-Menue muss als beschriftete Navigation gerendert werden.');
 }
-if (links.length !== 3 || links[1].attributes['aria-current'] !== 'page' || links[1].href !== '/apps/adplaner/') {
+if (links.length !== 4 || links[1].attributes['aria-current'] !== 'page' || links[1].href !== '/apps/adplaner/') {
     throw new Error('Aktiver AD-Menuepunkt wurde nicht korrekt gerendert.');
 }
 if (host.dataset.orgsuiteMounted !== 'true') {
