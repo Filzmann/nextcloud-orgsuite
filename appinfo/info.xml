@@ -5,7 +5,7 @@
     <name>AD- und BR-Suite</name>
     <summary>Gemeinsame Navigation und Administration für die AD- und BR-Fachapps.</summary>
     <description>Bündelt die Einstiege der eigenständigen AD- und BR-Apps und stellt den administrativen Einstieg für organisationsweite Suite-Einstellungen bereit.</description>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     <licence>agpl</licence>
     <author>Simon / Codex-Prototyp</author>
     <namespace>OrgSuite</namespace>

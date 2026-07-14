@@ -54,6 +54,7 @@ Schnelle Pruefungen:
 
     php tests/run.php
     node tests/run-js.mjs
+    ORGS_ADMIN_USER=... ORGS_ADMIN_PASSWORD=... tests/http-smoke.sh
 
 Bei Aenderungen an Routen, Dependency Injection oder Navigationsregistrierung zusaetzlich in DDEV pruefen:
 
