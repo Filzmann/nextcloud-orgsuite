@@ -17,3 +17,5 @@ sudo -u www-data php occ app:enable orgsuite
 ```
 
 Nach der Aktivierung werden Organisationsdefinition und Freigaben ausschließlich im Nextcloud-Adminbereich der OrgSuite gepflegt.
+
+Installations-, Betriebs- und Abnahmeunterlagen stehen im öffentlichen [AD-Suite-Projekt](https://github.com/Filzmann/ad-suite).

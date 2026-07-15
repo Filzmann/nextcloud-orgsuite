@@ -2,7 +2,7 @@
 
 ## Projekt
 
-Nextcloud-App `orgsuite` fuer die gemeinsame Navigation der fachlich getrennten AD- und BR-Apps sowie den administrativen Einstieg für organisationsweite Suite-Einstellungen.
+Nextcloud-App `orgsuite` für die gemeinsame Navigation der fachlich getrennten AD- und BR-Apps sowie den administrativen Einstieg für app-übergreifende Suite-Einstellungen.
 
 Lokale Einstiegspunkte:
 
@@ -20,7 +20,7 @@ OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 - `AD` fuer AD Kalender, Assistenzplanung, AD Urlaub und AD Raumplaner.
 - `BR` fuer BRTop, BR-Stunden und Berechtigungsmatrix.
 
-Die Fachapps bleiben eigenstaendige Repositories, Datenmodelle und Berechtigungsraeume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig. OrgSuite stellt ausschließlich den Nextcloud-Adminadapter für gemeinsame, in LocalBase persistierte Organisations- und Freigabeverträge bereit.
+Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungsräume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig. OrgSuite stellt ausschließlich den Nextcloud-Adminadapter für gemeinsame, in LocalBase persistierte Organisations- und Freigabeverträge bereit. Einstellungen, die nur eine Fachapp betreffen, erhalten einen eigenen Adminabschnitt in dieser Fachapp.
 
 ## Navigationsvertrag
 
@@ -45,7 +45,7 @@ Die Fachapps bleiben eigenstaendige Repositories, Datenmodelle und Berechtigungs
 - Das Menue bleibt kompakt, darf umbrechen und darf den Scrollvertrag der einbettenden App nicht veraendern.
 - Das Quermenü bleibt innerhalb des jeweiligen App-Scrollcontainers am oberen Rand sticky sichtbar und besitzt dafür einen deckenden Nextcloud-Hintergrund. Es verändert keine globalen Nextcloud-Container.
 - Keine globalen Nextcloud- oder `body`-Selektoren ueberschreiben.
-- Organisationsweite Einstellungen werden ausschließlich über `OCP\Settings\ISettings` im Nextcloud-Adminbereich angezeigt. Normale App-Einstellungen sind persönliche Einstellungen des eingeloggten Kontos.
+- App-übergreifende Organisations- und Freigabeeinstellungen werden über `OCP\Settings\ISettings` im OrgSuite-Adminabschnitt angezeigt. App-spezifische Administration bleibt im Adminabschnitt der Fachapp; normale App-Einstellungen sind persönliche Einstellungen des eingeloggten Kontos.
 - Administrative API-Endpunkte verzichten auf `NoAdminRequired`, prüfen die aktive Sitzung zusätzlich explizit auf Nextcloud-Adminrechte und behalten den CSRF-Schutz für Schreibzugriffe bei.
 
 ## Tests
