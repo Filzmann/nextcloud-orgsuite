@@ -5,7 +5,7 @@
     <name>AD- und BR-Suite</name>
     <summary>Gemeinsame Navigation und Administration für die AD- und BR-Fachapps.</summary>
     <description>Bündelt die Einstiege der eigenständigen AD- und BR-Apps und stellt den administrativen Einstieg für organisationsweite Suite-Einstellungen bereit.</description>
-    <version>0.2.5-rc.1</version>
+    <version>0.3.0-rc.1</version>
     <licence>agpl</licence>
     <author>Simon</author>
     <website>https://github.com/Filzmann/ad-suite</website>
@@ -16,7 +16,6 @@
     <dependencies>
         <php min-version="8.3"/>
         <nextcloud min-version="34" max-version="34"/>
-        <app>localbase</app>
     </dependencies>
     <settings>
         <admin>OCA\OrgSuite\Settings\Admin</admin>
