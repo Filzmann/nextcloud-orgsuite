@@ -8,7 +8,8 @@ base_url="${ORGS_BASE_URL:-https://nextcloud-dev.ddev.site}"
 ddev_project="${ORGS_DDEV_PROJECT:-$(cd "$(dirname "$0")/../../nextcloud-dev" && pwd)}"
 suffix="$(date +%s)-$$"
 nonadmin="orgs-smoke-${suffix}"
-nonadmin_password="Orgs-Smoke-${suffix}!"
+# Nur im Arbeitsspeicher vorhandenes Einmalpasswort für das temporäre Smoke-Konto.
+nonadmin_password="$(php -r 'echo bin2hex(random_bytes(24));')"
 workdir="$(mktemp -d)"
 
 occ() {
