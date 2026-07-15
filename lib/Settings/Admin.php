@@ -11,7 +11,7 @@ use OCP\Settings\ISettings;
 /** Zweck: Bindet die organisationsweiten Suite-Einstellungen in den Nextcloud-Adminbereich ein. */
 final class Admin implements ISettings {
     public function getForm(): TemplateResponse {
-        return new TemplateResponse(Application::APP_ID, 'admin');
+        return new TemplateResponse('localbase', 'organization-admin', ['standalone' => false]);
     }
 
     public function getSection(): string {

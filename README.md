@@ -1,21 +1,18 @@
 # OrgSuite
 
-Gemeinsame AD-/BR-Navigation und Nextcloud-Adminoberfläche für organisationsweite Gruppen-, Hierarchie- und Freigabeeinstellungen.
+Gemeinsame AD-/BR-Navigation und Nextcloud-Adminoberfläche für organisationsweite Gruppen-, Hierarchie- und Freigabeeinstellungen. OrgSuite enthält keine Fachdaten.
 
 ## Staging-Kompatibilität
 
 - Nextcloud 34
 - PHP 8.3 oder neuer innerhalb des von Nextcloud 34 unterstützten Bereichs
-- Abhängigkeit: `localbase`
+- Laufzeitbasis: `localbase`
 - App-ID und Installationsordner: `orgsuite`
 
 ## Installation
 
-```bash
-sudo -u www-data php occ app:enable localbase
-sudo -u www-data php occ app:enable orgsuite
-```
+OrgSuite ist mitgelieferte Infrastruktur und kein separates AD-Fachprodukt. Der Produktinstaller aktiviert sie automatisch ab zwei aktiven AD-Fachprodukten. Bei einer Einzelinstallation bleibt sie deaktiviert; die Fachapp besitzt dann ihren eigenen Einstieg und Adminabschnitt.
 
-Nach der Aktivierung werden Organisationsdefinition und Freigaben ausschließlich im Nextcloud-Adminbereich der OrgSuite gepflegt.
+Nach der Aktivierung werden Organisationsdefinition und Freigaben im Nextcloud-Adminbereich der OrgSuite gepflegt. Persistenz, geschützte Admin-API und Organisationseditor liegen in LocalBase.
 
 Installations-, Betriebs- und Abnahmeunterlagen stehen im öffentlichen [AD-Suite-Projekt](https://github.com/Filzmann/ad-suite).

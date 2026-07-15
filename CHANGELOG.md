@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0-rc.1
+
+- OrgSuite als ab zwei AD-Produkten aktivierte Infrastruktur entkoppelt.
+- Gemeinsame Menüassets zentral registriert; Fachapps laden keine OrgSuite-Dateien mehr direkt.
+- Organisationsadministration als schlanken Adapter auf die LocalBase-Oberfläche reduziert.
+
 ## 0.2.5-rc.1
 
 - Öffentliche Projekt-, Quellcode- und Fehlerkanäle ergänzt.
