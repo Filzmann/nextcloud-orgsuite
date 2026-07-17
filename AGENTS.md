@@ -31,11 +31,11 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
 - Ein sichtbarer Link ist keine Berechtigung. Jeder Zielcontroller und jede API prueft Zugriffe selbst.
 - Der Produktinstaller aktiviert OrgSuite erst ab zwei aktivierten AD-Fachprodukten. Bei einer Einzelinstallation registriert das Fachprodukt stattdessen seinen eigenen Nextcloud-Einstieg.
 
-## Git- und Arbeitsregeln
+## Repository und gemeinsamer Arbeitsablauf
 
 - Dieses Verzeichnis ist ein eigenstaendiges Git-Repository.
-- Vor Commits `git status --short`, `git diff --stat` und `git diff --name-only` pruefen.
-- Dateien gezielt stagen; niemals `git add .`.
+- Diese Datei und lokal referenzierte Skills bilden bei einem direkten Start in diesem Repository die vollständige Repository-Steuerung.
+- Fuer Git-, Sandbox-, DDEV-/`occ`-Sicherheit, Verifikation und Learning Candidates gilt der lokal mitgefuehrte Skill `work-in-nextcloud-app`; die folgenden OrgSuite-Regeln und Pruefungen ergaenzen ihn.
 - Keine Fachdaten in diese App verschieben. Organisationsdefinitionen und Freigaben werden hier administriert, ihre Persistenz und ihr gemeinsamer Vertrag bleiben jedoch in LocalBase; die Fachapps lesen und erzwingen ihre Rechte weiterhin selbst.
 
 ## Architektur und UI
