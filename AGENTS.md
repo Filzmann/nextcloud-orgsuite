@@ -13,6 +13,8 @@ Nextcloud-App-ID:
 
     orgsuite
 
+Die priorisierte Produktplanung und offene Entscheidungen stehen in `ROADMAP.md`; verbindliche Fach-, Sicherheits- und Architekturregeln bleiben in dieser Datei.
+
 ## Zielsetzung
 
 OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
