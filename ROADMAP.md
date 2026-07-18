@@ -5,6 +5,7 @@ Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Ve
 ## Aktueller Fokus
 
 - Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
+- Dabei auch die globale, rein visuelle Links-rechts-Anordnung der LocalBase-Organigrammkarten prüfen; die fachliche Gruppenreihenfolge bleibt davon getrennt.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.
 
 ## Geplante Erweiterungen

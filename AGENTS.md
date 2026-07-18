@@ -49,6 +49,7 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
 - Das Quermenü bleibt innerhalb des jeweiligen App-Scrollcontainers am oberen Rand sticky sichtbar und besitzt dafür einen deckenden Nextcloud-Hintergrund. Es verändert keine globalen Nextcloud-Container.
 - Keine globalen Nextcloud- oder `body`-Selektoren ueberschreiben.
 - App-übergreifende Organisations- und Freigabeeinstellungen werden über einen LocalBase-`ISettings`-Adapter im OrgSuite-Adminabschnitt angezeigt. Controller, Assets und Persistenz bleiben in LocalBase. App-spezifische Administration bleibt im Adminabschnitt der Fachapp; normale App-Einstellungen sind persönliche Einstellungen des eingeloggten Kontos.
+- Die im LocalBase-Organigramm global gespeicherte Links-rechts-Anordnung ist ausschließlich visuell. OrgSuite darf daraus weder fachliche Rollen-/Bereichsreihenfolgen noch Kalender- oder Berechtigungswirkung ableiten.
 - Administrative API-Endpunkte verzichten auf `NoAdminRequired`, prüfen die aktive Sitzung zusätzlich explizit auf Nextcloud-Adminrechte und behalten den CSRF-Schutz für Schreibzugriffe bei.
 
 ## Tests
