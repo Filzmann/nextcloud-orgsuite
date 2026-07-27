@@ -1,4 +1,5 @@
 import {readFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
 
 const source = readFileSync(new URL('../../js/suite-navigation.js', import.meta.url), 'utf8');
@@ -44,7 +45,7 @@ const document = {
     addEventListener: () => {},
 };
 const window = {OC: {generateUrl: (path, params) => path.replace('{appId}', params.appId)}};
-vm.runInNewContext(source, {document, window, Object});
+vm.runInNewContext(source, {document, window, Object}, {filename: fileURLToPath(new URL('../../js/suite-navigation.js', import.meta.url))});
 
 const nav = host.children[0];
 const links = nav.children[0].children.map((item) => item.children[0]);
