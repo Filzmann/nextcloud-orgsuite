@@ -2,6 +2,36 @@
 
 Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Verbindliche Fach-, Sicherheits- und Architekturregeln stehen in `AGENTS.md`.
 
+## Freigegebene Umsetzungsaufgaben
+
+### ORGS-AD-CATALOG – Suite-Navigation aus dem Produktkatalog erzeugen
+
+Status: bereit nach `LB-AD-CATALOG`
+
+- Navigation, Weiterleitungsreihenfolge und ausgelieferte Menüdaten
+  ausschließlich aus dem versionierten LocalBase-Katalog ableiten.
+- AD Recruitment entsprechend seiner Katalogeigenschaften aufnehmen, ohne
+  dadurch Fachrechte oder Release-Bundle-Zugehörigkeit zu erweitern.
+- Sichtbare Labels appbezogen lokalisieren; technische App-IDs und Routen
+  unverändert verwenden.
+- Standalone-, Mehrprodukt-, deaktivierter-Provider-, Fallback-,
+  Tastatur-/Fokus- und direkte Zielrechte-Tests ergänzen.
+- Gemeinsam mit `PARENT-AD-CATALOG`, `LB-AD-CATALOG`,
+  `RECR-AD-CATALOG` und `ADS-AD-CATALOG-DOCS` abnehmen.
+
+### ORGS-L10N – OrgSuite vollständig lokalisieren
+
+Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
+
+- Navigation, Adminadapter, Status- und Fehlermeldungen vertikal auf
+  Nextcloud-l10n umstellen.
+- Produkt-IDs, Routen, Menü-Suite-Schlüssel und Capability-Verträge
+  sprachneutral lassen.
+- Deutsche Ausgabe, eine weitere Locale, Fallback, Platzhalter,
+  Pluralformen, Escaping und JavaScript/PHP-Übergabe testen.
+- Erst nach vollständiger Migration einen Rohtext-Check für OrgSuite
+  verbindlich schalten.
+
 ## Aktueller Fokus
 
 - Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
