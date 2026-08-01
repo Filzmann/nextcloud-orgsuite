@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0-rc.1
+
+- AD-Navigation, Weiterleitungsreihenfolge und Menüdaten aus dem LocalBase-Produktkatalog abgeleitet.
+- AD Recruitment als kontobezogen aktiviertes Suite-Ziel ergänzt.
+- Sichtbare Produktlabels weiterhin im Übersetzungsbereich der jeweiligen App aufgelöst.
+
 ## 0.3.0-rc.1
 
 - OrgSuite als ab zwei AD-Produkten aktivierte Infrastruktur entkoppelt.

@@ -4,21 +4,6 @@ Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Ve
 
 ## Freigegebene Umsetzungsaufgaben
 
-### ORGS-AD-CATALOG – Suite-Navigation aus dem Produktkatalog erzeugen
-
-Status: bereit nach `LB-AD-CATALOG`
-
-- Navigation, Weiterleitungsreihenfolge und ausgelieferte Menüdaten
-  ausschließlich aus dem versionierten LocalBase-Katalog ableiten.
-- AD Recruitment entsprechend seiner Katalogeigenschaften aufnehmen, ohne
-  dadurch Fachrechte oder Release-Bundle-Zugehörigkeit zu erweitern.
-- Sichtbare Labels appbezogen lokalisieren; technische App-IDs und Routen
-  unverändert verwenden.
-- Standalone-, Mehrprodukt-, deaktivierter-Provider-, Fallback-,
-  Tastatur-/Fokus- und direkte Zielrechte-Tests ergänzen.
-- Gemeinsam mit `PARENT-AD-CATALOG`, `LB-AD-CATALOG`,
-  `RECR-AD-CATALOG` und `ADS-AD-CATALOG-DOCS` abnehmen.
-
 ### ORGS-L10N – OrgSuite vollständig lokalisieren
 
 Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
@@ -34,6 +19,8 @@ Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
 
 ## Aktueller Fokus
 
+- Die manuellen Prüfungen werden im ausfüllbaren
+  [`docs/manual-acceptance.md`](docs/manual-acceptance.md) dokumentiert.
 - Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
 - Dabei auch die globale, rein visuelle Links-rechts-Anordnung der LocalBase-Organigrammkarten prüfen; die fachliche Gruppenreihenfolge bleibt davon getrennt.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.

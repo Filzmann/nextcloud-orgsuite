@@ -14,8 +14,10 @@ namespace OCP\App { interface IAppManager { public function isEnabledForUser($ap
 namespace OCA\OrgSuite\AppInfo { final class Application { public const APP_ID = 'orgsuite'; } }
 
 namespace {
+    require_once __DIR__ . '/../../localbase/lib/Catalog/AdProductCatalog.php';
     require_once __DIR__ . '/../lib/Listener/NavigationListener.php';
 
+    use OCA\LocalBase\Catalog\AdProductCatalog;
     use OCA\OrgSuite\Listener\NavigationListener;
     use OCP\App\IAppManager;
     use OCP\EventDispatcher\Event;
@@ -39,7 +41,8 @@ namespace {
         public function linkToRoute(string $routeName, array $arguments = []): string { return '/route/' . $routeName; }
         public function imagePath(string $appName, string $file): string { return '/image/' . $appName . '/' . $file; }
     };
-    $listener = new NavigationListener($session, $apps, $navigation, $url);
+    $catalog = new AdProductCatalog();
+    $listener = new NavigationListener($session, $apps, $navigation, $url, $catalog);
     $listener->handle(new Event());
     if ($navigation->entries !== []) throw new RuntimeException('Fremdes Event erzeugt Navigation.');
     $listener->handle(new LoadAdditionalEntriesEvent());
@@ -49,11 +52,18 @@ namespace {
     }
     $apps->enabled = [];
     $emptyNavigation = new class implements INavigationManager { public array $entries = []; public function add(callable $entry): void { $this->entries[] = $entry; } };
-    (new NavigationListener($session, $apps, $emptyNavigation, $url))->handle(new LoadAdditionalEntriesEvent());
+    (new NavigationListener($session, $apps, $emptyNavigation, $url, $catalog))->handle(new LoadAdditionalEntriesEvent());
     if ($emptyNavigation->entries !== []) throw new RuntimeException('Leere Suite wird angezeigt.');
     $loggedOut = new class implements IUserSession { public function getUser(): ?IUser { return null; } };
-    (new NavigationListener($loggedOut, $apps, $emptyNavigation, $url))->handle(new LoadAdditionalEntriesEvent());
+    (new NavigationListener($loggedOut, $apps, $emptyNavigation, $url, $catalog))->handle(new LoadAdditionalEntriesEvent());
     if ($emptyNavigation->entries !== []) throw new RuntimeException('Anonyme Navigation wurde registriert.');
+
+    $targetIds = new ReflectionMethod(NavigationListener::class, 'targetIds');
+    if ($targetIds->invoke($listener, 'unknown') !== []) throw new RuntimeException('Unbekannte Suite besitzt Navigationsziele.');
+    $missingCatalog = new AdProductCatalog(__DIR__ . '/missing-catalog.json');
+    $apps->enabled = ['adplaner'];
+    (new NavigationListener($session, $apps, $emptyNavigation, $url, $missingCatalog))->handle(new LoadAdditionalEntriesEvent());
+    if ($emptyNavigation->entries !== []) throw new RuntimeException('Fehlender Katalog erzeugt einen unsicheren AD-Einstieg.');
 
     echo "OrgSuite navigation listener execution tests passed\n";
 }

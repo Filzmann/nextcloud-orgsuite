@@ -31,8 +31,15 @@ foreach (['NoAdminRequired', 'NoCSRFRequired', 'RedirectResponse', 'NotFoundResp
         throw new RuntimeException("Weiterleitungsvertrag fehlt: {$contract}");
     }
 }
-foreach (['adcalendar', 'adplaner', 'adurlaub', 'adroom'] as $appId) {
-    if (!str_contains($listener, "'{$appId}'") || !str_contains($controller, "'app' => '{$appId}'")) throw new RuntimeException("AD-Suite-Ziel fehlt: {$appId}");
+foreach (['AdProductCatalog', "menuProducts('ad')"] as $catalogContract) {
+    if (!str_contains($listener, $catalogContract) || !str_contains($controller, $catalogContract)) {
+        throw new RuntimeException("AD-Produktkatalog wird nicht durchgängig konsumiert: {$catalogContract}");
+    }
+}
+foreach (['adcalendar', 'adplaner', 'adurlaub', 'adroom', 'adrecruitment'] as $appId) {
+    if (str_contains($listener, "'{$appId}'") || str_contains($controller, "'app' => '{$appId}'")) {
+        throw new RuntimeException("AD-Produkt bleibt außerhalb des Katalogs festgeschrieben: {$appId}");
+    }
 }
 
 echo "OrgSuite navigation contract passed\n";
