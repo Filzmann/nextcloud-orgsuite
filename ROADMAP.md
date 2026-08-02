@@ -2,8 +2,25 @@
 
 Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Verbindliche Fach-, Sicherheits- und Architekturregeln stehen in `AGENTS.md`.
 
+## Freigegebene Umsetzungsaufgaben
+
+### ORGS-L10N – OrgSuite vollständig lokalisieren
+
+Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
+
+- Navigation, Adminadapter, Status- und Fehlermeldungen vertikal auf
+  Nextcloud-l10n umstellen.
+- Produkt-IDs, Routen, Menü-Suite-Schlüssel und Capability-Verträge
+  sprachneutral lassen.
+- Deutsche Ausgabe, eine weitere Locale, Fallback, Platzhalter,
+  Pluralformen, Escaping und JavaScript/PHP-Übergabe testen.
+- Erst nach vollständiger Migration einen Rohtext-Check für OrgSuite
+  verbindlich schalten.
+
 ## Aktueller Fokus
 
+- Die manuellen Prüfungen werden im ausfüllbaren
+  [`docs/manual-acceptance.md`](docs/manual-acceptance.md) dokumentiert.
 - Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
 - Dabei auch die globale, rein visuelle Links-rechts-Anordnung der LocalBase-Organigrammkarten prüfen; die fachliche Gruppenreihenfolge bleibt davon getrennt.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.

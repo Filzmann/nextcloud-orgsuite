@@ -19,4 +19,9 @@ Nach der Aktivierung werden Organisationsdefinition und Freigaben im Nextcloud-A
 
 Geplante Erweiterungen und offene Produktentscheidungen stehen in der [Roadmap](ROADMAP.md).
 
+Für die manuelle Staging-Prüfung von Haupteinstiegen, Quermenüs und
+Adminadapter steht ein ausfüllbares
+[Abnahmeformular](docs/manual-acceptance.md) bereit. Es prüft ausdrücklich,
+dass OrgSuite keine Fachrechte erteilt und keine Fachdaten hält.
+
 Installations-, Betriebs- und Abnahmeunterlagen stehen im öffentlichen [AD-Suite-Projekt](https://github.com/Filzmann/ad-suite).

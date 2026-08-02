@@ -1,25 +1,20 @@
 (function () {
     'use strict';
 
-    const suites = Object.freeze({
-        ad: Object.freeze({
-            label: 'AD-Anwendungen',
-            items: Object.freeze([
-                Object.freeze({app: 'adcalendar', label: 'Kalender'}),
-                Object.freeze({app: 'adplaner', label: 'Assistenzplanung'}),
-                Object.freeze({app: 'adurlaub', label: 'Urlaub'}),
-                Object.freeze({app: 'adroom', label: 'Räume'}),
-            ]),
-        }),
-        br: Object.freeze({
-            label: 'BR-Anwendungen',
-            items: Object.freeze([
-                Object.freeze({app: 'brtop', label: 'Sitzungen'}),
-                Object.freeze({app: 'brstunden', label: 'Stunden'}),
-                Object.freeze({app: 'br_permission_matrix', label: 'Berechtigungsmatrix'}),
-            ]),
-        }),
-    });
+    function loadInitialState(app, key, fallback) {
+        const element = document.querySelector(`#initial-state-${app}-${key}`);
+        if (!element) {
+            return fallback;
+        }
+        try {
+            return JSON.parse(window.atob(element.value));
+        } catch (_error) {
+            return fallback;
+        }
+    }
+
+    const suites = Object.freeze(loadInitialState('orgsuite', 'suite-navigation', {}));
+    const translate = typeof window.t === 'function' ? window.t : (_app, text) => text;
 
     function appUrl(appId) {
         return window.OC.generateUrl('/apps/{appId}/', {appId});
@@ -33,7 +28,7 @@
 
         const nav = document.createElement('nav');
         nav.className = 'orgsuite-nav';
-        nav.setAttribute('aria-label', definition.label);
+        nav.setAttribute('aria-label', translate('orgsuite', definition.label));
 
         const list = document.createElement('ul');
         list.className = 'orgsuite-nav__list';
@@ -42,8 +37,8 @@
             const listItem = document.createElement('li');
             const link = document.createElement('a');
             link.className = 'orgsuite-nav__link';
-            link.href = appUrl(item.app);
-            link.textContent = item.label;
+            link.href = item.href || appUrl(item.app);
+            link.textContent = translate(item.app, item.label);
             if (host.dataset.currentApp === item.app) {
                 link.classList.add('is-current');
                 link.setAttribute('aria-current', 'page');
