@@ -2,11 +2,12 @@
 
 Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Verbindliche Fach-, Sicherheits- und Architekturregeln stehen in `AGENTS.md`.
 
-## Freigegebene Umsetzungsaufgaben
+## Zukunftsplanung – nicht freigegeben
 
 ### ORGS-L10N – OrgSuite vollständig lokalisieren
 
-Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
+Status: später, nicht freigegeben; Pilot-App, Reihenfolge und Rohtext-Gate
+werden vor jeder Umsetzung appübergreifend separat freigegeben
 
 - Navigation, Adminadapter, Status- und Fehlermeldungen vertikal auf
   Nextcloud-l10n umstellen.
