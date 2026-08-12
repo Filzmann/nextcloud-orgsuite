@@ -35,8 +35,10 @@ namespace OCA\OrgSuite\AppInfo {
 }
 
 namespace {
+    require_once __DIR__ . '/../../localbase/lib/Catalog/AdProductCatalog.php';
     require __DIR__ . '/../lib/Controller/EntryController.php';
 
+    use OCA\LocalBase\Catalog\AdProductCatalog;
     use OCA\OrgSuite\Controller\EntryController;
     use OCP\App\IAppManager;
     use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -63,7 +65,8 @@ namespace {
         public function isEnabledForUser($appId, $user = null): bool { return in_array($appId, $this->enabledApps, true); }
     };
 
-    $controller = new EntryController($request, $apps, $session, $url);
+    $catalog = new AdProductCatalog();
+    $controller = new EntryController($request, $apps, $session, $url, $catalog);
     $ad = $controller->ad();
     if (!$ad instanceof RedirectResponse || $ad->redirectURL !== '/route/adplaner.page.index') {
         throw new RuntimeException('AD muss auf die erste aktivierte Fachapp weiterleiten.');
@@ -76,12 +79,30 @@ namespace {
     $noApps = new class implements IAppManager {
         public function isEnabledForUser($appId, $user = null): bool { return false; }
     };
-    if (!(new EntryController($request, $noApps, $session, $url))->ad() instanceof NotFoundResponse) {
+    if (!(new EntryController($request, $noApps, $session, $url, $catalog))->ad() instanceof NotFoundResponse) {
         throw new RuntimeException('Eine vollstaendig deaktivierte Suite muss abgewiesen werden.');
     }
     $loggedOut = new class implements IUserSession { public function getUser(): ?IUser { return null; } };
-    if (!(new EntryController($request, $apps, $loggedOut, $url))->br() instanceof NotFoundResponse) {
+    if (!(new EntryController($request, $apps, $loggedOut, $url, $catalog))->br() instanceof NotFoundResponse) {
         throw new RuntimeException('Ein anonymer Suite-Einstieg muss abgewiesen werden.');
+    }
+
+    $recruitmentApps = new class implements IAppManager {
+        public function isEnabledForUser($appId, $user = null): bool { return $appId === 'adrecruitment'; }
+    };
+    $recruitment = (new EntryController($request, $recruitmentApps, $session, $url, $catalog))->ad();
+    if (!$recruitment instanceof RedirectResponse || $recruitment->redirectURL !== '/route/adrecruitment.page.index') {
+        throw new RuntimeException('AD Recruitment ist kein katalogisiertes Suite-Ziel.');
+    }
+
+    $missingCatalog = new AdProductCatalog(__DIR__ . '/missing-catalog.json');
+    if (!(new EntryController($request, $recruitmentApps, $session, $url, $missingCatalog))->ad() instanceof NotFoundResponse) {
+        throw new RuntimeException('Fehlender Katalogprovider darf kein unsicheres Fallbackziel erzeugen.');
+    }
+
+    $targets = new ReflectionMethod(EntryController::class, 'targets');
+    if ($targets->invoke($controller, 'unknown') !== []) {
+        throw new RuntimeException('Unbekannte Suite erhält unerwartete Weiterleitungsziele.');
     }
 
     foreach (['ad', 'br'] as $methodName) {
@@ -93,4 +114,3 @@ namespace {
 
     echo "OrgSuite entry controller tests passed\n";
 }
-
