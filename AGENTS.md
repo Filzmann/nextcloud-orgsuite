@@ -19,8 +19,9 @@ Die priorisierte Produktplanung und offene Entscheidungen stehen in `ROADMAP.md`
 
 OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 
-- `AD` fuer AD Kalender, Assistenzplanung, AD Urlaub, AD Raumplaner und AD
-  Recruitment.
+- `AD` fuer AD Kalender, Assistenzplanung, AD Urlaub, AD Raumplaner, AD
+  Recruitment und den BQ-Planer. Der BQ-Planer bleibt bis zur Release-Reife
+  durch seine Katalogflags aus Auslieferungsbundles ausgeschlossen.
 - `BR` fuer BRTop, BR-Stunden und Berechtigungsmatrix.
 
 Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungsräume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig. OrgSuite stellt ab zwei AD-Fachprodukten ausschließlich Navigation, gemeinsame Assets und den Nextcloud-Adminadapter für in LocalBase persistierte Organisations- und Freigabeverträge bereit. Einstellungen, die nur eine Fachapp betreffen, erhalten einen eigenen Adminabschnitt in dieser Fachapp.

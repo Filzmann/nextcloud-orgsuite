@@ -25,6 +25,8 @@ werden vor jeder Umsetzung appübergreifend separat freigegeben
 - Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
 - Dabei auch die globale, rein visuelle Links-rechts-Anordnung der LocalBase-Organigrammkarten prüfen; die fachliche Gruppenreihenfolge bleibt davon getrennt.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.
+- Den katalogisierten BQ-Planer in Standalone- und Mehrproduktzuständen
+  prüfen; seine Bundle-Freigabe bleibt ein getrenntes Release-Gate.
 
 ## Geplante Erweiterungen
 
