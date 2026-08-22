@@ -19,6 +19,11 @@ nicht in die aktuellen Release-Artefakte auf.
 
 Nach der Aktivierung werden Organisationsdefinition und Freigaben im Nextcloud-Adminbereich der OrgSuite gepflegt. Persistenz, geschützte Admin-API und Organisationseditor liegen in LocalBase.
 
+Im selben Adminabschnitt können Nextcloud-Admins zusätzliche externe
+HTTPS-Links für das AD- und BR-Menü anlegen, sortieren, aktivieren und
+entfernen. Diese Linkkonfiguration liegt in OrgSuite; sie erweitert keine
+Rechte in Nextcloud oder im externen Zielsystem.
+
 ## Roadmap
 
 Geplante Erweiterungen und offene Produktentscheidungen stehen in der [Roadmap](ROADMAP.md).

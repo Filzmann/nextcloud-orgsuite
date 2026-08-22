@@ -32,6 +32,13 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
 - `AD` leitet bevorzugt zum AD Kalender weiter, `BR` bevorzugt zu BRTop. Ist das bevorzugte Ziel nicht aktiviert, wird die erste aktivierte Fachapp der Suite verwendet. AD-Ziele und ihre Reihenfolge stammen aus dem versionierten LocalBase-Produktkatalog.
 - OrgSuite lädt `js/suite-navigation.js` und `css/suite-navigation.css` zentral über `BeforeTemplateRenderedEvent`. Fachapps stellen nur einen wirkungslosen Host mit `data-orgsuite`, `data-suite` und `data-current-app` bereit und besitzen dadurch keine harte Asset-Abhängigkeit.
 - Die Menuestruktur wird ausschliesslich hier gepflegt. Fachapps duplizieren keine Linklisten oder Menuelogik.
+- Nextcloud-Admins verwalten zusätzliche externe Links für AD und BR in der
+  OrgSuite-Administration. OrgSuite speichert stabile ID, Suite,
+  Bezeichnung, HTTPS-URL, Aktivstatus und Reihenfolge in der eigenen
+  AppConfig. Aktive Links gelten für alle angemeldeten Personen, öffnen im
+  selben Tab und erteilen keine Rechte im Zielsystem. Unsichere URL-Schemata,
+  Zugangsdaten in URLs, ungültige Suites und doppelte IDs werden abgelehnt,
+  ohne den bisherigen Stand zu verändern.
 - Ein sichtbarer Link ist keine Berechtigung. Jeder Zielcontroller und jede API prueft Zugriffe selbst.
 - Der Produktinstaller aktiviert OrgSuite erst ab zwei aktivierten AD-Fachprodukten. Bei einer Einzelinstallation registriert das Fachprodukt stattdessen seinen eigenen Nextcloud-Einstieg.
 
@@ -53,6 +60,9 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
 - App-übergreifende Organisations- und Freigabeeinstellungen werden über einen LocalBase-`ISettings`-Adapter im OrgSuite-Adminabschnitt angezeigt. Controller, Assets und Persistenz bleiben in LocalBase. App-spezifische Administration bleibt im Adminabschnitt der Fachapp; normale App-Einstellungen sind persönliche Einstellungen des eingeloggten Kontos.
 - Die im LocalBase-Organigramm global gespeicherte Links-rechts-Anordnung ist ausschließlich visuell. OrgSuite darf daraus weder fachliche Rollen-/Bereichsreihenfolgen noch Kalender- oder Berechtigungswirkung ableiten.
 - Administrative API-Endpunkte verzichten auf `NoAdminRequired`, prüfen die aktive Sitzung zusätzlich explizit auf Nextcloud-Adminrechte und behalten den CSRF-Schutz für Schreibzugriffe bei.
+- Ausschließlich lokal erzeugte Testkonten erhalten initial ihr
+  Benutzerkürzel als Passwort. Diese Testvorgabe gilt nie für Staging,
+  Produktion, echte Konten oder externe Benutzer-Backends.
 
 ## Tests
 

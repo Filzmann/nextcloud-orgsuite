@@ -14,9 +14,6 @@ namespace OCP\App { interface IAppManager { public function isEnabledForUser($ap
 namespace OCA\OrgSuite\AppInfo { final class Application { public const APP_ID = 'orgsuite'; } }
 
 namespace {
-    require_once __DIR__ . '/../../localbase/lib/Catalog/AdProductCatalog.php';
-    require_once __DIR__ . '/../lib/Listener/NavigationListener.php';
-
     use OCA\LocalBase\Catalog\AdProductCatalog;
     use OCA\OrgSuite\Listener\NavigationListener;
     use OCP\App\IAppManager;

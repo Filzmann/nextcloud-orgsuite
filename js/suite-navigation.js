@@ -38,7 +38,11 @@
             const link = document.createElement('a');
             link.className = 'orgsuite-nav__link';
             link.href = item.href || appUrl(item.app);
-            link.textContent = translate(item.app, item.label);
+            link.textContent = item.external ? item.label : translate(item.app, item.label);
+            if (item.external) {
+                link.classList.add('is-external');
+                link.setAttribute('aria-label', `${item.label} (${translate('orgsuite', 'externer Link')})`);
+            }
             if (host.dataset.currentApp === item.app) {
                 link.classList.add('is-current');
                 link.setAttribute('aria-current', 'page');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\OrgSuite\Listener;
 
 use OCA\LocalBase\Catalog\AdProductCatalog;
+use OCA\OrgSuite\Service\ExternalLinkSettingsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Services\IInitialState;
@@ -33,6 +34,7 @@ final class SuiteAssetsListener implements IEventListener {
         private IUserSession $userSession,
         private IURLGenerator $url,
         private IInitialState $initialState,
+        private ExternalLinkSettingsService $externalLinks,
     ) {
     }
 
@@ -70,8 +72,8 @@ final class SuiteAssetsListener implements IEventListener {
         }
 
         return [
-            'ad' => ['label' => 'AD-Anwendungen', 'items' => $adItems],
-            'br' => ['label' => 'BR-Anwendungen', 'items' => $this->enabledBrItems($user)],
+            'ad' => ['label' => 'AD-Anwendungen', 'items' => array_merge($adItems, $this->externalItems('ad'))],
+            'br' => ['label' => 'BR-Anwendungen', 'items' => array_merge($this->enabledBrItems($user), $this->externalItems('br'))],
         ];
     }
 
@@ -89,5 +91,15 @@ final class SuiteAssetsListener implements IEventListener {
             ];
         }
         return $items;
+    }
+
+    /** @return list<array{app:string,label:string,href:string,external:true}> */
+    private function externalItems(string $suite): array {
+        return array_map(static fn(array $link): array => [
+            'app' => 'orgsuite-external-' . $link['id'],
+            'label' => $link['label'],
+            'href' => $link['url'],
+            'external' => true,
+        ], $this->externalLinks->activeForSuite($suite));
     }
 }

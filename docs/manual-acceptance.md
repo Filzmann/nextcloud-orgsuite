@@ -71,6 +71,21 @@ Begründung verpflichtend.
 | D4 | App-spezifische Einstellungen | Adminbereich auf Kalenderprovider-, Raum- oder andere nur eine Fachapp betreffende Einstellungen prüfen. | App-spezifische Administration bleibt im eigenen Fachapp-Abschnitt und wird nicht in OrgSuite dupliziert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D5 | Visuelle Diagrammordnung | Organigrammkarten in LocalBase über den OrgSuite-Adminadapter horizontal umordnen und danach fachliche Rollenreihenfolge sowie Rechte prüfen. | Nur die Darstellung ändert sich; fachliche Reihenfolge, Kalender und Berechtigungen bleiben unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D6 | Datensparsame Abnahme | Formular und Screenshots prüfen. | Es wurden ausschließlich synthetische Organisationsdaten dokumentiert; keine Secrets oder realen Mitgliederlisten sind enthalten. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D7 | Externe AD-/BR-Links | Je einen synthetischen HTTPS-Link für AD und BR anlegen, sortieren, deaktivieren, wieder aktivieren und speichern. | Der gespeicherte Stand bleibt nach Neuladen erhalten; nur aktive Links erscheinen in richtiger Suite und Reihenfolge. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D8 | Linkvalidierung und Bestandsschutz | HTTP-, JavaScript-, URL-mit-Zugangsdaten-, doppelte-ID- und ungültige Suite-Eingaben versuchen. | Die Eingaben werden verständlich abgewiesen und die zuvor gültige Liste bleibt vollständig unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D9 | Linkadministration schützen | Externe Links als Nichtadmin lesen und speichern sowie als Admin ohne CSRF-Token schreiben. | Alle unzulässigen Requests werden serverseitig abgewiesen; die Linkliste bleibt unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D10 | Tastatur und Ausgabe | Linkverwaltung und die resultierenden AD-/BR-Menüs nur per Tastatur bedienen. | Felder und Sortier-/Entfernaktionen besitzen verständliche Beschriftungen und sichtbaren Fokus; benutzerdefinierte Bezeichnungen werden sicher als Text ausgegeben und Links öffnen im selben Tab. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+
+## Automatisierter Nachweis vom 22.08.2026
+
+Service-, Controller-, Listener- und JavaScript-Smokes belegen atomare
+AppConfig-Persistenz, HTTPS-Validierung, Deny/CSRF-Grenzen, aktive AD- und
+BR-Menüausgabe, sichere Textausgabe sowie semantische und fokussierbare
+Adminbedienelemente. Ein selbstbereinigender Nextcloud-34-HTTP-Smoke hat zwei
+synthetische Links gespeichert, in beiden ausgelieferten Menüs nachgewiesen,
+Nichtadmin und fehlenden CSRF-Token abgewiesen und anschließend den vorherigen
+AppConfig-Stand wiederhergestellt. Das temporäre lokale Standardkonto wurde
+entfernt. Die visuelle manuelle Staging-Abnahme bleibt getrennt offen.
 
 ## Abschlussentscheidung
 

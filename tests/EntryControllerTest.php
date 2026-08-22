@@ -35,9 +35,6 @@ namespace OCA\OrgSuite\AppInfo {
 }
 
 namespace {
-    require_once __DIR__ . '/../../localbase/lib/Catalog/AdProductCatalog.php';
-    require __DIR__ . '/../lib/Controller/EntryController.php';
-
     use OCA\LocalBase\Catalog\AdProductCatalog;
     use OCA\OrgSuite\Controller\EntryController;
     use OCP\App\IAppManager;

@@ -53,6 +53,7 @@ const navigation = {
         items: [
             {app: 'adplaner', label: 'Assistenzplanung', href: '/route/adplaner.page.index'},
             {app: 'adrecruitment', label: 'Recruitment'},
+            {app: 'orgsuite-external-ad-docs', label: 'Externe Dokumentation', href: 'https://docs.example.test/ad', external: true},
         ],
     },
 };
@@ -68,9 +69,11 @@ const links = nav.children[0].children.map((item) => item.children[0]);
 if (nav.tagName !== 'NAV' || nav.attributes['aria-label'] !== 'orgsuite:AD-Anwendungen') {
     throw new Error('Das Suite-Menue muss als beschriftete Navigation gerendert werden.');
 }
-if (links.length !== 2 || links[0].attributes['aria-current'] !== 'page'
+if (links.length !== 3 || links[0].attributes['aria-current'] !== 'page'
     || links[0].href !== '/route/adplaner.page.index' || links[1].href !== '/apps/adrecruitment/'
-    || links[1].textContent !== 'adrecruitment:Recruitment') {
+    || links[1].textContent !== 'adrecruitment:Recruitment'
+    || links[2].href !== 'https://docs.example.test/ad'
+    || links[2].textContent !== 'Externe Dokumentation') {
     throw new Error('Aktiver AD-Menuepunkt wurde nicht korrekt gerendert.');
 }
 if (host.dataset.orgsuiteMounted !== 'true') {
