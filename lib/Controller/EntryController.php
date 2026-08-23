@@ -26,7 +26,6 @@ final class EntryController extends Controller {
     private const BR_TARGETS = [
         ['app' => 'brtop', 'route' => 'brtop.page.index'],
         ['app' => 'brstunden', 'route' => 'brstunden.page.index'],
-        ['app' => 'br_permission_matrix', 'route' => 'br_permission_matrix.page.index'],
     ];
 
     public function __construct(

@@ -7,7 +7,7 @@ $appRoot = dirname(__DIR__);
 
 spl_autoload_register(static function (string $class) use ($workspaceRoot, $appRoot): void {
     $prefixes = [
-        'OCA\\LocalBase\\Tests\\Support\\' => $workspaceRoot . '/localbase/tests/Support/',
+        'OCA\\OrgSuite\\Tests\\' => $appRoot . '/tests/',
         'OCA\\LocalBase\\' => $workspaceRoot . '/localbase/lib/',
         'OCA\\OrgSuite\\' => $appRoot . '/lib/',
     ];
@@ -25,4 +25,4 @@ spl_autoload_register(static function (string $class) use ($workspaceRoot, $appR
     }
 });
 
-require_once $workspaceRoot . '/localbase/tests/Support/assertions.php';
+require_once __DIR__ . '/Support/assertions.php';

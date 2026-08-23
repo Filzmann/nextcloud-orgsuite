@@ -25,7 +25,6 @@ final class SuiteAssetsListener implements IEventListener {
     private const BR_TARGETS = [
         ['app' => 'brtop', 'route' => 'brtop.page.index', 'label' => 'Sitzungen'],
         ['app' => 'brstunden', 'route' => 'brstunden.page.index', 'label' => 'Stunden'],
-        ['app' => 'br_permission_matrix', 'route' => 'br_permission_matrix.page.index', 'label' => 'Berechtigungsmatrix'],
     ];
 
     public function __construct(

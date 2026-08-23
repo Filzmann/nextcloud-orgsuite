@@ -22,7 +22,8 @@ OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 - `AD` fuer AD Kalender, Assistenzplanung, AD Urlaub, AD Raumplaner, AD
   Recruitment und den BQ-Planer. Der BQ-Planer bleibt bis zur Release-Reife
   durch seine Katalogflags aus Auslieferungsbundles ausgeschlossen.
-- `BR` fuer BRTop, BR-Stunden und Berechtigungsmatrix.
+- `BR` fuer BRTop und BR-Stunden. Die eigenständige Berechtigungsmatrix
+  gehört zum Portfolio IKT/Datenschutz und ist kein OrgSuite-Ziel.
 
 Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungsräume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig. OrgSuite stellt ab zwei AD-Fachprodukten ausschließlich Navigation, gemeinsame Assets und den Nextcloud-Adminadapter für in LocalBase persistierte Organisations- und Freigabeverträge bereit. Einstellungen, die nur eine Fachapp betreffen, erhalten einen eigenen Adminabschnitt in dieser Fachapp.
 
@@ -32,6 +33,8 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
 - `AD` leitet bevorzugt zum AD Kalender weiter, `BR` bevorzugt zu BRTop. Ist das bevorzugte Ziel nicht aktiviert, wird die erste aktivierte Fachapp der Suite verwendet. AD-Ziele und ihre Reihenfolge stammen aus dem versionierten LocalBase-Produktkatalog.
 - OrgSuite lädt `js/suite-navigation.js` und `css/suite-navigation.css` zentral über `BeforeTemplateRenderedEvent`. Fachapps stellen nur einen wirkungslosen Host mit `data-orgsuite`, `data-suite` und `data-current-app` bereit und besitzen dadurch keine harte Asset-Abhängigkeit.
 - Die Menuestruktur wird ausschliesslich hier gepflegt. Fachapps duplizieren keine Linklisten oder Menuelogik.
+- OrgSuite führt weder die historische noch die aktuelle App-ID der
+  Berechtigungsmatrix als BR-Ziel, Weiterleitungsziel oder Quermenüeintrag.
 - Nextcloud-Admins verwalten zusätzliche externe Links für AD und BR in der
   OrgSuite-Administration. OrgSuite speichert stabile ID, Suite,
   Bezeichnung, HTTPS-URL, Aktivstatus und Reihenfolge in der eigenen

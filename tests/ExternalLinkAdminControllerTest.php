@@ -29,7 +29,7 @@ namespace {
     use OCP\IRequest;
     use OCP\IUser;
     use OCP\IUserSession;
-    use function OCA\LocalBase\Tests\Support\assertSameValue;
+    use function OCA\OrgSuite\Tests\Support\assertSameValue;
 
     $config = new class implements IAppConfig {
         public array $values = [];

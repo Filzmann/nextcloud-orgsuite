@@ -23,7 +23,7 @@ use RuntimeException;
  */
 final class NavigationListener implements IEventListener {
     /** @var array<string, list<string>> */
-    private const BR_TARGETS = ['brtop', 'brstunden', 'br_permission_matrix'];
+    private const BR_TARGETS = ['brtop', 'brstunden'];
 
     public function __construct(
         private IUserSession $userSession,

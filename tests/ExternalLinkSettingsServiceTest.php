@@ -16,7 +16,7 @@ namespace OCA\OrgSuite\AppInfo {
 namespace {
     use OCA\OrgSuite\Service\ExternalLinkSettingsService;
     use OCP\IAppConfig;
-    use function OCA\LocalBase\Tests\Support\assertSameValue;
+    use function OCA\OrgSuite\Tests\Support\assertSameValue;
 
     $config = new class implements IAppConfig {
         public array $values = [];
