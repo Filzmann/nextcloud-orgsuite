@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../localbase/tests/Support/PhpTestRunner.php';
+require_once __DIR__ . '/bootstrap.php';
 
-use OCA\LocalBase\Tests\Support\PhpTestRunner;
+use OCA\OrgSuite\Tests\Support\PhpTestRunner;
 
 PhpTestRunner::run(
     root: dirname(__DIR__),
@@ -12,4 +12,5 @@ PhpTestRunner::run(
     testDirectories: ['tests'],
     testSuffixes: ['Test.php'],
     successMessage: 'OrgSuite PHP tests passed',
+    prependBootstrap: true,
 );

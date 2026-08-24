@@ -2,26 +2,12 @@
 
 Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Verbindliche Fach-, Sicherheits- und Architekturregeln stehen in `AGENTS.md`.
 
-## Freigegebene Umsetzungsaufgaben
-
-### ORGS-AD-CATALOG – Suite-Navigation aus dem Produktkatalog erzeugen
-
-Status: bereit nach `LB-AD-CATALOG`
-
-- Navigation, Weiterleitungsreihenfolge und ausgelieferte Menüdaten
-  ausschließlich aus dem versionierten LocalBase-Katalog ableiten.
-- AD Recruitment entsprechend seiner Katalogeigenschaften aufnehmen, ohne
-  dadurch Fachrechte oder Release-Bundle-Zugehörigkeit zu erweitern.
-- Sichtbare Labels appbezogen lokalisieren; technische App-IDs und Routen
-  unverändert verwenden.
-- Standalone-, Mehrprodukt-, deaktivierter-Provider-, Fallback-,
-  Tastatur-/Fokus- und direkte Zielrechte-Tests ergänzen.
-- Gemeinsam mit `PARENT-AD-CATALOG`, `LB-AD-CATALOG`,
-  `RECR-AD-CATALOG` und `ADS-AD-CATALOG-DOCS` abnehmen.
+## Zukunftsplanung – nicht freigegeben
 
 ### ORGS-L10N – OrgSuite vollständig lokalisieren
 
-Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
+Status: später, nicht freigegeben; Pilot-App, Reihenfolge und Rohtext-Gate
+werden vor jeder Umsetzung appübergreifend separat freigegeben
 
 - Navigation, Adminadapter, Status- und Fehlermeldungen vertikal auf
   Nextcloud-l10n umstellen.
@@ -34,13 +20,21 @@ Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
 
 ## Aktueller Fokus
 
+- Die manuellen Prüfungen werden im ausfüllbaren
+  [`docs/manual-acceptance.md`](docs/manual-acceptance.md) dokumentiert.
 - Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
 - Dabei auch die globale, rein visuelle Links-rechts-Anordnung der LocalBase-Organigrammkarten prüfen; die fachliche Gruppenreihenfolge bleibt davon getrennt.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.
+- Den katalogisierten BQ-Planer in Standalone- und Mehrproduktzuständen
+  prüfen; seine Bundle-Freigabe bleibt ein getrenntes Release-Gate.
+- Die implementierte Verwaltung zusätzlicher externer AD-/BR-Menülinks auf
+  einem realitätsnahen Staging visuell und fachlich abnehmen. Der aktuelle
+  Vertrag gilt für alle angemeldeten Personen, verwendet ausschließlich
+  HTTPS und öffnet Ziele im selben Tab; Gruppenfilter sind nicht Bestandteil
+  dieses freigegebenen Umfangs.
 
 ## Geplante Erweiterungen
 
-- **Externe Links im AD-Menü:** Nextcloud-Admins können im OrgSuite-Adminbereich externe Navigationsziele mit Anzeigename, HTTPS-URL, Reihenfolge und Aktivstatus anlegen, bearbeiten und entfernen. Jeder Link kann auf eine oder mehrere bestehende Nextcloud-Gruppen eingeschränkt werden; die Mitgliedschaft wird serverseitig ausgewertet und das Menü liefert angemeldeten Personen ausschließlich die für sie sichtbaren Links. Ein sichtbarer externer Link erteilt keine Rechte im Zielsystem. Eingaben werden validiert, Ausgaben sicher escaped und unsichere URL-Schemata abgelehnt. Die Umsetzung erhält Allow-/Deny-Tests für Administration und Gruppensichtbarkeit sowie Tastatur-, Fokus- und Menü-Smokes.
 - Neue Navigationsziele werden nur gemeinsam mit einer tatsächlich vorhandenen Fachapp aufgenommen.
 - Der Adminbereich wächst nur mit freigegebenen app-übergreifenden LocalBase-Verträgen; app-spezifische Einstellungen bleiben in der Fachapp.
 - OrgSuite bleibt frei von Fachdaten und fachlichen Berechtigungserweiterungen.
@@ -49,6 +43,3 @@ Status: bereit nach Auswahl einer Pilot-App und ihres l10n-Vertrags
 
 - Betroffene Fachapps, bevorzugtes Fallback-Ziel und Standalone-Verhalten.
 - Serverseitige Zielberechtigungen, Tastaturbedienung und Contract-Tests jeder neuen Navigation oder Adminintegration.
-- Für externe Links: Bedeutet eine leere Gruppenauswahl „für alle angemeldeten Personen“ oder soll mindestens eine Gruppe verpflichtend sein?
-- Für externe Links: Öffnen sie standardmäßig im selben Tab oder in einem neuen Tab, und wird diese Wahl je Link konfigurierbar?
-- Für externe Links: Bleibt die Funktion zunächst ausschließlich im AD-Menü oder soll derselbe Vertrag später auch das BR-Menü unterstützen?

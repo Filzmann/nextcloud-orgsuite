@@ -14,8 +14,6 @@ namespace OCP\AppFramework\Http\Events { class BeforeTemplateRenderedEvent {} }
 namespace OCP\Navigation\Events { class LoadAdditionalEntriesEvent {} }
 
 namespace {
-    require_once __DIR__ . '/../lib/AppInfo/Application.php';
-
     use OCA\OrgSuite\AppInfo\Application;
     use OCA\OrgSuite\Listener\NavigationListener;
     use OCA\OrgSuite\Listener\SuiteAssetsListener;
