@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Dokumentations- und Steuerungsstruktur vereinheitlicht.
+
 ## 0.4.0-rc.1
 
 - AD-Navigation, Weiterleitungsreihenfolge und Menüdaten aus dem LocalBase-Produktkatalog abgeleitet.

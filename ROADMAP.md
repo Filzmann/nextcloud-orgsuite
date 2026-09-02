@@ -1,6 +1,9 @@
 # Roadmap – OrgSuite
 
-Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Verbindliche Fach-, Sicherheits- und Architekturregeln stehen in `AGENTS.md`.
+Diese Datei enthält ausschließlich offene Arbeit, zurückgestellte Vorhaben
+und Freigabegates. Der aktuelle Funktionsumfang steht in `README.md`,
+erledigte Änderungen in `CHANGELOG.md` und geltende Architektur in
+`docs/architecture.md`.
 
 ## Nextcloud-Kompatibilitätsgate
 
@@ -33,7 +36,7 @@ Escaping werden app-lokal geprüft.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.
 - Den katalogisierten BQ-Planer in Standalone- und Mehrproduktzuständen
   prüfen; seine Bundle-Freigabe bleibt ein getrenntes Release-Gate.
-- Die implementierte Verwaltung zusätzlicher externer AD-/BR-Menülinks auf
+- Die Verwaltung zusätzlicher externer AD-/BR-Menülinks auf
   einem realitätsnahen Staging visuell und fachlich abnehmen. Der aktuelle
   Vertrag gilt für alle angemeldeten Personen, verwendet ausschließlich
   HTTPS und öffnet Ziele im selben Tab; Gruppenfilter sind nicht Bestandteil
