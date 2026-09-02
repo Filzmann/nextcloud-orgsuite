@@ -2,21 +2,27 @@
 
 Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Verbindliche Fach-, Sicherheits- und Architekturregeln stehen in `AGENTS.md`.
 
-## Zukunftsplanung – nicht freigegeben
+## Nextcloud-Kompatibilitätsgate
 
-### ORGS-L10N – OrgSuite vollständig lokalisieren
+### ORGS-NC-COMPAT – OpenDesk-Boden 33 und Navigationsmatrix nachweisen
 
-Status: später, nicht freigegeben; Pilot-App, Reihenfolge und Rohtext-Gate
-werden vor jeder Umsetzung appübergreifend separat freigegeben
+Status: `info.xml` bleibt bei 34/34; NC 33.0.7 ist nur statisch geprüft. Vor
+`min-version="33"` müssen Fresh Install/Upgrade, DI, Einprodukt- und
+Mehrproduktzustände, deaktivierte Ziele, AD-/BR-Navigation, Template-Event,
+zentrale Assets und LocalBase-Adminadapter auf NC 33 grün sein. Jede weitere
+Major wird lückenlos über `verify-nextcloud-future-compatibility` geprüft;
+eine neue Obergrenze gilt erst, wenn alle unterstützten Kombinationen
+kontrolliert funktionieren.
 
-- Navigation, Adminadapter, Status- und Fehlermeldungen vertikal auf
-  Nextcloud-l10n umstellen.
-- Produkt-IDs, Routen, Menü-Suite-Schlüssel und Capability-Verträge
-  sprachneutral lassen.
-- Deutsche Ausgabe, eine weitere Locale, Fallback, Platzhalter,
-  Pluralformen, Escaping und JavaScript/PHP-Übergabe testen.
-- Erst nach vollständiger Migration einen Rohtext-Check für OrgSuite
-  verbindlich schalten.
+## Systemweit gegatete app-lokale Aufgabe
+
+### ORGS-L10N – Navigation und Adminadapter lokalisieren
+
+Aktivierung ausschließlich nach Freigabe des Root-Vorhabens `ZM-06`.
+Sichtbare Navigation, Status- und Fehlermeldungen wechseln auf
+Nextcloud-l10n; Produkt-IDs, Routen, Suite-Schlüssel und Capability-Verträge
+bleiben sprachneutral. PHP-/JavaScript-Übergabe, Fallback, Platzhalter und
+Escaping werden app-lokal geprüft.
 
 ## Aktueller Fokus
 
