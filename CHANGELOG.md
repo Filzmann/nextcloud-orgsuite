@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Nextcloud 33.0.7 bis 34.0.2 durch Fresh Install und Upgrade 33→34 mit
+  App-Suiten, DI-/Registrierungs-, Navigations-, HTTPS-, Asset- und UI-Smokes unterstützt.
 - Dokumentations- und Steuerungsstruktur vereinheitlicht.
 
 ## 0.4.0-rc.1

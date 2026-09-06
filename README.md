@@ -4,8 +4,8 @@ Gemeinsame AD-/BR-Navigation und Nextcloud-Adminoberfläche für organisationswe
 
 ## Staging-Kompatibilität
 
-- Nextcloud 34
-- PHP 8.3 oder neuer innerhalb des von Nextcloud 34 unterstützten Bereichs
+- Nextcloud 33 bis 34
+- PHP 8.3 oder neuer innerhalb des von Nextcloud 33 bis 34 unterstützten Bereichs
 - Laufzeitbasis: `localbase`
 - App-ID und Installationsordner: `orgsuite`
 

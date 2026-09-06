@@ -5,18 +5,6 @@ und Freigabegates. Der aktuelle Funktionsumfang steht in `README.md`,
 erledigte Änderungen in `CHANGELOG.md` und geltende Architektur in
 `docs/architecture.md`.
 
-## Nextcloud-Kompatibilitätsgate
-
-### ORGS-NC-COMPAT – OpenDesk-Boden 33 und Navigationsmatrix nachweisen
-
-Status: `info.xml` bleibt bei 34/34; NC 33.0.7 ist nur statisch geprüft. Vor
-`min-version="33"` müssen Fresh Install/Upgrade, DI, Einprodukt- und
-Mehrproduktzustände, deaktivierte Ziele, AD-/BR-Navigation, Template-Event,
-zentrale Assets und LocalBase-Adminadapter auf NC 33 grün sein. Jede weitere
-Major wird lückenlos über `verify-nextcloud-future-compatibility` geprüft;
-eine neue Obergrenze gilt erst, wenn alle unterstützten Kombinationen
-kontrolliert funktionieren.
-
 ## Systemweit gegatete app-lokale Aufgabe
 
 ### ORGS-L10N – Navigation und Adminadapter lokalisieren

@@ -8,4 +8,5 @@ return [
     'postGrantUiStatuses' => [303],
     'grantService' => null,
     'permissionProbe' => null,
+    'apiSmokes' => [],
 ];
