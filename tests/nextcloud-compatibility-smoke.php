@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 return [
+    // Navigation infrastructure has no own public privacy/permission provider.
+    'providerRegistrations' => [],
     'uiPath' => '/index.php/apps/orgsuite/ad',
     'preGrantUiStatuses' => [303],
     'postGrantUiStatuses' => [303],

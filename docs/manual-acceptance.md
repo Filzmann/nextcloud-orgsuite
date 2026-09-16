@@ -87,6 +87,22 @@ Nichtadmin und fehlenden CSRF-Token abgewiesen und anschließend den vorherigen
 AppConfig-Stand wiederhergestellt. Das temporäre lokale Standardkonto wurde
 entfernt. Die visuelle manuelle Staging-Abnahme bleibt getrennt offen.
 
+## Automatisierter lokaler Nachweis vom 11.09.2026
+
+Im Rahmen der risikoarmen Luna-Prüfung wurden aus dem Repository-Root nur die
+lokalen, nicht mutierenden Prüfungen ausgeführt:
+
+| Prüfung | Ergebnis | Aussagegrenze |
+|---|---|---|
+| `php tests/run.php` | erfolgreich | PHP-Syntax sowie OrgSuite-Service-, Controller-, Navigation-, Asset- und Entkopplungsverträge sind grün. |
+| `node tests/run-js.mjs` | erfolgreich | JavaScript- und externe-Link-Smokes sind grün. |
+| `git diff --check` | erfolgreich | Keine Whitespace-Fehler im aktuellen Arbeitsbaum. |
+
+DDEV, `occ`, Installation, App-Aktivierung und fachliche Staging-Daten wurden
+nicht verändert. Dieser Nachweis ersetzt weder die visuelle Staging-Abnahme
+noch eine fachliche, sicherheitsbezogene oder releasebezogene
+Gesamtentscheidung.
+
 ## Abschlussentscheidung
 
 | Feld | Eintrag |
