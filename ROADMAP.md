@@ -5,16 +5,6 @@ und Freigabegates. Der aktuelle Funktionsumfang steht in `README.md`,
 erledigte Änderungen in `CHANGELOG.md` und geltende Architektur in
 `docs/architecture.md`.
 
-## Systemweit gegatete app-lokale Aufgabe
-
-### ORGS-L10N – Navigation und Adminadapter lokalisieren
-
-Aktivierung ausschließlich nach Freigabe des Root-Vorhabens `ZM-06`.
-Sichtbare Navigation, Status- und Fehlermeldungen wechseln auf
-Nextcloud-l10n; Produkt-IDs, Routen, Suite-Schlüssel und Capability-Verträge
-bleiben sprachneutral. PHP-/JavaScript-Übergabe, Fallback, Platzhalter und
-Escaping werden app-lokal geprüft.
-
 ## Aktueller Fokus
 
 - Die manuellen Prüfungen werden im ausfüllbaren
@@ -40,3 +30,18 @@ Escaping werden app-lokal geprüft.
 
 - Betroffene Fachapps, bevorzugtes Fallback-Ziel und Standalone-Verhalten.
 - Serverseitige Zielberechtigungen, Tastaturbedienung und Contract-Tests jeder neuen Navigation oder Adminintegration.
+
+## Bewusst zurückgestellt – niedrigste Priorität
+
+### ORGS-L10N – Navigation und Adminadapter lokalisieren
+
+Status seit 17. September 2026: Die Umsetzung beginnt erst nach allen höher
+priorisierten Roadmap-Aufgaben und einer erneuten ausdrücklichen Freigabe des
+Root-Vorhabens `ZM-06`. Neue Funktionen und Codeänderungen berücksichtigen
+die spätere Lokalisierbarkeit an den jeweils berührten Stellen, lösen aber
+keine flächige Umstellung oder Übersetzungsimplementierung aus.
+
+Bei der späteren Umsetzung wechseln sichtbare Navigation, Status- und
+Fehlermeldungen auf Nextcloud-l10n; Produkt-IDs, Routen, Suite-Schlüssel und
+Capability-Verträge bleiben sprachneutral. PHP-/JavaScript-Übergabe,
+Fallback, Platzhalter und Escaping werden app-lokal geprüft.
