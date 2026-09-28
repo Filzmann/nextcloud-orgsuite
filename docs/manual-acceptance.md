@@ -76,32 +76,6 @@ Begründung verpflichtend.
 | D9 | Linkadministration schützen | Externe Links als Nichtadmin lesen und speichern sowie als Admin ohne CSRF-Token schreiben. | Alle unzulässigen Requests werden serverseitig abgewiesen; die Linkliste bleibt unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D10 | Tastatur und Ausgabe | Linkverwaltung und die resultierenden AD-/BR-Menüs nur per Tastatur bedienen. | Felder und Sortier-/Entfernaktionen besitzen verständliche Beschriftungen und sichtbaren Fokus; benutzerdefinierte Bezeichnungen werden sicher als Text ausgegeben und Links öffnen im selben Tab. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 
-## Automatisierter Nachweis vom 22.08.2026
-
-Service-, Controller-, Listener- und JavaScript-Smokes belegen atomare
-AppConfig-Persistenz, HTTPS-Validierung, Deny/CSRF-Grenzen, aktive AD- und
-BR-Menüausgabe, sichere Textausgabe sowie semantische und fokussierbare
-Adminbedienelemente. Ein selbstbereinigender Nextcloud-34-HTTP-Smoke hat zwei
-synthetische Links gespeichert, in beiden ausgelieferten Menüs nachgewiesen,
-Nichtadmin und fehlenden CSRF-Token abgewiesen und anschließend den vorherigen
-AppConfig-Stand wiederhergestellt. Das temporäre lokale Standardkonto wurde
-entfernt. Die visuelle manuelle Staging-Abnahme bleibt getrennt offen.
-
-## Automatisierter lokaler Nachweis vom 11.09.2026
-
-Im Rahmen der risikoarmen Luna-Prüfung wurden aus dem Repository-Root nur die
-lokalen, nicht mutierenden Prüfungen ausgeführt:
-
-| Prüfung | Ergebnis | Aussagegrenze |
-|---|---|---|
-| `php tests/run.php` | erfolgreich | PHP-Syntax sowie OrgSuite-Service-, Controller-, Navigation-, Asset- und Entkopplungsverträge sind grün. |
-| `node tests/run-js.mjs` | erfolgreich | JavaScript- und externe-Link-Smokes sind grün. |
-| `git diff --check` | erfolgreich | Keine Whitespace-Fehler im aktuellen Arbeitsbaum. |
-
-DDEV, `occ`, Installation, App-Aktivierung und fachliche Staging-Daten wurden
-nicht verändert. Dieser Nachweis ersetzt weder die visuelle Staging-Abnahme
-noch eine fachliche, sicherheitsbezogene oder releasebezogene
-Gesamtentscheidung.
 
 ## Abschlussentscheidung
 
