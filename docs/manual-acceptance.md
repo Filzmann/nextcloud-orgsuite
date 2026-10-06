@@ -84,7 +84,7 @@ Begründung verpflichtend.
 | Anzahl erfolgreich | |
 | Anzahl nicht erfolgreich | |
 | Anzahl nicht geprüft | |
-| Kritische Abweichungen / Ticketreferenzen | |
+| Kritische Abweichungen / Ticketreferenzen | Produktentscheidung zur Zielöffnung und zur gemeinsamen Reihenfolge interner und externer Links: siehe `ORGS-EXTERNAL-LINK-NAVIGATION` in `ROADMAP.md`. |
 | Erneute Prüfung erforderlich bis | |
 | Gesamtentscheidung | [ ] abgenommen [ ] mit Auflagen abgenommen [ ] nicht abgenommen |
 | Begründung der Gesamtentscheidung | |
