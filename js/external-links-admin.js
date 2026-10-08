@@ -24,7 +24,7 @@
         heading.id = 'orgsuite-external-heading';
         heading.textContent = 'Externe Menülinks';
         const description = document.createElement('p');
-        description.textContent = 'Zusätzliche HTTPS-Links werden für alle angemeldeten Personen im gewählten AD- oder BR-Menü angezeigt. Sie erteilen keine Rechte im Zielsystem.';
+        description.textContent = 'Zusätzliche HTTPS-Links werden für alle angemeldeten Personen im gewählten Filzmann- oder BR-Menü angezeigt. Sie erteilen keine Rechte im Zielsystem.';
         const notice = document.createElement('p');
         notice.className = 'orgsuite-external-notice';
         notice.setAttribute('role', 'status');
@@ -32,7 +32,7 @@
         const form = document.createElement('form');
         const toolbar = document.createElement('div');
         toolbar.className = 'orgsuite-external-toolbar';
-        toolbar.append(addButton('ad', 'AD-Link hinzufügen'), addButton('br', 'BR-Link hinzufügen'));
+        toolbar.append(addButton('flz', 'Filzmann-Link hinzufügen'), addButton('br', 'BR-Link hinzufügen'));
         const list = document.createElement('div');
         list.className = 'orgsuite-external-list';
         const save = document.createElement('button');
@@ -85,7 +85,7 @@
             legend.textContent = `Menülink ${index + 1}`;
             const suite = document.createElement('select');
             suite.name = 'suite';
-            for (const [value, text] of [['ad', 'AD'], ['br', 'BR']]) {
+            for (const [value, text] of [['flz', 'Filzmann'], ['br', 'BR']]) {
                 const option = document.createElement('option');
                 option.value = value;
                 option.textContent = text;

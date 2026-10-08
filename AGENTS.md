@@ -2,11 +2,11 @@
 
 ## Projekt
 
-Nextcloud-App `orgsuite` für die gemeinsame Navigation der fachlich getrennten AD- und BR-Apps sowie den administrativen Einstieg für app-übergreifende Suite-Einstellungen.
+Nextcloud-App `orgsuite` für die gemeinsame Navigation der fachlich getrennten FLZ- und BR-Apps sowie den administrativen Einstieg für app-übergreifende Suite-Einstellungen.
 
 Lokale Einstiegspunkte:
 
-    https://nextcloud-dev.ddev.site/apps/orgsuite/ad
+    https://nextcloud-dev.ddev.site/apps/orgsuite/flz
     https://nextcloud-dev.ddev.site/apps/orgsuite/br
 
 Nextcloud-App-ID:
@@ -19,23 +19,23 @@ Die priorisierte Produktplanung und offene Entscheidungen stehen in `ROADMAP.md`
 
 OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 
-- `AD` fuer AD Kalender, Assistenzplanung, AD Urlaub, AD Raumplaner, AD
+- `FLZ` fuer Filzmann Kalender, Assistenzplanung, Filzmann Urlaubsplanung, Filzmann Raumplaner, FLZ
   Recruitment und den BQ-Planer. Der BQ-Planer bleibt bis zur Release-Reife
   durch seine Katalogflags aus Auslieferungsbundles ausgeschlossen.
 - `BR` fuer BRTop und BR-Stunden. Die eigenständige Berechtigungsmatrix
   gehört zum Portfolio IKT/Datenschutz und ist kein OrgSuite-Ziel.
 
-Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungsräume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig. OrgSuite stellt ab zwei AD-Fachprodukten ausschließlich Navigation, gemeinsame Assets und den Nextcloud-Adminadapter für in LocalBase persistierte Organisations- und Freigabeverträge bereit. Einstellungen, die nur eine Fachapp betreffen, erhalten einen eigenen Adminabschnitt in dieser Fachapp.
+Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungsräume. OrgSuite besitzt keine Fachdaten und erweitert keine fachlichen Rechte. Zielapps erzwingen ihre Berechtigungen weiterhin serverseitig. OrgSuite stellt ab zwei FLZ-Fachprodukten ausschließlich Navigation, gemeinsame Assets und den Nextcloud-Adminadapter für in LocalBase persistierte Organisations- und Freigabeverträge bereit. Einstellungen, die nur eine Fachapp betreffen, erhalten einen eigenen Adminabschnitt in dieser Fachapp.
 
 ## Navigationsvertrag
 
 - Die Haupteinstiege werden dynamisch registriert und nur angezeigt, wenn mindestens eine Zielapp fuer die angemeldete Person aktiviert ist.
-- `AD` leitet bevorzugt zum AD Kalender weiter, `BR` bevorzugt zu BRTop. Ist das bevorzugte Ziel nicht aktiviert, wird die erste aktivierte Fachapp der Suite verwendet. AD-Ziele und ihre Reihenfolge stammen aus dem versionierten LocalBase-Produktkatalog.
+- `FLZ` leitet bevorzugt zum Filzmann Kalender weiter, `BR` bevorzugt zu BRTop. Ist das bevorzugte Ziel nicht aktiviert, wird die erste aktivierte Fachapp der Suite verwendet. FLZ-Ziele und ihre Reihenfolge stammen aus dem versionierten LocalBase-Produktkatalog.
 - OrgSuite lädt `js/suite-navigation.js` und `css/suite-navigation.css` zentral über `BeforeTemplateRenderedEvent`. Fachapps stellen nur einen wirkungslosen Host mit `data-orgsuite`, `data-suite` und `data-current-app` bereit und besitzen dadurch keine harte Asset-Abhängigkeit.
 - Die Menuestruktur wird ausschliesslich hier gepflegt. Fachapps duplizieren keine Linklisten oder Menuelogik.
 - OrgSuite führt weder die historische noch die aktuelle App-ID der
   Berechtigungsmatrix als BR-Ziel, Weiterleitungsziel oder Quermenüeintrag.
-- Nextcloud-Admins verwalten zusätzliche externe Links für AD und BR in der
+- Nextcloud-Admins verwalten zusätzliche externe Links für FLZ und BR in der
   OrgSuite-Administration. OrgSuite speichert stabile ID, Suite,
   Bezeichnung, HTTPS-URL, Aktivstatus und Reihenfolge in der eigenen
   AppConfig. Aktive Links gelten für alle angemeldeten Personen, öffnen im
@@ -43,7 +43,7 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
   Zugangsdaten in URLs, ungültige Suites und doppelte IDs werden abgelehnt,
   ohne den bisherigen Stand zu verändern.
 - Ein sichtbarer Link ist keine Berechtigung. Jeder Zielcontroller und jede API prueft Zugriffe selbst.
-- Der Produktinstaller aktiviert OrgSuite erst ab zwei aktivierten AD-Fachprodukten. Bei einer Einzelinstallation registriert das Fachprodukt stattdessen seinen eigenen Nextcloud-Einstieg.
+- Der Produktinstaller aktiviert OrgSuite erst ab zwei aktivierten FLZ-Fachprodukten. Bei einer Einzelinstallation registriert das Fachprodukt stattdessen seinen eigenen Nextcloud-Einstieg.
 
 ## Repository und gemeinsamer Arbeitsablauf
 

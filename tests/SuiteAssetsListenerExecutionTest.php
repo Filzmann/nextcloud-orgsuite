@@ -21,7 +21,7 @@ namespace OCP {
 namespace OCA\OrgSuite\AppInfo { final class Application { public const APP_ID = 'orgsuite'; } }
 
 namespace {
-    use OCA\LocalBase\Catalog\AdProductCatalog;
+    use OCA\LocalBase\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Listener\SuiteAssetsListener;
     use OCA\OrgSuite\Service\ExternalLinkSettingsService;
     use OCP\IAppConfig;
@@ -37,7 +37,7 @@ namespace {
     $user = new class implements IUser {};
     $session = new class($user) implements IUserSession { public function __construct(private ?IUser $user) {} public function getUser(): ?IUser { return $this->user; } };
     $apps = new class implements IAppManager {
-        public function isEnabledForUser($appId, $user = null): bool { return in_array($appId, ['adplaner', 'adrecruitment', 'brtop'], true); }
+        public function isEnabledForUser($appId, $user = null): bool { return in_array($appId, ['flzplaner', 'flzrecruitment', 'brtop'], true); }
     };
     $url = new class implements IURLGenerator { public function linkToRoute(string $routeName, array $arguments = []): string { return '/route/' . $routeName; } };
     $initialState = new class implements IInitialState {
@@ -51,12 +51,12 @@ namespace {
     };
     $links = new ExternalLinkSettingsService($config);
     $links->save([
-        ['id' => 'ad-docs', 'suite' => 'ad', 'label' => 'AD-Dokumentation', 'url' => 'https://docs.example.test/ad', 'active' => true],
+        ['id' => 'flz-docs', 'suite' => 'flz', 'label' => 'FLZ-Dokumentation', 'url' => 'https://docs.example.test/flz', 'active' => true],
         ['id' => 'br-portal', 'suite' => 'br', 'label' => 'BR-Portal', 'url' => 'https://portal.example.test/br', 'active' => true],
-        ['id' => 'inactive', 'suite' => 'ad', 'label' => 'Inaktiv', 'url' => 'https://inactive.example.test', 'active' => false],
+        ['id' => 'inactive', 'suite' => 'flz', 'label' => 'Inaktiv', 'url' => 'https://inactive.example.test', 'active' => false],
     ]);
 
-    $listener = new SuiteAssetsListener(new AdProductCatalog(), $apps, $session, $url, $initialState, $links);
+    $listener = new SuiteAssetsListener(new FlzProductCatalog(), $apps, $session, $url, $initialState, $links);
     $listener->handle(new Event());
     if (Util::$scripts !== [] || Util::$styles !== [] || $initialState->states !== []) throw new RuntimeException('Fremdes Event lädt Suite-Assets.');
     $listener->handle(new BeforeTemplateRenderedEvent());
@@ -64,15 +64,18 @@ namespace {
         throw new RuntimeException('Suite-Assets werden nicht zentral registriert.');
     }
     $navigation = $initialState->states['suite-navigation'] ?? [];
-    if (array_column($navigation['ad']['items'] ?? [], 'app') !== ['adplaner', 'adrecruitment', 'orgsuite-external-ad-docs']) {
-        throw new RuntimeException('AD-Menüdaten sind nicht katalogisiert oder nicht auf aktivierte Apps begrenzt.');
+    if (($navigation['flz']['label'] ?? null) !== 'Filzmann-Anwendungen') {
+        throw new RuntimeException('Die öffentliche Filzmann-Menübezeichnung fehlt.');
     }
-    if (($navigation['ad']['items'][1]['href'] ?? null) !== '/route/adrecruitment.page.index') {
+    if (array_column($navigation['flz']['items'] ?? [], 'app') !== ['flzplaner', 'flzrecruitment', 'orgsuite-external-flz-docs']) {
+        throw new RuntimeException('FLZ-Menüdaten sind nicht katalogisiert oder nicht auf aktivierte Apps begrenzt.');
+    }
+    if (($navigation['flz']['items'][1]['href'] ?? null) !== '/route/flzrecruitment.page.index') {
         throw new RuntimeException('Recruitment-Menüroute stammt nicht aus dem Katalog.');
     }
-    if (($navigation['ad']['items'][2]['href'] ?? null) !== 'https://docs.example.test/ad'
-        || ($navigation['ad']['items'][2]['external'] ?? null) !== true) {
-        throw new RuntimeException('Der aktive externe AD-Link fehlt oder ist nicht gekennzeichnet.');
+    if (($navigation['flz']['items'][2]['href'] ?? null) !== 'https://docs.example.test/flz'
+        || ($navigation['flz']['items'][2]['external'] ?? null) !== true) {
+        throw new RuntimeException('Der aktive externe FLZ-Link fehlt oder ist nicht gekennzeichnet.');
     }
     if (array_column($navigation['br']['items'] ?? [], 'app') !== ['brtop', 'orgsuite-external-br-portal']) {
         throw new RuntimeException('Der aktive externe BR-Link fehlt.');
@@ -83,7 +86,7 @@ namespace {
         public array $states = [];
         public function provideInitialState(string $key, $data): void { $this->states[$key] = $data; }
     };
-    (new SuiteAssetsListener(new AdProductCatalog(), $apps, $loggedOut, $url, $anonymousState, $links))->handle(new BeforeTemplateRenderedEvent());
+    (new SuiteAssetsListener(new FlzProductCatalog(), $apps, $loggedOut, $url, $anonymousState, $links))->handle(new BeforeTemplateRenderedEvent());
     if (($anonymousState->states['suite-navigation'] ?? null) !== []) {
         throw new RuntimeException('Anonyme Sitzung erhält unerwartete Suite-Menüdaten.');
     }
@@ -92,10 +95,10 @@ namespace {
         public array $states = [];
         public function provideInitialState(string $key, $data): void { $this->states[$key] = $data; }
     };
-    $missingCatalog = new AdProductCatalog(__DIR__ . '/missing-catalog.json');
+    $missingCatalog = new FlzProductCatalog(__DIR__ . '/missing-catalog.json');
     (new SuiteAssetsListener($missingCatalog, $apps, $session, $url, $missingState, $links))->handle(new BeforeTemplateRenderedEvent());
-    if (array_column($missingState->states['suite-navigation']['ad']['items'] ?? [], 'app') !== ['orgsuite-external-ad-docs']) {
-        throw new RuntimeException('Fehlender Katalog erzeugt andere als die unabhängig validierten externen AD-Menüdaten.');
+    if (array_column($missingState->states['suite-navigation']['flz']['items'] ?? [], 'app') !== ['orgsuite-external-flz-docs']) {
+        throw new RuntimeException('Fehlender Katalog erzeugt andere als die unabhängig validierten externen FLZ-Menüdaten.');
     }
 
     echo "OrgSuite assets listener execution tests passed\n";

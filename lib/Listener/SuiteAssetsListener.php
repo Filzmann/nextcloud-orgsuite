@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\Listener;
 
-use OCA\LocalBase\Catalog\AdProductCatalog;
+use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\Service\ExternalLinkSettingsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
@@ -28,7 +28,7 @@ final class SuiteAssetsListener implements IEventListener {
     ];
 
     public function __construct(
-        private AdProductCatalog $catalog,
+        private FlzProductCatalog $catalog,
         private IAppManager $appManager,
         private IUserSession $userSession,
         private IURLGenerator $url,
@@ -56,7 +56,7 @@ final class SuiteAssetsListener implements IEventListener {
 
         $adItems = [];
         try {
-            foreach ($this->catalog->menuProducts('ad') as $product) {
+            foreach ($this->catalog->menuProducts('flz') as $product) {
                 if (!$this->appManager->isEnabledForUser($product['id'], $user)) {
                     continue;
                 }
@@ -71,7 +71,7 @@ final class SuiteAssetsListener implements IEventListener {
         }
 
         return [
-            'ad' => ['label' => 'AD-Anwendungen', 'items' => array_merge($adItems, $this->externalItems('ad'))],
+            'flz' => ['label' => 'Filzmann-Anwendungen', 'items' => array_merge($adItems, $this->externalItems('flz'))],
             'br' => ['label' => 'BR-Anwendungen', 'items' => array_merge($this->enabledBrItems($user), $this->externalItems('br'))],
         ];
     }

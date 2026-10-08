@@ -1,7 +1,7 @@
 # Manuelles Abnahmeformular – OrgSuite
 
 Dieses Formular dokumentiert die fachliche, visuelle und sicherheitsbezogene
-Abnahme der gemeinsamen AD-/BR-Navigation und des administrativen
+Abnahme der gemeinsamen FLZ-/BR-Navigation und des administrativen
 OrgSuite-Einstiegs auf einem realitätsnahen Staging-System. OrgSuite enthält
 keine Fachdaten und erteilt keine Rechte in Zielapps.
 
@@ -23,7 +23,7 @@ Organisationsdaten verwenden.
 | Browser und Version | |
 | Fenstergröße / Zoom | |
 | Neutrale Testkonten und Zielapp-Rechte | |
-| Aktivierte AD- und BR-Apps | |
+| Aktivierte FLZ- und BR-Apps | |
 
 Ergebniskennzeichnung: `[ ] erfolgreich` / `[ ] nicht erfolgreich` /
 `[ ] nicht geprüft`. Bei „nicht erfolgreich“ oder „nicht geprüft“ ist eine
@@ -33,19 +33,19 @@ Begründung verpflichtend.
 
 | ID | Was wird geprüft? | Auszuführende Schritte | Erwartetes Ergebnis | Ergebnis | Warum/Beleg/Abweichung |
 |---|---|---|---|---|---|
-| A1 | AD-Einstieg | Mindestens eine aktuelle AD-Zielapp aktivieren und den Nextcloud-Appbereich mit einem berechtigten Testkonto öffnen. | Genau ein Haupteinstieg `AD` erscheint und führt zu einer aktivierten, für das Konto nutzbaren Zielapp. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| A1 | FLZ-Einstieg | Mindestens eine aktuelle FLZ-Zielapp aktivieren und den Nextcloud-Appbereich mit einem berechtigten Testkonto öffnen. | Genau ein Haupteinstieg `FLZ` erscheint und führt zu einer aktivierten, für das Konto nutzbaren Zielapp. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A2 | BR-Einstieg | Mindestens eine BR-Zielapp aktivieren und denselben Weg prüfen. | Genau ein Haupteinstieg `BR` erscheint und führt zu einer aktivierten, nutzbaren BR-App. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| A3 | Bevorzugtes AD-Ziel | AD Kalender zusammen mit einer weiteren AD-App aktivieren und `AD` öffnen. | AD Kalender wird als bevorzugtes Ziel verwendet. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| A4 | AD-Fallback | Das bevorzugte AD-Ziel deaktivieren und den Einstieg erneut öffnen. | Die erste noch aktivierte Zielapp wird verwendet; es entsteht keine Schleife oder Fehlerseite. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| A3 | Bevorzugtes FLZ-Ziel | Filzmann Kalender zusammen mit einer weiteren FLZ-App aktivieren und `FLZ` öffnen. | Filzmann Kalender wird als bevorzugtes Ziel verwendet. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| A4 | FLZ-Fallback | Das bevorzugte FLZ-Ziel deaktivieren und den Einstieg erneut öffnen. | Die erste noch aktivierte Zielapp wird verwendet; es entsteht keine Schleife oder Fehlerseite. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A5 | Bevorzugtes BR-Ziel und Fallback | BRTop mit weiterer BR-App prüfen, danach BRTop deaktivieren und wiederholen. | Zuerst wird BRTop verwendet, danach eine aktive BR-Fallback-App. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A6 | Keine aktive Zielapp | Für eine Suite alle Zielapps deaktivieren und Navigation sowie direkte Suite-Route prüfen. | Der betreffende Haupteinstieg wird nicht angeboten; die Route leitet nicht auf eine deaktivierte App. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| A7 | Einzelproduktzustand | Eine AD-Installation mit genau einem Fachprodukt gemäß Installervertrag prüfen. | OrgSuite bleibt deaktiviert; das Fachprodukt besitzt seinen eigenen Standalone-Einstieg. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| A7 | Einzelproduktzustand | Eine FLZ-Installation mit genau einem Fachprodukt gemäß Installervertrag prüfen. | OrgSuite bleibt deaktiviert; das Fachprodukt besitzt seinen eigenen Standalone-Einstieg. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 
 ## B. Quermenü in Fachapps
 
 | ID | Was wird geprüft? | Auszuführende Schritte | Erwartetes Ergebnis | Ergebnis | Warum/Beleg/Abweichung |
 |---|---|---|---|---|---|
-| B1 | Zentrale Menüliste | In mehreren AD- und BR-Fachapps die angebotenen Quermenüs vergleichen. | Links und Reihenfolge stammen erkennbar aus OrgSuite; Fachapps zeigen keine abweichenden duplizierten Linklisten. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| B1 | Zentrale Menüliste | In mehreren FLZ- und BR-Fachapps die angebotenen Quermenüs vergleichen. | Links und Reihenfolge stammen erkennbar aus OrgSuite; Fachapps zeigen keine abweichenden duplizierten Linklisten. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | B2 | Aktuelle App | Jede aktivierte Zielapp nacheinander öffnen. | Genau der aktuelle Link trägt `aria-current="page"` und eine verständliche sichtbare Markierung. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | B3 | Deaktivierte Zielapp | Eine Zielapp deaktivieren und die verbleibenden Fachapps neu laden. | Der nicht nutzbare Link verschwindet beziehungsweise wird nicht als aktives Ziel angeboten. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | B4 | Sticky und Scrollvertrag | Eine lange Fachansicht vertikal scrollen und zusätzlich eine breite Tabelle horizontal bewegen. | Das Quermenü bleibt innerhalb des App-Scrollcontainers oben sichtbar und erzeugt keinen globalen zweiten Scrollbereich. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
@@ -65,16 +65,16 @@ Begründung verpflichtend.
 
 | ID | Was wird geprüft? | Auszuführende Schritte | Erwartetes Ergebnis | Ergebnis | Warum/Beleg/Abweichung |
 |---|---|---|---|---|---|
-| D1 | Adminadapter | Als Nextcloud-Admin mit mehreren AD-Produkten den OrgSuite-Adminabschnitt öffnen. | Die von LocalBase bereitgestellte Organisations- und Freigabeoberfläche erscheint einmal im OrgSuite-Kontext. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D1 | Adminadapter | Als Nextcloud-Admin mit mehreren FLZ-Produkten den OrgSuite-Adminabschnitt öffnen. | Die von LocalBase bereitgestellte Organisations- und Freigabeoberfläche erscheint einmal im OrgSuite-Kontext. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D2 | Nichtadmin-Deny | Als Nichtadmin Adminabschnitt und direkte administrative Lese- sowie Schreibaufrufe versuchen. | Der Zugriff wird serverseitig verweigert; keine LocalBase-Konfiguration ändert sich. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D3 | CSRF-Schutz | Einen schreibenden Adminaufruf mit Sitzung, aber ohne gültiges Requesttoken wiederholen. | Der Request wird abgewiesen und die bestehende Konfiguration bleibt unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D4 | App-spezifische Einstellungen | Adminbereich auf Kalenderprovider-, Raum- oder andere nur eine Fachapp betreffende Einstellungen prüfen. | App-spezifische Administration bleibt im eigenen Fachapp-Abschnitt und wird nicht in OrgSuite dupliziert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D5 | Visuelle Diagrammordnung | Organigrammkarten in LocalBase über den OrgSuite-Adminadapter horizontal umordnen und danach fachliche Rollenreihenfolge sowie Rechte prüfen. | Nur die Darstellung ändert sich; fachliche Reihenfolge, Kalender und Berechtigungen bleiben unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D6 | Datensparsame Abnahme | Formular und Screenshots prüfen. | Es wurden ausschließlich synthetische Organisationsdaten dokumentiert; keine Secrets oder realen Mitgliederlisten sind enthalten. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| D7 | Externe AD-/BR-Links | Je einen synthetischen HTTPS-Link für AD und BR anlegen, sortieren, deaktivieren, wieder aktivieren und speichern. | Der gespeicherte Stand bleibt nach Neuladen erhalten; nur aktive Links erscheinen in richtiger Suite und Reihenfolge. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D7 | Externe FLZ-/BR-Links | Je einen synthetischen HTTPS-Link für FLZ und BR anlegen, sortieren, deaktivieren, wieder aktivieren und speichern. | Der gespeicherte Stand bleibt nach Neuladen erhalten; nur aktive Links erscheinen in richtiger Suite und Reihenfolge. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D8 | Linkvalidierung und Bestandsschutz | HTTP-, JavaScript-, URL-mit-Zugangsdaten-, doppelte-ID- und ungültige Suite-Eingaben versuchen. | Die Eingaben werden verständlich abgewiesen und die zuvor gültige Liste bleibt vollständig unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D9 | Linkadministration schützen | Externe Links als Nichtadmin lesen und speichern sowie als Admin ohne CSRF-Token schreiben. | Alle unzulässigen Requests werden serverseitig abgewiesen; die Linkliste bleibt unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| D10 | Tastatur und Ausgabe | Linkverwaltung und die resultierenden AD-/BR-Menüs nur per Tastatur bedienen. | Felder und Sortier-/Entfernaktionen besitzen verständliche Beschriftungen und sichtbaren Fokus; benutzerdefinierte Bezeichnungen werden sicher als Text ausgegeben und Links öffnen im selben Tab. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D10 | Tastatur und Ausgabe | Linkverwaltung und die resultierenden FLZ-/BR-Menüs nur per Tastatur bedienen. | Felder und Sortier-/Entfernaktionen besitzen verständliche Beschriftungen und sichtbaren Fokus; benutzerdefinierte Bezeichnungen werden sicher als Text ausgegeben und Links öffnen im selben Tab. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 
 
 ## Abschlussentscheidung

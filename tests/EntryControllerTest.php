@@ -35,7 +35,7 @@ namespace OCA\OrgSuite\AppInfo {
 }
 
 namespace {
-    use OCA\LocalBase\Catalog\AdProductCatalog;
+    use OCA\LocalBase\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Controller\EntryController;
     use OCP\App\IAppManager;
     use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -56,17 +56,17 @@ namespace {
         public function __construct(private ?IUser $user) {}
         public function getUser(): ?IUser { return $this->user; }
     };
-    $enabledApps = ['adplaner', 'brtop'];
+    $enabledApps = ['flzplaner', 'brtop'];
     $apps = new class($enabledApps) implements IAppManager {
         public function __construct(private array $enabledApps) {}
         public function isEnabledForUser($appId, $user = null): bool { return in_array($appId, $this->enabledApps, true); }
     };
 
-    $catalog = new AdProductCatalog();
+    $catalog = new FlzProductCatalog();
     $controller = new EntryController($request, $apps, $session, $url, $catalog);
-    $ad = $controller->ad();
-    if (!$ad instanceof RedirectResponse || $ad->redirectURL !== '/route/adplaner.page.index') {
-        throw new RuntimeException('AD muss auf die erste aktivierte Fachapp weiterleiten.');
+    $flz = $controller->flz();
+    if (!$flz instanceof RedirectResponse || $flz->redirectURL !== '/route/flzplaner.page.index') {
+        throw new RuntimeException('FLZ muss auf die erste aktivierte Fachapp weiterleiten.');
     }
     $br = $controller->br();
     if (!$br instanceof RedirectResponse || $br->redirectURL !== '/route/brtop.page.index') {
@@ -76,7 +76,7 @@ namespace {
     $noApps = new class implements IAppManager {
         public function isEnabledForUser($appId, $user = null): bool { return false; }
     };
-    if (!(new EntryController($request, $noApps, $session, $url, $catalog))->ad() instanceof NotFoundResponse) {
+    if (!(new EntryController($request, $noApps, $session, $url, $catalog))->flz() instanceof NotFoundResponse) {
         throw new RuntimeException('Eine vollstaendig deaktivierte Suite muss abgewiesen werden.');
     }
     $loggedOut = new class implements IUserSession { public function getUser(): ?IUser { return null; } };
@@ -85,15 +85,15 @@ namespace {
     }
 
     $recruitmentApps = new class implements IAppManager {
-        public function isEnabledForUser($appId, $user = null): bool { return $appId === 'adrecruitment'; }
+        public function isEnabledForUser($appId, $user = null): bool { return $appId === 'flzrecruitment'; }
     };
-    $recruitment = (new EntryController($request, $recruitmentApps, $session, $url, $catalog))->ad();
-    if (!$recruitment instanceof RedirectResponse || $recruitment->redirectURL !== '/route/adrecruitment.page.index') {
-        throw new RuntimeException('AD Recruitment ist kein katalogisiertes Suite-Ziel.');
+    $recruitment = (new EntryController($request, $recruitmentApps, $session, $url, $catalog))->flz();
+    if (!$recruitment instanceof RedirectResponse || $recruitment->redirectURL !== '/route/flzrecruitment.page.index') {
+        throw new RuntimeException('Filzmann Recruitment ist kein katalogisiertes Suite-Ziel.');
     }
 
-    $missingCatalog = new AdProductCatalog(__DIR__ . '/missing-catalog.json');
-    if (!(new EntryController($request, $recruitmentApps, $session, $url, $missingCatalog))->ad() instanceof NotFoundResponse) {
+    $missingCatalog = new FlzProductCatalog(__DIR__ . '/missing-catalog.json');
+    if (!(new EntryController($request, $recruitmentApps, $session, $url, $missingCatalog))->flz() instanceof NotFoundResponse) {
         throw new RuntimeException('Fehlender Katalogprovider darf kein unsicheres Fallbackziel erzeugen.');
     }
 
@@ -102,7 +102,7 @@ namespace {
         throw new RuntimeException('Unbekannte Suite erhält unerwartete Weiterleitungsziele.');
     }
 
-    foreach (['ad', 'br'] as $methodName) {
+    foreach (['flz', 'br'] as $methodName) {
         $method = new ReflectionMethod(EntryController::class, $methodName);
         if ($method->getAttributes(NoAdminRequired::class) === [] || $method->getAttributes(NoCSRFRequired::class) === []) {
             throw new RuntimeException("Suite-Einstieg {$methodName} braucht die erwarteten Leseattribute.");

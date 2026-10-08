@@ -9,7 +9,7 @@ use OCA\OrgSuite\AppInfo\Application;
 use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 
-/** Persistiert die vollständig validierte, geordnete Liste zusätzlicher AD-/BR-Menülinks. */
+/** Persistiert die vollständig validierte, geordnete Liste zusätzlicher FLZ-/BR-Menülinks. */
 final class ExternalLinkSettingsService {
     private const KEY = 'external_links';
     private const MAX_LINKS = 50;
@@ -32,7 +32,7 @@ final class ExternalLinkSettingsService {
 
     /** @return list<array{id:string,suite:string,label:string,url:string,active:bool}> */
     public function activeForSuite(string $suite): array {
-        if (!in_array($suite, ['ad', 'br'], true)) return [];
+        if (!in_array($suite, ['flz', 'br'], true)) return [];
         return array_values(array_filter(
             $this->all(),
             static fn(array $link): bool => $link['suite'] === $suite && $link['active'],
@@ -72,7 +72,7 @@ final class ExternalLinkSettingsService {
             if (preg_match('/^[a-z0-9][a-z0-9-]{0,63}$/D', $id) !== 1 || isset($ids[$id])) {
                 throw new InvalidArgumentException('Die ID eines externen Suite-Links ist ungültig oder doppelt.');
             }
-            if (!in_array($suite, ['ad', 'br'], true)) {
+            if (!in_array($suite, ['flz', 'br'], true)) {
                 throw new InvalidArgumentException('Die Suite eines externen Links ist ungültig.');
             }
             $labelLength = preg_match_all('/./us', $label, $characters);

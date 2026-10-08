@@ -1,18 +1,18 @@
-# Architektur – OrgSuite
+# Architektur – Filzmann Hub (`orgsuite`)
 
 ## Verantwortung
 
-OrgSuite stellt die gemeinsamen AD- und BR-Einstiege, das Quermenü sowie den
+Die technisch als `orgsuite` geführte Infrastruktur-App Filzmann Hub stellt die gemeinsamen FLZ- und BR-Einstiege, das Quermenü sowie den
 Administrationsadapter für app-übergreifende Suite-Einstellungen bereit. Sie
 besitzt keine Fachdaten und erweitert keine Rechte der Zielapps.
 
 ## Navigation
 
-- AD-Ziele und Reihenfolge stammen aus dem versionierten
+- FLZ-Ziele und Reihenfolge stammen aus dem versionierten
   LocalBase-Produktkatalog; BR-Ziele verbleiben im festgelegten BR-Vertrag.
 - Fachapps stellen nur wirkungslose Menühosts bereit und laden keine
   OrgSuite-Assets direkt.
-- Bei genau einem AD-Fachprodukt bleibt OrgSuite deaktiviert; ab zwei
+- Bei genau einem FLZ-Fachprodukt bleibt OrgSuite deaktiviert; ab zwei
   Produkten wird sie durch den geprüften Installer aktiviert.
 - Zusätzliche externe Links sind HTTPS-basiert, zentral konfiguriert und
   erteilen keine Rechte im Zielsystem.

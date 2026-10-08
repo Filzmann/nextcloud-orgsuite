@@ -45,7 +45,7 @@ namespace {
     };
     $groups = new class implements IGroupManager { public function isAdmin(string $uid): bool { return $uid === 'admin-user'; } };
     $service = new ExternalLinkSettingsService($config);
-    $payload = [['id' => 'ad-docs', 'suite' => 'ad', 'label' => 'Dokumentation', 'url' => 'https://docs.example.test', 'active' => true]];
+    $payload = [['id' => 'flz-docs', 'suite' => 'flz', 'label' => 'Dokumentation', 'url' => 'https://docs.example.test', 'active' => true]];
 
     $denied = new ExternalLinkAdminController($request, $session($member), $groups, $service);
     assertSameValue(403, $denied->settings()->status, 'Nichtadmins dürfen externe Links nicht lesen.');

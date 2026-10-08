@@ -9,12 +9,12 @@ erledigte Änderungen in `CHANGELOG.md` und geltende Architektur in
 
 - Die manuellen Prüfungen werden im ausfüllbaren
   [`docs/manual-acceptance.md`](docs/manual-acceptance.md) dokumentiert.
-- Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
+- Gemeinsame FLZ-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
 - Dabei auch die globale, rein visuelle Links-rechts-Anordnung der LocalBase-Organigrammkarten prüfen; die fachliche Gruppenreihenfolge bleibt davon getrennt.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.
 - Den katalogisierten BQ-Planer in Standalone- und Mehrproduktzuständen
   prüfen; seine Bundle-Freigabe bleibt ein getrenntes Release-Gate.
-- Die Verwaltung zusätzlicher externer AD-/BR-Menülinks auf
+- Die Verwaltung zusätzlicher externer FLZ-/BR-Menülinks auf
   einem realitätsnahen Staging visuell und fachlich abnehmen. Der aktuelle
   Vertrag gilt für alle angemeldeten Personen, verwendet ausschließlich
   HTTPS und öffnet Ziele im selben Tab; Gruppenfilter sind nicht Bestandteil
@@ -26,7 +26,7 @@ erledigte Änderungen in `CHANGELOG.md` und geltende Architektur in
 
 Produktentscheidung aus der manuellen Abnahme vom 4. Oktober 2026:
 
-- Externe AD-/BR-Menülinks öffnen standardmäßig in einem neuen Tab.
+- Externe FLZ-/BR-Menülinks öffnen standardmäßig in einem neuen Tab.
 - Der Öffnungsmodus ist pro Link administrativ zwischen neuem und demselben
   Tab konfigurierbar; sichere `rel`-Attribute und HTTPS-Validierung bleiben
   verbindlich.

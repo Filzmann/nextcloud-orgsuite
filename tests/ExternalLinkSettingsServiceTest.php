@@ -27,22 +27,22 @@ namespace {
 
     assertSameValue([], $service->all(), 'Eine leere Konfiguration muss eine leere Linkliste liefern.');
     $saved = $service->save([
-        ['id' => 'ad-handbuch', 'suite' => 'ad', 'label' => 'AD-Handbuch', 'url' => 'https://docs.example.test/ad', 'active' => true],
+        ['id' => 'flz-handbuch', 'suite' => 'flz', 'label' => 'FLZ-Handbuch', 'url' => 'https://docs.example.test/flz', 'active' => true],
         ['id' => 'br-portal', 'suite' => 'br', 'label' => ' BR-Portal ', 'url' => 'https://portal.example.test/br', 'active' => false],
     ]);
     assertSameValue('BR-Portal', $saved[1]['label'] ?? null, 'Bezeichnungen werden normalisiert.');
-    assertSameValue(['ad-handbuch'], array_column($service->activeForSuite('ad'), 'id'), 'Aktive AD-Links fehlen.');
+    assertSameValue(['flz-handbuch'], array_column($service->activeForSuite('flz'), 'id'), 'Aktive FLZ-Links fehlen.');
     assertSameValue([], $service->activeForSuite('br'), 'Inaktive BR-Links dürfen nicht im Menü erscheinen.');
     assertSameValue($saved, $service->save($saved), 'Dasselbe Payload muss idempotent bleiben.');
 
     $persisted = $config->values['orgsuite']['external_links'] ?? null;
     foreach ([
-        [['id' => 'bad-http', 'suite' => 'ad', 'label' => 'Unsicher', 'url' => 'http://example.test', 'active' => true]],
-        [['id' => 'bad-suite', 'suite' => 'other', 'label' => 'Falsch', 'url' => 'https://example.test', 'active' => true]],
-        [['id' => 'too-long', 'suite' => 'ad', 'label' => str_repeat('x', 81), 'url' => 'https://example.test', 'active' => true]],
+        [['id' => 'bad-http', 'suite' => 'flz', 'label' => 'Unsicher', 'url' => 'http://example.test', 'active' => true]],
+        [['id' => 'bflz-full-suite', 'suite' => 'other', 'label' => 'Falsch', 'url' => 'https://example.test', 'active' => true]],
+        [['id' => 'too-long', 'suite' => 'flz', 'label' => str_repeat('x', 81), 'url' => 'https://example.test', 'active' => true]],
         [['id' => 'credentials', 'suite' => 'br', 'label' => 'Zugang', 'url' => 'https://user:secret@example.test', 'active' => true]],
         [
-            ['id' => 'duplicate', 'suite' => 'ad', 'label' => 'A', 'url' => 'https://a.example.test', 'active' => true],
+            ['id' => 'duplicate', 'suite' => 'flz', 'label' => 'A', 'url' => 'https://a.example.test', 'active' => true],
             ['id' => 'duplicate', 'suite' => 'br', 'label' => 'B', 'url' => 'https://b.example.test', 'active' => true],
         ],
     ] as $invalid) {

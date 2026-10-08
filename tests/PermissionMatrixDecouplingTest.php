@@ -14,7 +14,7 @@ foreach ($runtimeFiles as $file) {
     if ($source === false) {
         throw new RuntimeException('OrgSuite-Laufzeitdatei ist nicht lesbar: ' . $file);
     }
-    foreach (['br_permission_matrix', 'filzmann_permission_matrix'] as $matrixAppId) {
+    foreach (['br_permission_matrix', 'flz_permission_matrix'] as $matrixAppId) {
         if (str_contains($source, $matrixAppId)) {
             throw new RuntimeException('OrgSuite führt die eigenständige Berechtigungsmatrix weiterhin als BR-Ziel: ' . $matrixAppId);
         }

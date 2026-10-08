@@ -16,7 +16,7 @@ foreach ([$info, $routes, $listener, $controller] as $source) {
 if (str_contains($info, '<navigations>')) {
     throw new RuntimeException('Suite-Einstiege muessen benutzerbezogen registriert werden.');
 }
-foreach (["'entry#ad'", "'entry#br'"] as $contract) {
+foreach (["'entry#flz'", "'entry#br'"] as $contract) {
     if (!str_contains($routes, $contract)) {
         throw new RuntimeException("Suite-Route fehlt: {$contract}");
     }
@@ -31,14 +31,14 @@ foreach (['NoAdminRequired', 'NoCSRFRequired', 'RedirectResponse', 'NotFoundResp
         throw new RuntimeException("Weiterleitungsvertrag fehlt: {$contract}");
     }
 }
-foreach (['AdProductCatalog', "menuProducts('ad')"] as $catalogContract) {
+foreach (['FlzProductCatalog', "menuProducts('flz')"] as $catalogContract) {
     if (!str_contains($listener, $catalogContract) || !str_contains($controller, $catalogContract)) {
-        throw new RuntimeException("AD-Produktkatalog wird nicht durchgängig konsumiert: {$catalogContract}");
+        throw new RuntimeException("FLZ-Produktkatalog wird nicht durchgängig konsumiert: {$catalogContract}");
     }
 }
-foreach (['adcalendar', 'adplaner', 'adurlaub', 'adroom', 'adrecruitment'] as $appId) {
+foreach (['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment'] as $appId) {
     if (str_contains($listener, "'{$appId}'") || str_contains($controller, "'app' => '{$appId}'")) {
-        throw new RuntimeException("AD-Produkt bleibt außerhalb des Katalogs festgeschrieben: {$appId}");
+        throw new RuntimeException("FLZ-Produkt bleibt außerhalb des Katalogs festgeschrieben: {$appId}");
     }
 }
 

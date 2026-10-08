@@ -13,7 +13,7 @@ final class AdminSection implements IIconSection {
     public function __construct(private IURLGenerator $url) {}
 
     public function getIcon(): string {
-        return $this->url->imagePath(Application::APP_ID, 'ad.svg');
+        return $this->url->imagePath(Application::APP_ID, 'flz.svg');
     }
 
     public function getID(): string {
@@ -21,7 +21,7 @@ final class AdminSection implements IIconSection {
     }
 
     public function getName(): string {
-        return 'AD-/BR-Suite';
+        return 'Filzmann Hub';
     }
 
     public function getPriority(): int {

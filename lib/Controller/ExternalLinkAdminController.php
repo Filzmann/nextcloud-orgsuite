@@ -13,7 +13,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserSession;
 
-/** Geschützte Admin-API für zusätzliche AD-/BR-Menülinks. */
+/** Geschützte Admin-API für zusätzliche FLZ-/BR-Menülinks. */
 final class ExternalLinkAdminController extends Controller {
     public function __construct(
         IRequest $request,
