@@ -1,34 +1,41 @@
 # Roadmap – OrgSuite
 
-Diese Datei bündelt geplante Erweiterungen und offene Produktentscheidungen. Verbindliche Fach-, Sicherheits- und Architekturregeln stehen in `AGENTS.md`.
-
-## Zukunftsplanung – nicht freigegeben
-
-### ORGS-L10N – OrgSuite vollständig lokalisieren
-
-Status: später, nicht freigegeben; Pilot-App, Reihenfolge und Rohtext-Gate
-werden vor jeder Umsetzung appübergreifend separat freigegeben
-
-- Navigation, Adminadapter, Status- und Fehlermeldungen vertikal auf
-  Nextcloud-l10n umstellen.
-- Produkt-IDs, Routen, Menü-Suite-Schlüssel und Capability-Verträge
-  sprachneutral lassen.
-- Deutsche Ausgabe, eine weitere Locale, Fallback, Platzhalter,
-  Pluralformen, Escaping und JavaScript/PHP-Übergabe testen.
-- Erst nach vollständiger Migration einen Rohtext-Check für OrgSuite
-  verbindlich schalten.
+Diese Datei enthält ausschließlich offene Arbeit, zurückgestellte Vorhaben
+und Freigabegates. Der aktuelle Funktionsumfang steht in `README.md`,
+erledigte Änderungen in `CHANGELOG.md` und geltende Architektur in
+`docs/architecture.md`.
 
 ## Aktueller Fokus
 
 - Die manuellen Prüfungen werden im ausfüllbaren
   [`docs/manual-acceptance.md`](docs/manual-acceptance.md) dokumentiert.
-- Gemeinsame AD-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
+- Gemeinsame FLZ-/BR-Navigation und den administrativen Einstieg für Organisations- und Freigabeverträge auf einem realitätsnahen Staging abnehmen.
 - Dabei auch die globale, rein visuelle Links-rechts-Anordnung der LocalBase-Organigrammkarten prüfen; die fachliche Gruppenreihenfolge bleibt davon getrennt.
 - Standalone- und Mehrproduktzustände einschließlich deaktivierter Zielapps zuverlässig prüfen.
+- Den katalogisierten BQ-Planer in Standalone- und Mehrproduktzuständen
+  prüfen; seine Bundle-Freigabe bleibt ein getrenntes Release-Gate.
+- Die Verwaltung zusätzlicher externer FLZ-/BR-Menülinks auf
+  einem realitätsnahen Staging visuell und fachlich abnehmen. Der aktuelle
+  Vertrag gilt für alle angemeldeten Personen, verwendet ausschließlich
+  HTTPS und öffnet Ziele im selben Tab; Gruppenfilter sind nicht Bestandteil
+  dieses freigegebenen Umfangs.
 
 ## Geplante Erweiterungen
 
-- **Externe Links im AD-Menü:** Nextcloud-Admins können im OrgSuite-Adminbereich externe Navigationsziele mit Anzeigename, HTTPS-URL, Reihenfolge und Aktivstatus anlegen, bearbeiten und entfernen. Jeder Link kann auf eine oder mehrere bestehende Nextcloud-Gruppen eingeschränkt werden; die Mitgliedschaft wird serverseitig ausgewertet und das Menü liefert angemeldeten Personen ausschließlich die für sie sichtbaren Links. Ein sichtbarer externer Link erteilt keine Rechte im Zielsystem. Eingaben werden validiert, Ausgaben sicher escaped und unsichere URL-Schemata abgelehnt. Die Umsetzung erhält Allow-/Deny-Tests für Administration und Gruppensichtbarkeit sowie Tastatur-, Fokus- und Menü-Smokes.
+### ORGS-EXTERNAL-LINK-NAVIGATION – Zielöffnung und gemeinsame Reihenfolge
+
+Produktentscheidung aus der manuellen Abnahme vom 4. Oktober 2026:
+
+- Externe FLZ-/BR-Menülinks öffnen standardmäßig in einem neuen Tab.
+- Der Öffnungsmodus ist pro Link administrativ zwischen neuem und demselben
+  Tab konfigurierbar; sichere `rel`-Attribute und HTTPS-Validierung bleiben
+  verbindlich.
+- Interne Produktziele und externe Links erhalten je Suite eine gemeinsame,
+  per Drag-and-drop und Tastatur veränderbare Menüreihenfolge.
+- Die Umsetzung benötigt Validierungs-, CSRF-, Nichtadmin-Deny-,
+  Tastatur-/Fokus- und Persistenztests. Bis zur Umsetzung beschreibt
+  `README.md` weiterhin den aktuellen Stand.
+
 - Neue Navigationsziele werden nur gemeinsam mit einer tatsächlich vorhandenen Fachapp aufgenommen.
 - Der Adminbereich wächst nur mit freigegebenen app-übergreifenden LocalBase-Verträgen; app-spezifische Einstellungen bleiben in der Fachapp.
 - OrgSuite bleibt frei von Fachdaten und fachlichen Berechtigungserweiterungen.
@@ -37,6 +44,18 @@ werden vor jeder Umsetzung appübergreifend separat freigegeben
 
 - Betroffene Fachapps, bevorzugtes Fallback-Ziel und Standalone-Verhalten.
 - Serverseitige Zielberechtigungen, Tastaturbedienung und Contract-Tests jeder neuen Navigation oder Adminintegration.
-- Für externe Links: Bedeutet eine leere Gruppenauswahl „für alle angemeldeten Personen“ oder soll mindestens eine Gruppe verpflichtend sein?
-- Für externe Links: Öffnen sie standardmäßig im selben Tab oder in einem neuen Tab, und wird diese Wahl je Link konfigurierbar?
-- Für externe Links: Bleibt die Funktion zunächst ausschließlich im AD-Menü oder soll derselbe Vertrag später auch das BR-Menü unterstützen?
+
+## Bewusst zurückgestellt – niedrigste Priorität
+
+### ORGS-L10N – Navigation und Adminadapter lokalisieren
+
+Status seit 17. September 2026: Die Umsetzung beginnt erst nach allen höher
+priorisierten Roadmap-Aufgaben und einer erneuten ausdrücklichen Freigabe des
+Root-Vorhabens `ZM-06`. Neue Funktionen und Codeänderungen berücksichtigen
+die spätere Lokalisierbarkeit an den jeweils berührten Stellen, lösen aber
+keine flächige Umstellung oder Übersetzungsimplementierung aus.
+
+Bei der späteren Umsetzung wechseln sichtbare Navigation, Status- und
+Fehlermeldungen auf Nextcloud-l10n; Produkt-IDs, Routen, Suite-Schlüssel und
+Capability-Verträge bleiben sprachneutral. PHP-/JavaScript-Übergabe,
+Fallback, Platzhalter und Escaping werden app-lokal geprüft.

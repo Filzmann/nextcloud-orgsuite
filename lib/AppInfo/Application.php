@@ -14,7 +14,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 
 /**
- * Zweck: Registriert die gemeinsamen AD- und BR-Einstiege im Nextcloud-Appmenue.
+ * Zweck: Registriert die gemeinsamen FLZ- und BR-Einstiege im Nextcloud-Appmenue.
  * Zusammenspiel: Nextcloud -> NavigationListener und SuiteAssetsListener; Fachapps stellen nur optionale Menühosts bereit.
  */
 final class Application extends App implements IBootstrap {

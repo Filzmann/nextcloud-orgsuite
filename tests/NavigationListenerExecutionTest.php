@@ -14,10 +14,7 @@ namespace OCP\App { interface IAppManager { public function isEnabledForUser($ap
 namespace OCA\OrgSuite\AppInfo { final class Application { public const APP_ID = 'orgsuite'; } }
 
 namespace {
-    require_once __DIR__ . '/../../localbase/lib/Catalog/AdProductCatalog.php';
-    require_once __DIR__ . '/../lib/Listener/NavigationListener.php';
-
-    use OCA\LocalBase\Catalog\AdProductCatalog;
+    use OCA\LocalBase\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Listener\NavigationListener;
     use OCP\App\IAppManager;
     use OCP\EventDispatcher\Event;
@@ -30,7 +27,7 @@ namespace {
     $user = new class implements IUser {};
     $session = new class($user) implements IUserSession { public function __construct(private ?IUser $user) {} public function getUser(): ?IUser { return $this->user; } };
     $apps = new class implements IAppManager {
-        public array $enabled = ['adurlaub', 'brstunden'];
+        public array $enabled = ['flzurlaub', 'brstunden'];
         public function isEnabledForUser($appId, $user = null): bool { return in_array($appId, $this->enabled, true); }
     };
     $navigation = new class implements INavigationManager {
@@ -41,13 +38,13 @@ namespace {
         public function linkToRoute(string $routeName, array $arguments = []): string { return '/route/' . $routeName; }
         public function imagePath(string $appName, string $file): string { return '/image/' . $appName . '/' . $file; }
     };
-    $catalog = new AdProductCatalog();
+    $catalog = new FlzProductCatalog();
     $listener = new NavigationListener($session, $apps, $navigation, $url, $catalog);
     $listener->handle(new Event());
     if ($navigation->entries !== []) throw new RuntimeException('Fremdes Event erzeugt Navigation.');
     $listener->handle(new LoadAdditionalEntriesEvent());
     $entries = array_map(static fn(callable $entry): array => $entry(), $navigation->entries);
-    if (array_column($entries, 'id') !== ['orgsuite-ad', 'orgsuite-br'] || $entries[0]['href'] !== '/route/orgsuite.entry.ad' || $entries[1]['icon'] !== '/image/orgsuite/br.svg') {
+    if (array_column($entries, 'id') !== ['orgsuite-flz', 'orgsuite-br'] || $entries[0]['name'] !== 'Filzmann' || $entries[0]['href'] !== '/route/orgsuite.entry.flz' || $entries[1]['icon'] !== '/image/orgsuite/br.svg') {
         throw new RuntimeException('Suite-Navigation wird nicht korrekt registriert.');
     }
     $apps->enabled = [];
@@ -60,10 +57,10 @@ namespace {
 
     $targetIds = new ReflectionMethod(NavigationListener::class, 'targetIds');
     if ($targetIds->invoke($listener, 'unknown') !== []) throw new RuntimeException('Unbekannte Suite besitzt Navigationsziele.');
-    $missingCatalog = new AdProductCatalog(__DIR__ . '/missing-catalog.json');
-    $apps->enabled = ['adplaner'];
+    $missingCatalog = new FlzProductCatalog(__DIR__ . '/missing-catalog.json');
+    $apps->enabled = ['flzplaner'];
     (new NavigationListener($session, $apps, $emptyNavigation, $url, $missingCatalog))->handle(new LoadAdditionalEntriesEvent());
-    if ($emptyNavigation->entries !== []) throw new RuntimeException('Fehlender Katalog erzeugt einen unsicheren AD-Einstieg.');
+    if ($emptyNavigation->entries !== []) throw new RuntimeException('Fehlender Katalog erzeugt einen unsicheren FLZ-Einstieg.');
 
     echo "OrgSuite navigation listener execution tests passed\n";
 }

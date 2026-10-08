@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\Listener;
 
-use OCA\LocalBase\Catalog\AdProductCatalog;
+use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
@@ -23,14 +23,14 @@ use RuntimeException;
  */
 final class NavigationListener implements IEventListener {
     /** @var array<string, list<string>> */
-    private const BR_TARGETS = ['brtop', 'brstunden', 'br_permission_matrix'];
+    private const BR_TARGETS = ['brtop', 'brstunden'];
 
     public function __construct(
         private IUserSession $userSession,
         private IAppManager $appManager,
         private INavigationManager $navigation,
         private IURLGenerator $url,
-        private AdProductCatalog $catalog,
+        private FlzProductCatalog $catalog,
     ) {
     }
 
@@ -44,7 +44,7 @@ final class NavigationListener implements IEventListener {
             return;
         }
 
-        $this->addEntryWhenAvailable('ad', 'AD', 80, $user);
+        $this->addEntryWhenAvailable('flz', 'Filzmann', 80, $user);
         $this->addEntryWhenAvailable('br', 'BR', 81, $user);
     }
 
@@ -79,12 +79,12 @@ final class NavigationListener implements IEventListener {
         if ($suite === 'br') {
             return self::BR_TARGETS;
         }
-        if ($suite !== 'ad') {
+        if ($suite !== 'flz') {
             return [];
         }
 
         try {
-            return array_column($this->catalog->menuProducts('ad'), 'id');
+            return array_column($this->catalog->menuProducts('flz'), 'id');
         } catch (RuntimeException) {
             return [];
         }

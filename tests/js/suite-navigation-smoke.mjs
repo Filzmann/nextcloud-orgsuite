@@ -36,8 +36,8 @@ class FakeElement {
 }
 
 const host = new FakeElement('div');
-host.dataset.suite = 'ad';
-host.dataset.currentApp = 'adplaner';
+host.dataset.suite = 'flz';
+host.dataset.currentApp = 'flzplaner';
 const document = {
     readyState: 'complete',
     createElement: (tagName) => new FakeElement(tagName),
@@ -48,11 +48,12 @@ const document = {
     addEventListener: () => {},
 };
 const navigation = {
-    ad: {
-        label: 'AD-Anwendungen',
+    flz: {
+        label: 'Filzmann-Anwendungen',
         items: [
-            {app: 'adplaner', label: 'Assistenzplanung', href: '/route/adplaner.page.index'},
-            {app: 'adrecruitment', label: 'Recruitment'},
+            {app: 'flzplaner', label: 'Assistenzplanung', href: '/route/flzplaner.page.index'},
+            {app: 'flzrecruitment', label: 'Recruitment'},
+            {app: 'orgsuite-external-flz-docs', label: 'Externe Dokumentation', href: 'https://docs.example.test/flz', external: true},
         ],
     },
 };
@@ -65,13 +66,15 @@ vm.runInNewContext(source, {document, window, Object}, {filename: sourceFilename
 
 const nav = host.children[0];
 const links = nav.children[0].children.map((item) => item.children[0]);
-if (nav.tagName !== 'NAV' || nav.attributes['aria-label'] !== 'orgsuite:AD-Anwendungen') {
+if (nav.tagName !== 'NAV' || nav.attributes['aria-label'] !== 'orgsuite:Filzmann-Anwendungen') {
     throw new Error('Das Suite-Menue muss als beschriftete Navigation gerendert werden.');
 }
-if (links.length !== 2 || links[0].attributes['aria-current'] !== 'page'
-    || links[0].href !== '/route/adplaner.page.index' || links[1].href !== '/apps/adrecruitment/'
-    || links[1].textContent !== 'adrecruitment:Recruitment') {
-    throw new Error('Aktiver AD-Menuepunkt wurde nicht korrekt gerendert.');
+if (links.length !== 3 || links[0].attributes['aria-current'] !== 'page'
+    || links[0].href !== '/route/flzplaner.page.index' || links[1].href !== '/apps/flzrecruitment/'
+    || links[1].textContent !== 'flzrecruitment:Recruitment'
+    || links[2].href !== 'https://docs.example.test/flz'
+    || links[2].textContent !== 'Externe Dokumentation') {
+    throw new Error('Aktiver FLZ-Menuepunkt wurde nicht korrekt gerendert.');
 }
 if (host.dataset.orgsuiteMounted !== 'true') {
     throw new Error('Mehrfaches Mounten des Suite-Menues wird nicht verhindert.');
@@ -79,7 +82,7 @@ if (host.dataset.orgsuiteMounted !== 'true') {
 window.OrgSuiteNavigation.mount(host);
 
 const fallbackHost = new FakeElement('div');
-fallbackHost.dataset.suite = 'ad';
+fallbackHost.dataset.suite = 'flz';
 const fallbackDocument = {
     readyState: 'complete',
     createElement: (tagName) => new FakeElement(tagName),

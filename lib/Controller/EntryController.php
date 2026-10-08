@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\Controller;
 
-use OCA\LocalBase\Catalog\AdProductCatalog;
+use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -26,7 +26,6 @@ final class EntryController extends Controller {
     private const BR_TARGETS = [
         ['app' => 'brtop', 'route' => 'brtop.page.index'],
         ['app' => 'brstunden', 'route' => 'brstunden.page.index'],
-        ['app' => 'br_permission_matrix', 'route' => 'br_permission_matrix.page.index'],
     ];
 
     public function __construct(
@@ -34,15 +33,15 @@ final class EntryController extends Controller {
         private IAppManager $appManager,
         private IUserSession $userSession,
         private IURLGenerator $url,
-        private AdProductCatalog $catalog,
+        private FlzProductCatalog $catalog,
     ) {
         parent::__construct(Application::APP_ID, $request);
     }
 
     #[NoAdminRequired]
     #[NoCSRFRequired]
-    public function ad(): RedirectResponse|NotFoundResponse {
-        return $this->redirectToSuite('ad');
+    public function flz(): RedirectResponse|NotFoundResponse {
+        return $this->redirectToSuite('flz');
     }
 
     #[NoAdminRequired]
@@ -71,14 +70,14 @@ final class EntryController extends Controller {
         if ($suite === 'br') {
             return self::BR_TARGETS;
         }
-        if ($suite !== 'ad') {
+        if ($suite !== 'flz') {
             return [];
         }
 
         try {
             return array_map(
                 static fn(array $product): array => ['app' => $product['id'], 'route' => $product['route']],
-                $this->catalog->menuProducts('ad'),
+                $this->catalog->menuProducts('flz'),
             );
         } catch (RuntimeException) {
             return [];

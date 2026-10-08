@@ -1,0 +1,60 @@
+.orgsuite-external-admin {
+    margin-top: 24px;
+}
+
+.orgsuite-external-toolbar,
+.orgsuite-external-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.orgsuite-external-list {
+    display: grid;
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.orgsuite-external-row {
+    display: grid;
+    grid-template-columns: minmax(90px, .5fr) minmax(180px, 1fr) minmax(260px, 2fr) auto;
+    gap: 12px;
+    align-items: end;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-large);
+}
+
+.orgsuite-external-row label {
+    display: grid;
+    gap: 4px;
+}
+
+.orgsuite-external-active {
+    display: flex !important;
+    align-items: center;
+    min-height: 44px;
+}
+
+.orgsuite-external-actions {
+    grid-column: 1 / -1;
+}
+
+.orgsuite-external-row button:focus-visible,
+.orgsuite-external-row input:focus-visible,
+.orgsuite-external-row select:focus-visible,
+.orgsuite-external-toolbar button:focus-visible {
+    outline: 2px solid var(--color-primary-element);
+    outline-offset: 2px;
+}
+
+.orgsuite-external-notice:not(:empty) {
+    padding: 8px 0;
+}
+
+@media (max-width: 900px) {
+    .orgsuite-external-row {
+        grid-template-columns: 1fr;
+    }
+}
