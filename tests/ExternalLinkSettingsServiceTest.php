@@ -37,10 +37,12 @@ namespace {
 
     $persisted = $config->values['orgsuite']['external_links'] ?? null;
     foreach ([
+        array_fill(0, 51, ['id' => 'too-many', 'suite' => 'flz', 'label' => 'Zu viele', 'url' => 'https://example.test', 'active' => true]),
         [['id' => 'bad-http', 'suite' => 'flz', 'label' => 'Unsicher', 'url' => 'http://example.test', 'active' => true]],
         [['id' => 'bflz-full-suite', 'suite' => 'other', 'label' => 'Falsch', 'url' => 'https://example.test', 'active' => true]],
         [['id' => 'too-long', 'suite' => 'flz', 'label' => str_repeat('x', 81), 'url' => 'https://example.test', 'active' => true]],
         [['id' => 'credentials', 'suite' => 'br', 'label' => 'Zugang', 'url' => 'https://user:secret@example.test', 'active' => true]],
+        [['id' => 'invalid-active', 'suite' => 'br', 'label' => 'Aktivstatus', 'url' => 'https://example.test', 'active' => 1]],
         [
             ['id' => 'duplicate', 'suite' => 'flz', 'label' => 'A', 'url' => 'https://a.example.test', 'active' => true],
             ['id' => 'duplicate', 'suite' => 'br', 'label' => 'B', 'url' => 'https://b.example.test', 'active' => true],
