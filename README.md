@@ -4,8 +4,8 @@ Gemeinsame Filzmann-/BR-Navigation und Nextcloud-Adminoberfläche für organisat
 
 ## Staging-Kompatibilität
 
-- Nextcloud 33 bis 34
-- PHP 8.3 oder neuer innerhalb des von Nextcloud 33 bis 34 unterstützten Bereichs
+- Nextcloud 33 bis 35
+- PHP 8.3 oder neuer innerhalb des von Nextcloud 33 bis 35 unterstützten Bereichs
 - Laufzeitbasis: `localbase`
 - App-ID und Installationsordner: `orgsuite`
 
