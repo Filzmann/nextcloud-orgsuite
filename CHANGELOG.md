@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Nextcloud 35.0.1 durch Fresh Install, Upgrade 34→35 sowie Provider-,
+  Berechtigungs-, Runtime-, Navigations-, UI-/API- und Asset-Smokes
+  nachgewiesen und den unterstützten Bereich auf die lückenlosen
+  Hauptversionen 33 bis 35 erweitert. Nextcloud 36 bleibt ungeprüft.
 - Nextcloud 33.0.7 bis 34.0.2 durch Fresh Install und Upgrade 33→34 mit
   App-Suiten, DI-/Registrierungs-, Navigations-, HTTPS-, Asset- und UI-Smokes unterstützt.
 - Dokumentations- und Steuerungsstruktur vereinheitlicht.
