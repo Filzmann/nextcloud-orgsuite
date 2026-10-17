@@ -6,6 +6,7 @@ namespace OCA\OrgSuite\Listener;
 
 use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\Service\ExternalLinkSettingsService;
+use OCA\OrgSuite\Service\SuiteLabelSettingsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Services\IInitialState;
@@ -34,6 +35,7 @@ final class SuiteAssetsListener implements IEventListener {
         private IURLGenerator $url,
         private IInitialState $initialState,
         private ExternalLinkSettingsService $externalLinks,
+        private SuiteLabelSettingsService $labels,
     ) {
     }
 
@@ -71,7 +73,7 @@ final class SuiteAssetsListener implements IEventListener {
         }
 
         return [
-            'flz' => ['label' => 'Filzmann-Anwendungen', 'items' => array_merge($adItems, $this->externalItems('flz'))],
+            'flz' => ['label' => $this->labels->flzNavigationLabel(), 'items' => array_merge($adItems, $this->externalItems('flz'))],
             'br' => ['label' => 'BR-Anwendungen', 'items' => array_merge($this->enabledBrItems($user), $this->externalItems('br'))],
         ];
     }

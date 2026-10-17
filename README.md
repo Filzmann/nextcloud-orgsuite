@@ -24,6 +24,11 @@ HTTPS-Links für das FLZ- und BR-Menü anlegen, sortieren, aktivieren und
 entfernen. Diese Linkkonfiguration liegt in OrgSuite; sie erweitert keine
 Rechte in Nextcloud oder im externen Zielsystem.
 
+Die sichtbare Bezeichnung des FLZ-Einstiegs ist dort ebenfalls konfigurierbar.
+OrgSuite verwendet denselben validierten Wert für den Nextcloud-Appmenüeintrag
+und die zugängliche Bezeichnung des gemeinsamen FLZ-Quermenüs. Ohne eigene
+Konfiguration bleibt `Filzmann` der Standard.
+
 ## Roadmap
 
 Geplante Erweiterungen und offene Produktentscheidungen stehen in der [Roadmap](ROADMAP.md).

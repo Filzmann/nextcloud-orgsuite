@@ -12,6 +12,7 @@ use OCP\Util;
 /** Zweck: Bindet die organisationsweiten Suite-Einstellungen in den Nextcloud-Adminbereich ein. */
 final class Admin implements ISettings {
     public function getForm(): TemplateResponse {
+        Util::addScript('orgsuite', 'suite-label-admin');
         Util::addScript('orgsuite', 'external-links-admin');
         Util::addStyle('orgsuite', 'external-links-admin');
         return new TemplateResponse('localbase', 'organization-admin', ['standalone' => false]);

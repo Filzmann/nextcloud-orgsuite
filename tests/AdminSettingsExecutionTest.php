@@ -32,8 +32,8 @@ namespace {
     if ($form->appName !== 'localbase' || $form->templateName !== 'organization-admin' || $form->params !== ['standalone' => false]) {
         throw new RuntimeException('OrgSuite bindet nicht das LocalBase-Organisationsformular ein.');
     }
-    if (Util::$scripts !== [['orgsuite', 'external-links-admin']] || Util::$styles !== [['orgsuite', 'external-links-admin']]) {
-        throw new RuntimeException('OrgSuite lädt die Adminassets für externe Links nicht.');
+    if (Util::$scripts !== [['orgsuite', 'suite-label-admin'], ['orgsuite', 'external-links-admin']] || Util::$styles !== [['orgsuite', 'external-links-admin']]) {
+        throw new RuntimeException('OrgSuite lädt die Adminassets nicht vollständig.');
     }
     if ((new Admin())->getSection() !== 'orgsuite' || (new Admin())->getPriority() !== 20) {
         throw new RuntimeException('OrgSuite-Adminsetting besitzt falsche Metadaten.');

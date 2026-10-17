@@ -24,6 +24,7 @@ namespace {
     use OCA\LocalBase\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Listener\SuiteAssetsListener;
     use OCA\OrgSuite\Service\ExternalLinkSettingsService;
+    use OCA\OrgSuite\Service\SuiteLabelSettingsService;
     use OCP\IAppConfig;
     use OCP\App\IAppManager;
     use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
@@ -50,13 +51,15 @@ namespace {
         public function setValueString(string $appId, string $key, string $value): void { $this->values[$appId][$key] = $value; }
     };
     $links = new ExternalLinkSettingsService($config);
+    $labels = new SuiteLabelSettingsService($config);
+    $labels->saveFlzLabel('FLZ Demo');
     $links->save([
         ['id' => 'flz-docs', 'suite' => 'flz', 'label' => 'FLZ-Dokumentation', 'url' => 'https://docs.example.test/flz', 'active' => true],
         ['id' => 'br-portal', 'suite' => 'br', 'label' => 'BR-Portal', 'url' => 'https://portal.example.test/br', 'active' => true],
         ['id' => 'inactive', 'suite' => 'flz', 'label' => 'Inaktiv', 'url' => 'https://inactive.example.test', 'active' => false],
     ]);
 
-    $listener = new SuiteAssetsListener(new FlzProductCatalog(), $apps, $session, $url, $initialState, $links);
+    $listener = new SuiteAssetsListener(new FlzProductCatalog(), $apps, $session, $url, $initialState, $links, $labels);
     $listener->handle(new Event());
     if (Util::$scripts !== [] || Util::$styles !== [] || $initialState->states !== []) throw new RuntimeException('Fremdes Event lädt Suite-Assets.');
     $listener->handle(new BeforeTemplateRenderedEvent());
@@ -64,8 +67,8 @@ namespace {
         throw new RuntimeException('Suite-Assets werden nicht zentral registriert.');
     }
     $navigation = $initialState->states['suite-navigation'] ?? [];
-    if (($navigation['flz']['label'] ?? null) !== 'Filzmann-Anwendungen') {
-        throw new RuntimeException('Die öffentliche Filzmann-Menübezeichnung fehlt.');
+    if (($navigation['flz']['label'] ?? null) !== 'FLZ Demo-Anwendungen') {
+        throw new RuntimeException('Die konfigurierte FLZ-Menübezeichnung fehlt.');
     }
     if (array_column($navigation['flz']['items'] ?? [], 'app') !== ['flzplaner', 'flzrecruitment', 'orgsuite-external-flz-docs']) {
         throw new RuntimeException('FLZ-Menüdaten sind nicht katalogisiert oder nicht auf aktivierte Apps begrenzt.');
@@ -86,7 +89,7 @@ namespace {
         public array $states = [];
         public function provideInitialState(string $key, $data): void { $this->states[$key] = $data; }
     };
-    (new SuiteAssetsListener(new FlzProductCatalog(), $apps, $loggedOut, $url, $anonymousState, $links))->handle(new BeforeTemplateRenderedEvent());
+    (new SuiteAssetsListener(new FlzProductCatalog(), $apps, $loggedOut, $url, $anonymousState, $links, $labels))->handle(new BeforeTemplateRenderedEvent());
     if (($anonymousState->states['suite-navigation'] ?? null) !== []) {
         throw new RuntimeException('Anonyme Sitzung erhält unerwartete Suite-Menüdaten.');
     }
@@ -96,7 +99,7 @@ namespace {
         public function provideInitialState(string $key, $data): void { $this->states[$key] = $data; }
     };
     $missingCatalog = new FlzProductCatalog(__DIR__ . '/missing-catalog.json');
-    (new SuiteAssetsListener($missingCatalog, $apps, $session, $url, $missingState, $links))->handle(new BeforeTemplateRenderedEvent());
+    (new SuiteAssetsListener($missingCatalog, $apps, $session, $url, $missingState, $links, $labels))->handle(new BeforeTemplateRenderedEvent());
     if (array_column($missingState->states['suite-navigation']['flz']['items'] ?? [], 'app') !== ['orgsuite-external-flz-docs']) {
         throw new RuntimeException('Fehlender Katalog erzeugt andere als die unabhängig validierten externen FLZ-Menüdaten.');
     }

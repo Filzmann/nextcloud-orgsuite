@@ -33,7 +33,7 @@ Begründung verpflichtend.
 
 | ID | Was wird geprüft? | Auszuführende Schritte | Erwartetes Ergebnis | Ergebnis | Warum/Beleg/Abweichung |
 |---|---|---|---|---|---|
-| A1 | FLZ-Einstieg | Mindestens eine aktuelle FLZ-Zielapp aktivieren und den Nextcloud-Appbereich mit einem berechtigten Testkonto öffnen. | Genau ein Haupteinstieg `FLZ` erscheint und führt zu einer aktivierten, für das Konto nutzbaren Zielapp. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| A1 | FLZ-Einstieg | Mindestens eine aktuelle FLZ-Zielapp aktivieren und den Nextcloud-Appbereich mit einem berechtigten Testkonto öffnen. | Genau ein Haupteinstieg mit der aktuell konfigurierten FLZ-Menübezeichnung erscheint und führt zu einer aktivierten, für das Konto nutzbaren Zielapp. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A2 | BR-Einstieg | Mindestens eine BR-Zielapp aktivieren und denselben Weg prüfen. | Genau ein Haupteinstieg `BR` erscheint und führt zu einer aktivierten, nutzbaren BR-App. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A3 | Bevorzugtes FLZ-Ziel | Filzmann Kalender zusammen mit einer weiteren FLZ-App aktivieren und `FLZ` öffnen. | Filzmann Kalender wird als bevorzugtes Ziel verwendet. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A4 | FLZ-Fallback | Das bevorzugte FLZ-Ziel deaktivieren und den Einstieg erneut öffnen. | Die erste noch aktivierte Zielapp wird verwendet; es entsteht keine Schleife oder Fehlerseite. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
@@ -75,6 +75,7 @@ Begründung verpflichtend.
 | D8 | Linkvalidierung und Bestandsschutz | HTTP-, JavaScript-, URL-mit-Zugangsdaten-, doppelte-ID- und ungültige Suite-Eingaben versuchen. | Die Eingaben werden verständlich abgewiesen und die zuvor gültige Liste bleibt vollständig unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D9 | Linkadministration schützen | Externe Links als Nichtadmin lesen und speichern sowie als Admin ohne CSRF-Token schreiben. | Alle unzulässigen Requests werden serverseitig abgewiesen; die Linkliste bleibt unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D10 | Tastatur und Ausgabe | Linkverwaltung und die resultierenden FLZ-/BR-Menüs nur per Tastatur bedienen. | Felder und Sortier-/Entfernaktionen besitzen verständliche Beschriftungen und sichtbaren Fokus; benutzerdefinierte Bezeichnungen werden sicher als Text ausgegeben und Links öffnen im selben Tab. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D11 | FLZ-Menübezeichnung | Als Admin eine synthetische FLZ-Menübezeichnung speichern, Appmenü und FLZ-Quermenü neu laden und anschließend eine leere sowie eine mehr als 40 Zeichen lange Bezeichnung versuchen. | Der gültige Wert erscheint im Appmenü und als gemeinsame Bezeichnung des FLZ-Quermenüs; ungültige Werte werden verständlich abgewiesen und verändern den zuletzt gültigen Stand nicht. Nichtadmins können den Wert weder lesen noch ändern. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 
 
 ## Abschlussentscheidung

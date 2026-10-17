@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- FLZ-Menübezeichnung über den geschützten OrgSuite-Adminbereich
+  konfigurierbar gemacht und als gemeinsame Quelle für App- und Quermenü
+  verwendet.
 - Nextcloud 35.0.1 durch Fresh Install, Upgrade 34→35 sowie Provider-,
   Berechtigungs-, Runtime-, Navigations-, UI-/API- und Asset-Smokes
   nachgewiesen und den unterstützten Bereich auf die lückenlosen

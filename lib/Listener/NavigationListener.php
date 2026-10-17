@@ -6,6 +6,7 @@ namespace OCA\OrgSuite\Listener;
 
 use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\AppInfo\Application;
+use OCA\OrgSuite\Service\SuiteLabelSettingsService;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -31,6 +32,7 @@ final class NavigationListener implements IEventListener {
         private INavigationManager $navigation,
         private IURLGenerator $url,
         private FlzProductCatalog $catalog,
+        private SuiteLabelSettingsService $labels,
     ) {
     }
 
@@ -44,7 +46,7 @@ final class NavigationListener implements IEventListener {
             return;
         }
 
-        $this->addEntryWhenAvailable('flz', 'Filzmann', 80, $user);
+        $this->addEntryWhenAvailable('flz', $this->labels->flzLabel(), 80, $user);
         $this->addEntryWhenAvailable('br', 'BR', 81, $user);
     }
 

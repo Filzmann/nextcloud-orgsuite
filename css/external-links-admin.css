@@ -2,6 +2,31 @@
     margin-top: 24px;
 }
 
+.orgsuite-label-admin {
+    margin-top: 24px;
+}
+
+.orgsuite-label-admin form,
+.orgsuite-label-admin label {
+    display: grid;
+    gap: 8px;
+    max-width: 480px;
+}
+
+.orgsuite-label-admin button {
+    justify-self: start;
+}
+
+.orgsuite-label-admin input:focus-visible,
+.orgsuite-label-admin button:focus-visible {
+    outline: 2px solid var(--color-primary-element);
+    outline-offset: 2px;
+}
+
+.orgsuite-label-notice:not(:empty) {
+    padding: 8px 0;
+}
+
 .orgsuite-external-toolbar,
 .orgsuite-external-actions {
     display: flex;
