@@ -26,6 +26,9 @@ namespace {
     $service = new SuiteLabelSettingsService($config);
 
     assertSameValue('Filzmann', $service->flzLabel(), 'Ohne Konfiguration muss der bisherige Menüname erhalten bleiben.');
+    $config->values['orgsuite']['flz_menu_label'] = "Ungültig\nGespeichert";
+    assertSameValue('Filzmann', $service->flzLabel(), 'Eine ungültige gespeicherte Bezeichnung muss sicher auf den Standard zurückfallen.');
+    unset($config->values['orgsuite']['flz_menu_label']);
     assertSameValue('Meine Organisation', $service->saveFlzLabel('  Meine   Organisation  '), 'Die Menübezeichnung wird normalisiert.');
     assertSameValue('Meine Organisation', $service->flzLabel(), 'Die gespeicherte Menübezeichnung wird nicht gelesen.');
     assertSameValue('Meine Organisation-Anwendungen', $service->flzNavigationLabel(), 'Das Quermenü verwendet nicht dieselbe kanonische Bezeichnung.');
