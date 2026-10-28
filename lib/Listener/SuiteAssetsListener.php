@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\Listener;
 
-use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\Service\ExternalLinkSettingsService;
 use OCA\OrgSuite\Service\SuiteLabelSettingsService;
+use OCA\OrgSuite\Service\SuiteTargetCatalog;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Services\IInitialState;
@@ -16,20 +16,14 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Util;
-use RuntimeException;
 
 /**
  * Lädt das gemeinsame Quermenü und liefert ausschließlich aktivierte Ziele aus.
  * @template-implements IEventListener<BeforeTemplateRenderedEvent>
  */
 final class SuiteAssetsListener implements IEventListener {
-    private const BR_TARGETS = [
-        ['app' => 'brtop', 'route' => 'brtop.page.index', 'label' => 'Sitzungen'],
-        ['app' => 'brstunden', 'route' => 'brstunden.page.index', 'label' => 'Stunden'],
-    ];
-
     public function __construct(
-        private FlzProductCatalog $catalog,
+        private SuiteTargetCatalog $targets,
         private IAppManager $appManager,
         private IUserSession $userSession,
         private IURLGenerator $url,
@@ -55,52 +49,58 @@ final class SuiteAssetsListener implements IEventListener {
         if ($user === null) {
             return [];
         }
-
-        $adItems = [];
-        try {
-            foreach ($this->catalog->menuProducts('flz') as $product) {
-                if (!$this->appManager->isEnabledForUser($product['id'], $user)) {
-                    continue;
-                }
-                $adItems[] = [
-                    'app' => $product['id'],
-                    'label' => $product['navigationLabel'],
-                    'href' => $this->url->linkToRoute($product['route']),
-                ];
-            }
-        } catch (RuntimeException) {
-            $adItems = [];
-        }
+        $configuration = $this->externalLinks->configuration($this->targets->keysBySuite());
 
         return [
-            'flz' => ['label' => $this->labels->flzNavigationLabel(), 'items' => array_merge($adItems, $this->externalItems('flz'))],
-            'br' => ['label' => 'BR-Anwendungen', 'items' => array_merge($this->enabledBrItems($user), $this->externalItems('br'))],
+            'flz' => ['label' => $this->labels->flzNavigationLabel(), 'items' => $this->orderedItems('flz', $user, $configuration)],
+            'br' => ['label' => 'BR-Anwendungen', 'items' => $this->orderedItems('br', $user, $configuration)],
         ];
     }
 
-    /** @return list<array{app: string, label: string, href: string}> */
-    private function enabledBrItems(IUser $user): array {
-        $items = [];
-        foreach (self::BR_TARGETS as $target) {
+    /** @param array{links:list<array<string,mixed>>,order:array{flz:list<string>,br:list<string>}} $configuration
+     * @return list<array<string,mixed>>
+     */
+    private function orderedItems(string $suite, IUser $user, array $configuration): array {
+        $itemsByKey = [];
+        foreach ($this->targets->forSuite($suite) as $target) {
             if (!$this->appManager->isEnabledForUser($target['app'], $user)) {
                 continue;
             }
-            $items[] = [
+            $key = 'app:' . $target['app'];
+            $itemsByKey[$key] = [
                 'app' => $target['app'],
                 'label' => $target['label'],
                 'href' => $this->url->linkToRoute($target['route']),
             ];
         }
-        return $items;
+        foreach ($this->externalItems($suite, $configuration['links']) as $key => $item) $itemsByKey[$key] = $item;
+        $visible = array_fill_keys(array_keys($itemsByKey), true);
+        $orderedKeys = array_values(array_filter(
+            $configuration['order'][$suite],
+            static fn(string $key): bool => isset($visible[$key]),
+        ));
+
+        return array_map(
+            static fn(string $key): array => $itemsByKey[$key],
+            $orderedKeys,
+        );
     }
 
-    /** @return list<array{app:string,label:string,href:string,external:true}> */
-    private function externalItems(string $suite): array {
-        return array_map(static fn(array $link): array => [
-            'app' => 'orgsuite-external-' . $link['id'],
-            'label' => $link['label'],
-            'href' => $link['url'],
-            'external' => true,
-        ], $this->externalLinks->activeForSuite($suite));
+    /** @param list<array<string,mixed>> $links
+     * @return array<string,array{app:string,label:string,href:string,external:true,openMode:string}>
+     */
+    private function externalItems(string $suite, array $links): array {
+        $items = [];
+        foreach ($links as $link) {
+            if ($link['suite'] !== $suite || !$link['active']) continue;
+            $items['external:' . $link['id']] = [
+                'app' => 'orgsuite-external-' . $link['id'],
+                'label' => $link['label'],
+                'href' => $link['url'],
+                'external' => true,
+                'openMode' => $link['openMode'],
+            ];
+        }
+        return $items;
     }
 }

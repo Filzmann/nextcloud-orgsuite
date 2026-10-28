@@ -7,6 +7,7 @@ namespace OCA\OrgSuite\Controller;
 use InvalidArgumentException;
 use OCA\OrgSuite\AppInfo\Application;
 use OCA\OrgSuite\Service\ExternalLinkSettingsService;
+use OCA\OrgSuite\Service\SuiteTargetCatalog;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
@@ -20,19 +21,29 @@ final class ExternalLinkAdminController extends Controller {
         private IUserSession $session,
         private IGroupManager $groups,
         private ExternalLinkSettingsService $links,
+        private SuiteTargetCatalog $targets,
     ) {
         parent::__construct(Application::APP_ID, $request);
     }
 
     public function settings(): JSONResponse {
         if (!$this->isAdmin()) return $this->denied();
-        return new JSONResponse(['links' => $this->links->all()]);
+        return new JSONResponse([
+            ...$this->links->configuration($this->targets->keysBySuite()),
+            'targets' => $this->targets->adminDefinitions(),
+        ]);
     }
 
-    public function save(array $links): JSONResponse {
+    public function save(mixed $links = null, mixed $order = null): JSONResponse {
         if (!$this->isAdmin()) return $this->denied();
+        if (!is_array($links) || !is_array($order)) {
+            return new JSONResponse(['error' => 'Links und Menüreihenfolge müssen als Listen übergeben werden.'], 400);
+        }
         try {
-            return new JSONResponse(['links' => $this->links->save($links)]);
+            return new JSONResponse([
+                ...$this->links->saveConfiguration($links, $order, $this->targets->keysBySuite()),
+                'targets' => $this->targets->adminDefinitions(),
+            ]);
         } catch (InvalidArgumentException $error) {
             return new JSONResponse(['error' => $error->getMessage()], 400);
         }

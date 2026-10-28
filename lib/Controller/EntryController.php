@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\Controller;
 
-use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\AppInfo\Application;
+use OCA\OrgSuite\Service\SuiteTargetCatalog;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -15,25 +15,18 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use RuntimeException;
 
 /**
  * Zweck: Leitet einen Suite-Einstieg auf die erste fuer die aktuelle Person aktivierte Fachapp weiter.
  * Vertrag: Die Weiterleitung erteilt keine Rechte; der Zielcontroller prueft den fachlichen Zugriff erneut.
  */
 final class EntryController extends Controller {
-    /** @var array<string, list<array{app: string, route: string}>> */
-    private const BR_TARGETS = [
-        ['app' => 'brtop', 'route' => 'brtop.page.index'],
-        ['app' => 'brstunden', 'route' => 'brstunden.page.index'],
-    ];
-
     public function __construct(
         IRequest $request,
         private IAppManager $appManager,
         private IUserSession $userSession,
         private IURLGenerator $url,
-        private FlzProductCatalog $catalog,
+        private SuiteTargetCatalog $targets,
     ) {
         parent::__construct(Application::APP_ID, $request);
     }
@@ -56,7 +49,7 @@ final class EntryController extends Controller {
             return new NotFoundResponse();
         }
 
-        foreach ($this->targets($suite) as $target) {
+        foreach ($this->targets->forSuite($suite) as $target) {
             if ($this->appManager->isEnabledForUser($target['app'], $user)) {
                 return new RedirectResponse($this->url->linkToRoute($target['route']));
             }
@@ -65,22 +58,4 @@ final class EntryController extends Controller {
         return new NotFoundResponse();
     }
 
-    /** @return list<array{app: string, route: string}> */
-    private function targets(string $suite): array {
-        if ($suite === 'br') {
-            return self::BR_TARGETS;
-        }
-        if ($suite !== 'flz') {
-            return [];
-        }
-
-        try {
-            return array_map(
-                static fn(array $product): array => ['app' => $product['id'], 'route' => $product['route']],
-                $this->catalog->menuProducts('flz'),
-            );
-        } catch (RuntimeException) {
-            return [];
-        }
-    }
 }

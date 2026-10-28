@@ -18,6 +18,7 @@ namespace {
     use OCA\LocalBase\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Listener\NavigationListener;
     use OCA\OrgSuite\Service\SuiteLabelSettingsService;
+    use OCA\OrgSuite\Service\SuiteTargetCatalog;
     use OCP\App\IAppManager;
     use OCP\EventDispatcher\Event;
     use OCP\INavigationManager;
@@ -41,7 +42,7 @@ namespace {
         public function linkToRoute(string $routeName, array $arguments = []): string { return '/route/' . $routeName; }
         public function imagePath(string $appName, string $file): string { return '/image/' . $appName . '/' . $file; }
     };
-    $catalog = new FlzProductCatalog();
+    $catalog = new SuiteTargetCatalog(new FlzProductCatalog());
     $config = new class implements IAppConfig {
         public array $values = ['orgsuite' => ['flz_menu_label' => 'FLZ Demo']];
         public function getValueString(string $appId, string $key, string $default = ''): string { return $this->values[$appId][$key] ?? $default; }
@@ -64,9 +65,7 @@ namespace {
     (new NavigationListener($loggedOut, $apps, $emptyNavigation, $url, $catalog, $labels))->handle(new LoadAdditionalEntriesEvent());
     if ($emptyNavigation->entries !== []) throw new RuntimeException('Anonyme Navigation wurde registriert.');
 
-    $targetIds = new ReflectionMethod(NavigationListener::class, 'targetIds');
-    if ($targetIds->invoke($listener, 'unknown') !== []) throw new RuntimeException('Unbekannte Suite besitzt Navigationsziele.');
-    $missingCatalog = new FlzProductCatalog(__DIR__ . '/missing-catalog.json');
+    $missingCatalog = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'));
     $apps->enabled = ['flzplaner'];
     (new NavigationListener($session, $apps, $emptyNavigation, $url, $missingCatalog, $labels))->handle(new LoadAdditionalEntriesEvent());
     if ($emptyNavigation->entries !== []) throw new RuntimeException('Fehlender Katalog erzeugt einen unsicheren FLZ-Einstieg.');

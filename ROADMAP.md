@@ -17,24 +17,12 @@ erledigte Änderungen in `CHANGELOG.md` und geltende Architektur in
 - Die Verwaltung zusätzlicher externer FLZ-/BR-Menülinks auf
   einem realitätsnahen Staging visuell und fachlich abnehmen. Der aktuelle
   Vertrag gilt für alle angemeldeten Personen, verwendet ausschließlich
-  HTTPS und öffnet Ziele im selben Tab; Gruppenfilter sind nicht Bestandteil
+  HTTPS, öffnet standardmäßig einen neuen Tab und erlaubt pro Link denselben
+  Tab. Dabei auch die gemeinsame Drag-and-drop- und Tastaturreihenfolge
+  interner und externer Ziele prüfen; Gruppenfilter sind nicht Bestandteil
   dieses freigegebenen Umfangs.
 
 ## Geplante Erweiterungen
-
-### ORGS-EXTERNAL-LINK-NAVIGATION – Zielöffnung und gemeinsame Reihenfolge
-
-Produktentscheidung aus der manuellen Abnahme vom 4. Oktober 2026:
-
-- Externe FLZ-/BR-Menülinks öffnen standardmäßig in einem neuen Tab.
-- Der Öffnungsmodus ist pro Link administrativ zwischen neuem und demselben
-  Tab konfigurierbar; sichere `rel`-Attribute und HTTPS-Validierung bleiben
-  verbindlich.
-- Interne Produktziele und externe Links erhalten je Suite eine gemeinsame,
-  per Drag-and-drop und Tastatur veränderbare Menüreihenfolge.
-- Die Umsetzung benötigt Validierungs-, CSRF-, Nichtadmin-Deny-,
-  Tastatur-/Fokus- und Persistenztests. Bis zur Umsetzung beschreibt
-  `README.md` weiterhin den aktuellen Stand.
 
 - Neue Navigationsziele werden nur gemeinsam mit einer tatsächlich vorhandenen Fachapp aufgenommen.
 - Der Adminbereich wächst nur mit freigegebenen app-übergreifenden LocalBase-Verträgen; app-spezifische Einstellungen bleiben in der Fachapp.

@@ -37,11 +37,15 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
   Berechtigungsmatrix als BR-Ziel, Weiterleitungsziel oder Quermenüeintrag.
 - Nextcloud-Admins verwalten zusätzliche externe Links für FLZ und BR in der
   OrgSuite-Administration. OrgSuite speichert stabile ID, Suite,
-  Bezeichnung, HTTPS-URL, Aktivstatus und Reihenfolge in der eigenen
-  AppConfig. Aktive Links gelten für alle angemeldeten Personen, öffnen im
-  selben Tab und erteilen keine Rechte im Zielsystem. Unsichere URL-Schemata,
-  Zugangsdaten in URLs, ungültige Suites und doppelte IDs werden abgelehnt,
-  ohne den bisherigen Stand zu verändern.
+  Bezeichnung, HTTPS-URL, Aktivstatus, Öffnungsmodus und die gemeinsame
+  Reihenfolge interner und externer Ziele atomar in einem versionierten Wert
+  der eigenen AppConfig. Aktive
+  Links gelten für alle angemeldeten Personen, öffnen standardmäßig mit
+  sicheren `rel`-Attributen in einem neuen Tab und können pro Link auf
+  denselben Tab umgestellt werden. Sie erteilen keine Rechte im Zielsystem.
+  Unsichere URL-Schemata, Zugangsdaten in URLs, ungültige Suites, doppelte
+  IDs sowie unbekannte, fehlende oder suitefremde Sortierziele werden
+  abgelehnt, ohne die Linkliste zu verändern.
 - Ein sichtbarer Link ist keine Berechtigung. Jeder Zielcontroller und jede API prueft Zugriffe selbst.
 - Der Produktinstaller aktiviert OrgSuite erst ab zwei aktivierten FLZ-Fachprodukten. Bei einer Einzelinstallation registriert das Fachprodukt stattdessen seinen eigenen Nextcloud-Einstieg.
 

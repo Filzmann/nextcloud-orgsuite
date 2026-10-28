@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Externe FLZ-/BR-Links öffnen standardmäßig sicher in einem neuen Tab und
+  unterstützen pro Link denselben Tab; interne und externe Ziele lassen sich
+  je Suite gemeinsam per Drag-and-drop oder Tastatur anordnen. Linkliste und
+  Reihenfolge werden dabei als ein versionierter AppConfig-Snapshot gespeichert.
 - FLZ-Menübezeichnung über den geschützten OrgSuite-Adminbereich
   konfigurierbar gemacht und als gemeinsame Quelle für App- und Quermenü
   verwendet.

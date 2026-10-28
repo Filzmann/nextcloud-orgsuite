@@ -5,7 +5,8 @@ set -euo pipefail
 : "${ORGS_ADMIN_PASSWORD:?ORGS_ADMIN_PASSWORD fehlt}"
 
 base_url="${ORGS_BASE_URL:-https://nextcloud-dev.ddev.site}"
-ddev_project="${ORGS_DDEV_PROJECT:-$(cd "$(dirname "$0")/../../nextcloud-dev" && pwd)}"
+script_dir="$(cd "$(dirname "$0")" && pwd)"
+ddev_project="${ORGS_DDEV_PROJECT:-$(cd "$script_dir/../../nextcloud-dev" && pwd)}"
 suffix="$(date +%s)-$$"
 nonadmin="orgs-smoke-${suffix}"
 workdir="$(mktemp -d)"
@@ -14,6 +15,7 @@ external_links_had_key=0
 admin_token=''
 admin_cookies="$workdir/admin-cookies.txt"
 external_original="$workdir/external-original.json"
+external_restore="$workdir/external-restore.json"
 
 occ() {
     (cd "$ddev_project" && ddev exec -d /var/www/html/html php occ "$@")
@@ -22,18 +24,17 @@ occ() {
 if occ config:list orgsuite | php -r '$data=json_decode(stream_get_contents(STDIN),true,flags:JSON_THROW_ON_ERROR); exit(array_key_exists("external_links",$data["apps"]["orgsuite"]??[])?0:1);'; then
     external_links_had_key=1
 fi
-
 restore_external_links() {
     curl --silent --show-error --insecure --user "$ORGS_ADMIN_USER:$ORGS_ADMIN_PASSWORD" \
         --cookie "$admin_cookies" --cookie-jar "$admin_cookies" -H "requesttoken: $admin_token" -H 'Content-Type: application/json' \
-        -X POST --data "@$external_original" "$base_url/index.php/apps/orgsuite/api/admin/external-links" >/dev/null
+        -X POST --data "@$external_restore" "$base_url/index.php/apps/orgsuite/api/admin/external-links" >/dev/null
     if [[ "$external_links_had_key" == '0' ]]; then
         occ config:app:delete orgsuite external_links >/dev/null
     fi
 }
 
 cleanup() {
-    if [[ "$external_links_changed" == '1' && -n "$admin_token" && -s "$external_original" ]]; then
+    if [[ "$external_links_changed" == '1' && -n "$admin_token" && -s "$external_restore" ]]; then
         restore_external_links || true
     fi
     occ user:delete "$nonadmin" >/dev/null 2>&1 || true
@@ -81,6 +82,10 @@ external_endpoint="$base_url/index.php/apps/orgsuite/api/admin/external-links"
 curl --fail --silent --show-error --insecure --user "$ORGS_ADMIN_USER:$ORGS_ADMIN_PASSWORD" \
     --cookie "$admin_cookies" --cookie-jar "$admin_cookies" -H "requesttoken: $admin_token" \
     "$external_endpoint" --output "$external_original"
+php -r '
+$data = json_decode(file_get_contents($argv[1]), true, flags: JSON_THROW_ON_ERROR);
+file_put_contents($argv[2], json_encode(["links" => $data["links"], "order" => $data["order"]], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES));
+' "$external_original" "$external_restore"
 status="$(curl --silent --show-error --insecure --user "$ORGS_ADMIN_USER:$ORGS_ADMIN_PASSWORD" \
     --cookie "$admin_cookies" --cookie-jar "$admin_cookies" -H 'Content-Type: application/json' \
     -X POST --data '{"links":[]}' --output "$workdir/external-csrf.json" --write-out '%{http_code}' \
@@ -92,12 +97,21 @@ fi
 
 external_payload="$workdir/external-payload.json"
 external_saved="$workdir/external-saved.json"
-printf '%s' '{"links":[{"id":"smoke-flz-docs","suite":"flz","label":"Smoke FLZ Docs","url":"https://docs.example.test/flz","active":true},{"id":"smoke-br-portal","suite":"br","label":"Smoke BR Portal","url":"https://portal.example.test/br","active":true}]}' > "$external_payload"
+php -r '
+require $argv[1];
+$data = json_decode(file_get_contents($argv[2]), true, flags: JSON_THROW_ON_ERROR);
+$links = [
+    ["id" => "smoke-flz-docs", "suite" => "flz", "label" => "Smoke FLZ Docs", "url" => "https://docs.example.test/flz", "active" => true, "openMode" => "new"],
+    ["id" => "smoke-br-portal", "suite" => "br", "label" => "Smoke BR Portal", "url" => "https://portal.example.test/br", "active" => true, "openMode" => "same"],
+];
+$payload = \OCA\OrgSuite\Tests\Support\ExternalLinkSmokePayloadBuilder::replaceLinks($data, $links);
+file_put_contents($argv[3], json_encode($payload, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES));
+' "$script_dir/Support/ExternalLinkSmokePayloadBuilder.php" "$external_original" "$external_payload"
 curl --fail --silent --show-error --insecure --user "$ORGS_ADMIN_USER:$ORGS_ADMIN_PASSWORD" \
     --cookie "$admin_cookies" --cookie-jar "$admin_cookies" -H "requesttoken: $admin_token" -H 'Content-Type: application/json' \
     -X POST --data "@$external_payload" "$external_endpoint" --output "$external_saved"
 external_links_changed=1
-for contract in '"id":"smoke-flz-docs"' '"id":"smoke-br-portal"'; do
+for contract in '"id":"smoke-flz-docs"' '"id":"smoke-br-portal"' '"openMode":"new"' '"openMode":"same"' '"external:smoke-flz-docs"'; do
     if ! grep -q "$contract" "$external_saved"; then
         echo "Gespeicherter externer Link fehlt: $contract" >&2
         exit 1
@@ -114,10 +128,11 @@ if (!preg_match("/<input[^>]+id=\"initial-state-orgsuite-suite-navigation\"[^>]*
     throw new RuntimeException("Suite-Menü-Initialzustand fehlt.");
 }
 $state = json_decode(base64_decode(html_entity_decode($value[1])), true, flags: JSON_THROW_ON_ERROR);
-$flz = array_column($state["flz"]["items"] ?? [], "href");
-$br = array_column($state["br"]["items"] ?? [], "href");
-if (!in_array("https://docs.example.test/flz", $flz, true) || !in_array("https://portal.example.test/br", $br, true)) {
-    throw new RuntimeException("Gespeicherte externe Links fehlen im ausgelieferten Suite-Menü.");
+$flz = $state["flz"]["items"] ?? [];
+$br = $state["br"]["items"] ?? [];
+if (($flz[0]["href"] ?? null) !== "https://docs.example.test/flz" || ($flz[0]["openMode"] ?? null) !== "new"
+    || ($br[0]["href"] ?? null) !== "https://portal.example.test/br" || ($br[0]["openMode"] ?? null) !== "same") {
+    throw new RuntimeException("Gespeicherte Öffnungsmodi oder gemeinsame Reihenfolge fehlen im ausgelieferten Suite-Menü.");
 }
 ' "$workdir/menu-page.html"
 

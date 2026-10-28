@@ -23,7 +23,8 @@ foreach (["addScript('orgsuite', 'external-links-admin')", "addStyle('orgsuite',
 if (!str_contains($setting, "addScript('orgsuite', 'suite-label-admin')")) throw new RuntimeException('Suite-Bezeichnungs-Adminasset fehlt.');
 if (str_contains($controller, 'NoAdminRequired') || str_contains($controller, 'NoCSRFRequired')) throw new RuntimeException('Externe-Link-Adminendpunkte schwächen Nextclouds Schutzattribute ab.');
 foreach (['IUserSession', 'IGroupManager', 'isAdmin', 'ExternalLinkSettingsService'] as $contract) if (!str_contains($controller, $contract)) throw new RuntimeException("Expliziter Adminschutz fehlt: {$contract}");
-foreach (['IAppConfig', 'external_links', "['flz', 'br']", 'https'] as $contract) if (!str_contains($service, $contract)) throw new RuntimeException("Persistenz- oder Validierungsvertrag fehlt: {$contract}");
+foreach (['IAppConfig', 'external_links', 'VERSION', "['flz', 'br']", 'https', 'openMode', "'links' =>", "'order' =>"] as $contract) if (!str_contains($service, $contract)) throw new RuntimeException("Persistenz- oder Validierungsvertrag fehlt: {$contract}");
+if (str_contains($service, 'navigation_order')) throw new RuntimeException('Links und Reihenfolge dürfen nicht über getrennte AppConfig-Schlüssel persistiert werden.');
 if (str_contains($labelController, 'NoAdminRequired') || str_contains($labelController, 'NoCSRFRequired')) throw new RuntimeException('Suite-Bezeichnungs-Endpunkte schwächen Nextclouds Schutzattribute ab.');
 foreach (['IUserSession', 'IGroupManager', 'isAdmin', 'SuiteLabelSettingsService'] as $contract) if (!str_contains($labelController, $contract)) throw new RuntimeException("Expliziter Schutz der Suite-Bezeichnung fehlt: {$contract}");
 foreach (['IAppConfig', 'flz_menu_label', 'MAX_LENGTH'] as $contract) if (!str_contains($labelService, $contract)) throw new RuntimeException("Persistenz- oder Validierungsvertrag der Suite-Bezeichnung fehlt: {$contract}");

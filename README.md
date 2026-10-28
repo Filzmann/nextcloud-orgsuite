@@ -20,9 +20,12 @@ nicht in die aktuellen Release-Artefakte auf.
 Nach der Aktivierung werden Organisationsdefinition und Freigaben im Nextcloud-Adminbereich der OrgSuite gepflegt. Persistenz, geschützte Admin-API und Organisationseditor liegen in LocalBase.
 
 Im selben Adminabschnitt können Nextcloud-Admins zusätzliche externe
-HTTPS-Links für das FLZ- und BR-Menü anlegen, sortieren, aktivieren und
-entfernen. Diese Linkkonfiguration liegt in OrgSuite; sie erweitert keine
-Rechte in Nextcloud oder im externen Zielsystem.
+HTTPS-Links für das FLZ- und BR-Menü anlegen, aktivieren und entfernen. Sie
+öffnen standardmäßig in einem neuen Tab; pro Link kann derselbe Tab gewählt
+werden. Interne Produktziele und externe Links besitzen je Suite eine
+gemeinsame, per Drag-and-drop oder Alt+Pfeiltasten veränderbare Reihenfolge.
+Diese Navigationskonfiguration liegt in OrgSuite; sie erweitert keine Rechte
+in Nextcloud oder im externen Zielsystem.
 
 Die sichtbare Bezeichnung des FLZ-Einstiegs ist dort ebenfalls konfigurierbar.
 OrgSuite verwendet denselben validierten Wert für den Nextcloud-Appmenüeintrag

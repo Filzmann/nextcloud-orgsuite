@@ -37,6 +37,7 @@ namespace OCA\OrgSuite\AppInfo {
 namespace {
     use OCA\LocalBase\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Controller\EntryController;
+    use OCA\OrgSuite\Service\SuiteTargetCatalog;
     use OCP\App\IAppManager;
     use OCP\AppFramework\Http\Attribute\NoAdminRequired;
     use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -62,7 +63,7 @@ namespace {
         public function isEnabledForUser($appId, $user = null): bool { return in_array($appId, $this->enabledApps, true); }
     };
 
-    $catalog = new FlzProductCatalog();
+    $catalog = new SuiteTargetCatalog(new FlzProductCatalog());
     $controller = new EntryController($request, $apps, $session, $url, $catalog);
     $flz = $controller->flz();
     if (!$flz instanceof RedirectResponse || $flz->redirectURL !== '/route/flzplaner.page.index') {
@@ -92,14 +93,9 @@ namespace {
         throw new RuntimeException('Filzmann Recruitment ist kein katalogisiertes Suite-Ziel.');
     }
 
-    $missingCatalog = new FlzProductCatalog(__DIR__ . '/missing-catalog.json');
+    $missingCatalog = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'));
     if (!(new EntryController($request, $recruitmentApps, $session, $url, $missingCatalog))->flz() instanceof NotFoundResponse) {
         throw new RuntimeException('Fehlender Katalogprovider darf kein unsicheres Fallbackziel erzeugen.');
-    }
-
-    $targets = new ReflectionMethod(EntryController::class, 'targets');
-    if ($targets->invoke($controller, 'unknown') !== []) {
-        throw new RuntimeException('Unbekannte Suite erhält unerwartete Weiterleitungsziele.');
     }
 
     foreach (['flz', 'br'] as $methodName) {

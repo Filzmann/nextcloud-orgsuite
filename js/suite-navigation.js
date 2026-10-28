@@ -42,6 +42,8 @@
             if (item.external) {
                 link.classList.add('is-external');
                 link.setAttribute('aria-label', `${item.label} (${translate('orgsuite', 'externer Link')})`);
+                link.setAttribute('rel', 'noopener noreferrer');
+                if (item.openMode !== 'same') link.target = '_blank';
             }
             if (host.dataset.currentApp === item.app) {
                 link.classList.add('is-current');

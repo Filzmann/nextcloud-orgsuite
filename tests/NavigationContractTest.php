@@ -7,8 +7,9 @@ $info = file_get_contents($root . '/appinfo/info.xml');
 $routes = file_get_contents($root . '/appinfo/routes.php');
 $listener = file_get_contents($root . '/lib/Listener/NavigationListener.php');
 $controller = file_get_contents($root . '/lib/Controller/EntryController.php');
+$targetCatalog = file_get_contents($root . '/lib/Service/SuiteTargetCatalog.php');
 
-foreach ([$info, $routes, $listener, $controller] as $source) {
+foreach ([$info, $routes, $listener, $controller, $targetCatalog] as $source) {
     if ($source === false) {
         throw new RuntimeException('OrgSuite-Vertragsdatei konnte nicht gelesen werden.');
     }
@@ -31,10 +32,13 @@ foreach (['NoAdminRequired', 'NoCSRFRequired', 'RedirectResponse', 'NotFoundResp
         throw new RuntimeException("Weiterleitungsvertrag fehlt: {$contract}");
     }
 }
-foreach (['FlzProductCatalog', "menuProducts('flz')"] as $catalogContract) {
-    if (!str_contains($listener, $catalogContract) || !str_contains($controller, $catalogContract)) {
-        throw new RuntimeException("FLZ-Produktkatalog wird nicht durchgängig konsumiert: {$catalogContract}");
+foreach ([$listener, $controller] as $consumer) {
+    if (!str_contains($consumer, 'SuiteTargetCatalog') || !str_contains($consumer, 'forSuite')) {
+        throw new RuntimeException('Interne Suite-Ziele werden nicht durchgängig aus dem gemeinsamen Zielkatalog konsumiert.');
     }
+}
+foreach (['FlzProductCatalog', "menuProducts('flz')"] as $catalogContract) {
+    if (!str_contains($targetCatalog, $catalogContract)) throw new RuntimeException("FLZ-Produktkatalog fehlt in der gemeinsamen Zielprojektion: {$catalogContract}");
 }
 foreach (['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment'] as $appId) {
     if (str_contains($listener, "'{$appId}'") || str_contains($controller, "'app' => '{$appId}'")) {

@@ -41,14 +41,35 @@
     margin: 12px 0;
 }
 
+.orgsuite-external-suite-list {
+    display: grid;
+    gap: 12px;
+}
+
 .orgsuite-external-row {
     display: grid;
-    grid-template-columns: minmax(90px, .5fr) minmax(180px, 1fr) minmax(260px, 2fr) auto;
+    grid-template-columns: minmax(90px, .5fr) minmax(160px, 1fr) minmax(240px, 2fr) minmax(140px, .7fr) auto;
     gap: 12px;
     align-items: end;
     padding: 12px;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-large);
+}
+
+.orgsuite-external-row[draggable="true"] {
+    cursor: grab;
+}
+
+.orgsuite-external-row.is-dragging {
+    opacity: .6;
+}
+
+.orgsuite-external-row.is-internal {
+    grid-template-columns: minmax(220px, 1fr) auto;
+}
+
+.orgsuite-external-kind {
+    margin: 0;
 }
 
 .orgsuite-external-row label {
@@ -69,6 +90,7 @@
 .orgsuite-external-row button:focus-visible,
 .orgsuite-external-row input:focus-visible,
 .orgsuite-external-row select:focus-visible,
+.orgsuite-external-row:focus-visible,
 .orgsuite-external-toolbar button:focus-visible {
     outline: 2px solid var(--color-primary-element);
     outline-offset: 2px;
