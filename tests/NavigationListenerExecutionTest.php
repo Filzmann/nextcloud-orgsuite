@@ -61,6 +61,15 @@ namespace {
     $emptyNavigation = new class implements INavigationManager { public array $entries = []; public function add(callable $entry): void { $this->entries[] = $entry; } };
     (new NavigationListener($session, $apps, $emptyNavigation, $url, $catalog, $labels))->handle(new LoadAdditionalEntriesEvent());
     if ($emptyNavigation->entries !== []) throw new RuntimeException('Leere Suite wird angezeigt.');
+
+    $apps->enabled = ['flz_akut'];
+    $acuteNavigation = new class implements INavigationManager { public array $entries = []; public function add(callable $entry): void { $this->entries[] = $entry; } };
+    (new NavigationListener($session, $apps, $acuteNavigation, $url, $catalog, $labels))->handle(new LoadAdditionalEntriesEvent());
+    $acuteEntries = array_map(static fn(callable $entry): array => $entry(), $acuteNavigation->entries);
+    if (array_column($acuteEntries, 'id') !== ['orgsuite-flz']) {
+        throw new RuntimeException('Die Akutschichtvermittlung aktiviert den FLZ-Einstieg nicht.');
+    }
+
     $loggedOut = new class implements IUserSession { public function getUser(): ?IUser { return null; } };
     (new NavigationListener($loggedOut, $apps, $emptyNavigation, $url, $catalog, $labels))->handle(new LoadAdditionalEntriesEvent());
     if ($emptyNavigation->entries !== []) throw new RuntimeException('Anonyme Navigation wurde registriert.');

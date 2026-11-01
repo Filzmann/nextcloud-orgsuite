@@ -10,7 +10,7 @@ namespace {
     $targets = new SuiteTargetCatalog(new FlzProductCatalog());
 
     assertSameValue(
-        ['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flzbqplanung'],
+        ['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flzbqplanung', 'flz_akut'],
         array_column($targets->forSuite('flz'), 'app'),
         'FLZ-Ziele müssen aus dem kanonischen Produktkatalog stammen.',
     );
@@ -21,7 +21,7 @@ namespace {
     );
     assertSameValue([], $targets->forSuite('unknown'), 'Eine unbekannte Suite darf keine internen Ziele erhalten.');
     assertSameValue(
-        ['flz' => ['app:flzcalendar', 'app:flzplaner', 'app:flzurlaub', 'app:flzroom', 'app:flzrecruitment', 'app:flzbqplanung'], 'br' => ['app:brtop', 'app:brstunden']],
+        ['flz' => ['app:flzcalendar', 'app:flzplaner', 'app:flzurlaub', 'app:flzroom', 'app:flzrecruitment', 'app:flzbqplanung', 'app:flz_akut'], 'br' => ['app:brtop', 'app:brstunden']],
         $targets->keysBySuite(),
         'Die administrierbaren Sortierschlüssel müssen stabil aus den Zieldefinitionen entstehen.',
     );

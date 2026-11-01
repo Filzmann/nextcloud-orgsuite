@@ -13,9 +13,10 @@ Gemeinsame Filzmann-/BR-Navigation und Nextcloud-Adminoberfläche für organisat
 
 OrgSuite ist mitgelieferte Infrastruktur und kein separates FLZ-Fachprodukt. Der Produktinstaller aktiviert sie automatisch ab zwei aktiven FLZ-Fachprodukten. Bei einer Einzelinstallation bleibt sie deaktiviert; die Fachapp besitzt dann ihren eigenen Einstieg und Adminabschnitt.
 
-Der FLZ-Produktkatalog enthält außerdem den BQ-Planer als navigierbares
-Entwicklungsprodukt. Seine derzeit deaktivierten Bundle-Flags nehmen ihn noch
-nicht in die aktuellen Release-Artefakte auf.
+Der FLZ-Produktkatalog enthält außerdem den BQ-Planer und die
+Akutschichtvermittlung als navigierbare Entwicklungsprodukte. Ihre derzeit
+deaktivierten Bundle-Flags nehmen sie noch nicht in die aktuellen
+Release-Artefakte auf.
 
 Nach der Aktivierung werden Organisationsdefinition und Freigaben im Nextcloud-Adminbereich der OrgSuite gepflegt. Persistenz, geschützte Admin-API und Organisationseditor liegen in LocalBase.
 

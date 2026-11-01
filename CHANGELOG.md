@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Akutschichtvermittlung über den kanonischen LocalBase-Produktkatalog in die
+  gemeinsame FLZ-Navigation aufgenommen.
 - Externe FLZ-/BR-Links öffnen standardmäßig sicher in einem neuen Tab und
   unterstützen pro Link denselben Tab; interne und externe Ziele lassen sich
   je Suite gemeinsam per Drag-and-drop oder Tastatur anordnen. Linkliste und
