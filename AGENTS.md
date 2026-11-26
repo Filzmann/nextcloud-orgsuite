@@ -20,10 +20,12 @@ Die priorisierte Produktplanung und offene Entscheidungen stehen in `ROADMAP.md`
 OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 
 - `FLZ` fuer Filzmann Kalender, Assistenzplanung, Filzmann Urlaubsplanung,
-  Filzmann Raumplaner, FLZ Recruitment, den BQ-Planer und die
-  Akutschichtvermittlung. BQ-Planer und Akutschichtvermittlung bleiben bis
+  Filzmann Raumplaner, FLZ Recruitment, den BQ-Planer, die
+  Akutschichtvermittlung und die Kapazitätsmeldungen. BQ-Planer und Akutschichtvermittlung bleiben bis
   zur jeweiligen Release-Reife durch ihre Katalogflags aus
-  Auslieferungsbundles ausgeschlossen.
+  Auslieferungsbundles ausgeschlossen. Kapazitätsmeldungen ist eine neue App ohne
+  LocalBase-Abhängigkeit und wird daher als explizites FLZ-Ziel in
+  `SuiteTargetCatalog::FLZ_EXTRA_TARGETS` geführt, nicht über den LocalBase-Katalog.
 - `BR` fuer BRTop und BR-Stunden. Die eigenständige Berechtigungsmatrix
   gehört zum Portfolio IKT/Datenschutz und ist kein OrgSuite-Ziel.
 

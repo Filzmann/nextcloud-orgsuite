@@ -10,9 +10,9 @@ namespace {
     $targets = new SuiteTargetCatalog(new FlzProductCatalog());
 
     assertSameValue(
-        ['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flzbqplanung', 'flz_akut'],
+        ['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flzbqplanung', 'flz_akut', 'flz_kapazitaet'],
         array_column($targets->forSuite('flz'), 'app'),
-        'FLZ-Ziele müssen aus dem kanonischen Produktkatalog stammen.',
+        'FLZ-Ziele müssen aus dem kanonischen Produktkatalog plus expliziten LocalBase-freien Extras stammen.',
     );
     assertSameValue(
         ['brtop', 'brstunden'],
@@ -21,7 +21,7 @@ namespace {
     );
     assertSameValue([], $targets->forSuite('unknown'), 'Eine unbekannte Suite darf keine internen Ziele erhalten.');
     assertSameValue(
-        ['flz' => ['app:flzcalendar', 'app:flzplaner', 'app:flzurlaub', 'app:flzroom', 'app:flzrecruitment', 'app:flzbqplanung', 'app:flz_akut'], 'br' => ['app:brtop', 'app:brstunden']],
+        ['flz' => ['app:flzcalendar', 'app:flzplaner', 'app:flzurlaub', 'app:flzroom', 'app:flzrecruitment', 'app:flzbqplanung', 'app:flz_akut', 'app:flz_kapazitaet'], 'br' => ['app:brtop', 'app:brstunden']],
         $targets->keysBySuite(),
         'Die administrierbaren Sortierschlüssel müssen stabil aus den Zieldefinitionen entstehen.',
     );
@@ -32,7 +32,11 @@ namespace {
     );
 
     $missing = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'));
-    assertSameValue([], $missing->forSuite('flz'), 'Ein fehlender FLZ-Katalog muss ohne erfundene Ziele fehlschlagen.');
+    assertSameValue(
+        [['app' => 'flz_kapazitaet', 'route' => 'flz_kapazitaet.page.index', 'label' => 'Kapazität']],
+        $missing->forSuite('flz'),
+        'Ein fehlender FLZ-Katalog darf nur die explizit deklarierten Extras liefern, keine erfundenen Ziele.',
+    );
 
     echo "OrgSuite suite target catalog tests passed\n";
 }

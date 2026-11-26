@@ -15,6 +15,15 @@ final class SuiteTargetCatalog {
         ['app' => 'brstunden', 'route' => 'brstunden.page.index', 'label' => 'Stunden'],
     ];
 
+    /**
+     * Explizite FLZ-Ziele für Apps, die kein LocalBase nutzen dürfen (Umstellung auf
+     * flz_shared/flz_organization) und deshalb nicht katalogisiert sein können.
+     * @var list<array{app:string,route:string,label:string}>
+     */
+    private const FLZ_EXTRA_TARGETS = [
+        ['app' => 'flz_kapazitaet', 'route' => 'flz_kapazitaet.page.index', 'label' => 'Kapazität'],
+    ];
+
     public function __construct(private FlzProductCatalog $flzProducts) {}
 
     /** @return list<array{app:string,route:string,label:string}> */
@@ -27,14 +36,23 @@ final class SuiteTargetCatalog {
         }
 
         try {
-            return array_map(static fn(array $product): array => [
+            $catalogTargets = array_map(static fn(array $product): array => [
                 'app' => $product['id'],
                 'route' => $product['route'],
                 'label' => $product['navigationLabel'],
             ], $this->flzProducts->menuProducts('flz'));
         } catch (RuntimeException) {
-            return [];
+            $catalogTargets = [];
         }
+
+        $targets = [];
+        $seen = [];
+        foreach ([...$catalogTargets, ...self::FLZ_EXTRA_TARGETS] as $target) {
+            if (isset($seen[$target['app']])) continue;
+            $seen[$target['app']] = true;
+            $targets[] = $target;
+        }
+        return $targets;
     }
 
     /** @return array{flz:list<string>,br:list<string>} */
