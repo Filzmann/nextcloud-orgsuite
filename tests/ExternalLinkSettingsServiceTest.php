@@ -78,6 +78,10 @@ namespace {
         ['flz' => ['app:flzcalendar', 'app:flzplaner', 'external:unknown'], 'br' => ['app:brtop', 'external:br-portal']],
         ['flz' => ['app:flzcalendar', 'external:flz-handbuch'], 'br' => ['app:brtop', 'external:br-portal']],
         ['flz' => ['app:flzcalendar', 'app:flzplaner', 'external:br-portal'], 'br' => ['app:brtop', 'external:flz-handbuch']],
+        ['flz' => ['app:flzcalendar', 'app:flzplaner', 'external:flz-handbuch']],
+        ['flz' => ['app:flzcalendar', 'app:flzplaner', 'external:flz-handbuch'], 'br' => ['app:brtop', 'external:br-portal'], 'extra' => []],
+        ['flz' => 'app:flzcalendar', 'br' => ['app:brtop', 'external:br-portal']],
+        ['flz' => ['app:flzcalendar' => 'x'], 'br' => ['app:brtop', 'external:br-portal']],
     ] as $invalidOrder) {
         try {
             $service->saveConfiguration($saved, $invalidOrder, $internal);
@@ -115,6 +119,10 @@ namespace {
 
     $config->values['orgsuite']['external_links'] = '{kaputt';
     assertSameValue([], $service->all(), 'Beschädigte Persistenz muss ohne sichtbare Links fehlschlagen.');
+
+    $config->values['orgsuite']['external_links'] = json_encode(['version' => 1, 'links' => [], 'order' => ['flz' => 'kaputt', 'br' => []]], JSON_THROW_ON_ERROR);
+    assertSameValue([], $service->all(), 'Eine beschädigte atomare Reihenfolge muss ohne sichtbare Links fehlschlagen.');
+    assertSameValue(['flz' => ['app:flzcalendar', 'app:flzplaner'], 'br' => ['app:brtop']], $service->configuration($internal)['order'], 'Eine beschädigte atomare Reihenfolge fällt auf die interne Standardreihenfolge zurück.');
 
     echo "OrgSuite external link settings service tests passed\n";
 }
