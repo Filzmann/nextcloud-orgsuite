@@ -146,6 +146,19 @@ if [[ "$status" != '412' ]]; then
 fi
 
 (cd "$ddev_project" && ddev exec -d /var/www/html/html env OC_PASS="$nonadmin" php occ user:add --password-from-env "$nonadmin") >/dev/null
+# Das Standardkonto muss Organisationsmitglied sein, damit die rollenbasiert
+# freigegebene Kalender-Seite HTTP 200 liefert; Admin-Endpunkte bleiben 403.
+role_group="$(occ config:app:get flz_organization organization_definition | php -r '
+$data = json_decode(stream_get_contents(STDIN), true);
+foreach (($data["roles"] ?? []) as $role) {
+    if (is_array($role) && isset($role["groupId"]) && is_string($role["groupId"]) && $role["groupId"] !== "") {
+        echo $role["groupId"];
+        exit(0);
+    }
+}
+exit(1);
+')" || { echo 'Organisationsdefinition ohne Rolle gefunden.' >&2; exit 1; }
+occ group:adduser "$role_group" "$nonadmin" >/dev/null
 nonadmin_page="$workdir/nonadmin-page.html"
 nonadmin_cookies="$workdir/nonadmin-cookies.txt"
 curl --fail --silent --show-error --insecure --user "$nonadmin:$nonadmin" \
