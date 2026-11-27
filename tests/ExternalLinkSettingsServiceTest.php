@@ -124,5 +124,8 @@ namespace {
     assertSameValue([], $service->all(), 'Eine beschädigte atomare Reihenfolge muss ohne sichtbare Links fehlschlagen.');
     assertSameValue(['flz' => ['app:flzcalendar', 'app:flzplaner'], 'br' => ['app:brtop']], $service->configuration($internal)['order'], 'Eine beschädigte atomare Reihenfolge fällt auf die interne Standardreihenfolge zurück.');
 
+    $config->values['orgsuite']['external_links'] = json_encode(['version' => 2, 'links' => [], 'order' => ['flz' => [], 'br' => []]], JSON_THROW_ON_ERROR);
+    assertSameValue([], $service->all(), 'Eine unbekannte Konfigurationsversion muss ohne sichtbare Links fehlschlagen.');
+
     echo "OrgSuite external link settings service tests passed\n";
 }
