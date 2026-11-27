@@ -52,7 +52,7 @@ namespace {
         public function setValueString(string $appId, string $key, string $value): void { $this->values[$appId][$key] = $value; }
     };
     $links = new ExternalLinkSettingsService($config);
-    $targets = new SuiteTargetCatalog(new FlzProductCatalog());
+    $targets = new SuiteTargetCatalog(new FlzProductCatalog(), new \OCA\OrgSuite\Tests\Support\FakeL10N());
     $labels = new SuiteLabelSettingsService($config);
     $labels->saveFlzLabel('FLZ Demo');
     $order = $targets->keysBySuite();
@@ -65,7 +65,7 @@ namespace {
         ['id' => 'inactive', 'suite' => 'flz', 'label' => 'Inaktiv', 'url' => 'https://inactive.example.test', 'active' => false, 'openMode' => 'new'],
     ], $order, $targets->keysBySuite());
 
-    $listener = new SuiteAssetsListener($targets, $apps, $session, $url, $initialState, $links, $labels);
+    $listener = new SuiteAssetsListener($targets, $apps, $session, $url, $initialState, $links, $labels, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     $listener->handle(new Event());
     if (Util::$scripts !== [] || Util::$styles !== [] || $initialState->states !== []) throw new RuntimeException('Fremdes Event lädt Suite-Assets.');
     $listener->handle(new BeforeTemplateRenderedEvent());
@@ -96,7 +96,7 @@ namespace {
         public array $states = [];
         public function provideInitialState(string $key, $data): void { $this->states[$key] = $data; }
     };
-    (new SuiteAssetsListener($targets, $apps, $loggedOut, $url, $anonymousState, $links, $labels))->handle(new BeforeTemplateRenderedEvent());
+    (new SuiteAssetsListener($targets, $apps, $loggedOut, $url, $anonymousState, $links, $labels, new \OCA\OrgSuite\Tests\Support\FakeL10N()))->handle(new BeforeTemplateRenderedEvent());
     if (($anonymousState->states['suite-navigation'] ?? null) !== []) {
         throw new RuntimeException('Anonyme Sitzung erhält unerwartete Suite-Menüdaten.');
     }
@@ -105,8 +105,8 @@ namespace {
         public array $states = [];
         public function provideInitialState(string $key, $data): void { $this->states[$key] = $data; }
     };
-    $missingCatalog = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'));
-    (new SuiteAssetsListener($missingCatalog, $apps, $session, $url, $missingState, $links, $labels))->handle(new BeforeTemplateRenderedEvent());
+    $missingCatalog = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'), new \OCA\OrgSuite\Tests\Support\FakeL10N());
+    (new SuiteAssetsListener($missingCatalog, $apps, $session, $url, $missingState, $links, $labels, new \OCA\OrgSuite\Tests\Support\FakeL10N()))->handle(new BeforeTemplateRenderedEvent());
     if (array_column($missingState->states['suite-navigation']['flz']['items'] ?? [], 'app') !== ['orgsuite-external-flz-docs']) {
         throw new RuntimeException('Fehlender Katalog erzeugt andere als die unabhängig validierten externen FLZ-Menüdaten.');
     }

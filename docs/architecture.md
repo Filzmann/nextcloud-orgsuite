@@ -21,6 +21,13 @@ besitzt keine Fachdaten und erweitert keine Rechte der Zielapps.
   erteilen keine Rechte im Zielsystem. Ihr Öffnungsmodus ist pro Link `new`
   oder `same`; `new` ist der Standard und wird mit `noopener noreferrer`
   ausgeliefert.
+- Die sichtbare Suite-Bezeichnung (`flz_menu_label`) bleibt **bewusst
+  konfigurierbar** (Entscheidung Simon): Sie ist die Käufer-Marke über allen
+  FLZ-Apps (Quermenü, Einstieg) und damit fachlich gewollt, kein Duplikat
+  einer Core-Einstellung — `info.xml` `<name>` ist der technische App-Name,
+  das Theming-AppRename gilt instanzweit für den Produktnamen; beides liefert
+  kein pro-Suite-Menülabel. Single-Source-of-Truth bleibt gewahrt, weil der
+  Wert zentral in OrgSuite liegt und alle Apps ihn von dort lesen.
 
 ## Administration
 

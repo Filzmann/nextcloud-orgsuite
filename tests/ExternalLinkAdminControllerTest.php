@@ -48,20 +48,20 @@ namespace {
     };
     $groups = new class implements IGroupManager { public function isAdmin(string $uid): bool { return $uid === 'admin-user'; } };
     $service = new ExternalLinkSettingsService($config);
-    $targets = new SuiteTargetCatalog(new FlzProductCatalog());
+    $targets = new SuiteTargetCatalog(new FlzProductCatalog(), new \OCA\OrgSuite\Tests\Support\FakeL10N());
     $payload = [['id' => 'flz-docs', 'suite' => 'flz', 'label' => 'Dokumentation', 'url' => 'https://docs.example.test', 'active' => true, 'openMode' => 'new']];
     $order = $targets->keysBySuite();
     array_unshift($order['flz'], 'external:flz-docs');
 
-    $denied = new ExternalLinkAdminController($request, $session($member), $groups, $service, $targets);
+    $denied = new ExternalLinkAdminController($request, $session($member), $groups, $service, $targets, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     assertSameValue(403, $denied->settings()->status, 'Nichtadmins dürfen externe Links nicht lesen.');
     assertSameValue(403, $denied->save($payload, $order)->status, 'Nichtadmins dürfen externe Links nicht speichern.');
     assertSameValue([], $service->all(), 'Ein verweigerter Schreibzugriff hat die Linkliste verändert.');
 
-    $anonymous = new ExternalLinkAdminController($request, $session(null), $groups, $service, $targets);
+    $anonymous = new ExternalLinkAdminController($request, $session(null), $groups, $service, $targets, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     assertSameValue(403, $anonymous->save($payload, $order)->status, 'Anonyme Zugriffe müssen abgewiesen werden.');
 
-    $allowed = new ExternalLinkAdminController($request, $session($admin), $groups, $service, $targets);
+    $allowed = new ExternalLinkAdminController($request, $session($admin), $groups, $service, $targets, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     assertSameValue(200, $allowed->save($payload, $order)->status, 'Admins können gültige externe Links speichern.');
     assertSameValue($payload, $allowed->settings()->data['links'] ?? null, 'Admins lesen den gespeicherten Stand.');
     assertSameValue($order, $allowed->settings()->data['order'] ?? null, 'Admins lesen die gemeinsame Reihenfolge.');

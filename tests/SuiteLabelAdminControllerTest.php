@@ -38,15 +38,15 @@ namespace {
     $groups = new class implements IGroupManager { public function isAdmin(string $uid): bool { return $uid === 'admin-user'; } };
     $service = new SuiteLabelSettingsService($config);
 
-    $denied = new SuiteLabelAdminController($request, $session($member), $groups, $service);
+    $denied = new SuiteLabelAdminController($request, $session($member), $groups, $service, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     assertSameValue(403, $denied->settings()->status, 'Nichtadmins dürfen die Suite-Bezeichnung nicht lesen.');
     assertSameValue(403, $denied->save('Verboten')->status, 'Nichtadmins dürfen die Suite-Bezeichnung nicht speichern.');
     assertSameValue('Filzmann', $service->flzLabel(), 'Ein verweigerter Schreibzugriff hat die Bezeichnung verändert.');
 
-    $anonymous = new SuiteLabelAdminController($request, $session(null), $groups, $service);
+    $anonymous = new SuiteLabelAdminController($request, $session(null), $groups, $service, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     assertSameValue(403, $anonymous->save('Verboten')->status, 'Anonyme Schreibzugriffe müssen abgewiesen werden.');
 
-    $allowed = new SuiteLabelAdminController($request, $session($admin), $groups, $service);
+    $allowed = new SuiteLabelAdminController($request, $session($admin), $groups, $service, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     assertSameValue(200, $allowed->save('FLZ Demo')->status, 'Admins können eine gültige Suite-Bezeichnung speichern.');
     assertSameValue('FLZ Demo', $allowed->settings()->data['flzLabel'] ?? null, 'Admins lesen nicht den gespeicherten Stand.');
     $invalid = $allowed->save('');

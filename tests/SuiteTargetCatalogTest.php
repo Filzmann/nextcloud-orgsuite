@@ -7,7 +7,7 @@ namespace {
     use OCA\OrgSuite\Service\SuiteTargetCatalog;
     use function OCA\OrgSuite\Tests\Support\assertSameValue;
 
-    $targets = new SuiteTargetCatalog(new FlzProductCatalog());
+    $targets = new SuiteTargetCatalog(new FlzProductCatalog(), new \OCA\OrgSuite\Tests\Support\FakeL10N());
 
     assertSameValue(
         ['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flzbqplanung', 'flz_akut', 'flz_kapazitaet'],
@@ -31,7 +31,7 @@ namespace {
         'Der Adminbereich erhält sichere, abgeleitete interne Zielmetadaten.',
     );
 
-    $missing = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'));
+    $missing = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'), new \OCA\OrgSuite\Tests\Support\FakeL10N());
     assertSameValue(
         [['app' => 'flz_kapazitaet', 'route' => 'flz_kapazitaet.page.index', 'label' => 'Kapazität']],
         $missing->forSuite('flz'),

@@ -42,7 +42,7 @@ namespace {
     $url = new class implements IURLGenerator {
         public function imagePath(string $appName, string $file): string { return "$appName/$file"; }
     };
-    $section = new AdminSection($url);
+    $section = new AdminSection($url, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     if ($section->getID() !== 'orgsuite' || $section->getName() !== 'Filzmann Hub' || $section->getPriority() !== 60 || $section->getIcon() !== 'orgsuite/flz.svg') {
         throw new RuntimeException('OrgSuite-Adminabschnitt besitzt falsche Metadaten.');
     }

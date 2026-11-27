@@ -63,7 +63,7 @@ namespace {
         public function isEnabledForUser($appId, $user = null): bool { return in_array($appId, $this->enabledApps, true); }
     };
 
-    $catalog = new SuiteTargetCatalog(new FlzProductCatalog());
+    $catalog = new SuiteTargetCatalog(new FlzProductCatalog(), new \OCA\OrgSuite\Tests\Support\FakeL10N());
     $controller = new EntryController($request, $apps, $session, $url, $catalog);
     $flz = $controller->flz();
     if (!$flz instanceof RedirectResponse || $flz->redirectURL !== '/route/flzplaner.page.index') {
@@ -93,7 +93,7 @@ namespace {
         throw new RuntimeException('Filzmann Recruitment ist kein katalogisiertes Suite-Ziel.');
     }
 
-    $missingCatalog = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'));
+    $missingCatalog = new SuiteTargetCatalog(new FlzProductCatalog(__DIR__ . '/missing-catalog.json'), new \OCA\OrgSuite\Tests\Support\FakeL10N());
     if (!(new EntryController($request, $recruitmentApps, $session, $url, $missingCatalog))->flz() instanceof NotFoundResponse) {
         throw new RuntimeException('Fehlender Katalogprovider darf kein unsicheres Fallbackziel erzeugen.');
     }
