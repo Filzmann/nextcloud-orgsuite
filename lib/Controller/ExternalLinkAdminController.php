@@ -7,9 +7,11 @@ namespace OCA\OrgSuite\Controller;
 use InvalidArgumentException;
 use OCA\OrgSuite\AppInfo\Application;
 use OCA\OrgSuite\Service\ExternalLinkSettingsService;
+use OCA\OrgSuite\Service\SuiteTargetCatalog;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -20,21 +22,32 @@ final class ExternalLinkAdminController extends Controller {
         private IUserSession $session,
         private IGroupManager $groups,
         private ExternalLinkSettingsService $links,
+        private SuiteTargetCatalog $targets,
+        private IL10N $l10n,
     ) {
         parent::__construct(Application::APP_ID, $request);
     }
 
     public function settings(): JSONResponse {
         if (!$this->isAdmin()) return $this->denied();
-        return new JSONResponse(['links' => $this->links->all()]);
+        return new JSONResponse([
+            ...$this->links->configuration($this->targets->keysBySuite()),
+            'targets' => $this->targets->adminDefinitions(),
+        ]);
     }
 
-    public function save(array $links): JSONResponse {
+    public function save(mixed $links = null, mixed $order = null): JSONResponse {
         if (!$this->isAdmin()) return $this->denied();
+        if (!is_array($links) || !is_array($order)) {
+            return new JSONResponse(['error' => $this->l10n->t('Links und Menüreihenfolge müssen als Listen übergeben werden.')], 400);
+        }
         try {
-            return new JSONResponse(['links' => $this->links->save($links)]);
+            return new JSONResponse([
+                ...$this->links->saveConfiguration($links, $order, $this->targets->keysBySuite()),
+                'targets' => $this->targets->adminDefinitions(),
+            ]);
         } catch (InvalidArgumentException $error) {
-            return new JSONResponse(['error' => $error->getMessage()], 400);
+            return new JSONResponse(['error' => $this->l10n->t($error->getMessage())], 400);
         }
     }
 
@@ -44,6 +57,6 @@ final class ExternalLinkAdminController extends Controller {
     }
 
     private function denied(): JSONResponse {
-        return new JSONResponse(['error' => 'Keine Berechtigung.'], 403);
+        return new JSONResponse(['error' => $this->l10n->t('Keine Berechtigung.')], 403);
     }
 }

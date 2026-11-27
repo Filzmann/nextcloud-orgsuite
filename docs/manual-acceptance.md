@@ -33,7 +33,7 @@ Begründung verpflichtend.
 
 | ID | Was wird geprüft? | Auszuführende Schritte | Erwartetes Ergebnis | Ergebnis | Warum/Beleg/Abweichung |
 |---|---|---|---|---|---|
-| A1 | FLZ-Einstieg | Mindestens eine aktuelle FLZ-Zielapp aktivieren und den Nextcloud-Appbereich mit einem berechtigten Testkonto öffnen. | Genau ein Haupteinstieg `FLZ` erscheint und führt zu einer aktivierten, für das Konto nutzbaren Zielapp. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| A1 | FLZ-Einstieg | Mindestens eine aktuelle FLZ-Zielapp aktivieren und den Nextcloud-Appbereich mit einem berechtigten Testkonto öffnen. | Genau ein Haupteinstieg mit der aktuell konfigurierten FLZ-Menübezeichnung erscheint und führt zu einer aktivierten, für das Konto nutzbaren Zielapp. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A2 | BR-Einstieg | Mindestens eine BR-Zielapp aktivieren und denselben Weg prüfen. | Genau ein Haupteinstieg `BR` erscheint und führt zu einer aktivierten, nutzbaren BR-App. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A3 | Bevorzugtes FLZ-Ziel | Filzmann Kalender zusammen mit einer weiteren FLZ-App aktivieren und `FLZ` öffnen. | Filzmann Kalender wird als bevorzugtes Ziel verwendet. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | A4 | FLZ-Fallback | Das bevorzugte FLZ-Ziel deaktivieren und den Einstieg erneut öffnen. | Die erste noch aktivierte Zielapp wird verwendet; es entsteht keine Schleife oder Fehlerseite. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
@@ -71,10 +71,11 @@ Begründung verpflichtend.
 | D4 | App-spezifische Einstellungen | Adminbereich auf Kalenderprovider-, Raum- oder andere nur eine Fachapp betreffende Einstellungen prüfen. | App-spezifische Administration bleibt im eigenen Fachapp-Abschnitt und wird nicht in OrgSuite dupliziert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D5 | Visuelle Diagrammordnung | Organigrammkarten in LocalBase über den OrgSuite-Adminadapter horizontal umordnen und danach fachliche Rollenreihenfolge sowie Rechte prüfen. | Nur die Darstellung ändert sich; fachliche Reihenfolge, Kalender und Berechtigungen bleiben unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D6 | Datensparsame Abnahme | Formular und Screenshots prüfen. | Es wurden ausschließlich synthetische Organisationsdaten dokumentiert; keine Secrets oder realen Mitgliederlisten sind enthalten. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| D7 | Externe FLZ-/BR-Links | Je einen synthetischen HTTPS-Link für FLZ und BR anlegen, sortieren, deaktivieren, wieder aktivieren und speichern. | Der gespeicherte Stand bleibt nach Neuladen erhalten; nur aktive Links erscheinen in richtiger Suite und Reihenfolge. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| D8 | Linkvalidierung und Bestandsschutz | HTTP-, JavaScript-, URL-mit-Zugangsdaten-, doppelte-ID- und ungültige Suite-Eingaben versuchen. | Die Eingaben werden verständlich abgewiesen und die zuvor gültige Liste bleibt vollständig unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D7 | Externe FLZ-/BR-Links | Je einen synthetischen HTTPS-Link für FLZ und BR anlegen, beide Öffnungsmodi wählen, deaktivieren, wieder aktivieren und speichern. | Der gespeicherte Stand bleibt nach Neuladen erhalten; nur aktive Links erscheinen in der richtigen Suite. Neue Links öffnen standardmäßig in einem neuen Tab mit `noopener noreferrer`; der konfigurierte Modus „gleicher Tab“ bleibt erhalten. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D8 | Linkvalidierung und Bestandsschutz | HTTP-, JavaScript-, URL-mit-Zugangsdaten-, doppelte-ID-, ungültige Suite- und manipulierte Sortierschlüssel versuchen. | Die Eingaben werden verständlich abgewiesen und die zuvor gültige Linkliste bleibt vollständig unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 | D9 | Linkadministration schützen | Externe Links als Nichtadmin lesen und speichern sowie als Admin ohne CSRF-Token schreiben. | Alle unzulässigen Requests werden serverseitig abgewiesen; die Linkliste bleibt unverändert. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
-| D10 | Tastatur und Ausgabe | Linkverwaltung und die resultierenden FLZ-/BR-Menüs nur per Tastatur bedienen. | Felder und Sortier-/Entfernaktionen besitzen verständliche Beschriftungen und sichtbaren Fokus; benutzerdefinierte Bezeichnungen werden sicher als Text ausgegeben und Links öffnen im selben Tab. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D10 | Gemeinsame Reihenfolge, Tastatur und Fokus | Interne und externe Ziele zunächst per Drag-and-drop, danach ausschließlich mit Alt+Pfeiltasten umordnen; speichern und neu laden. | Beide Bedienwege verändern dieselbe suiteweise Reihenfolge. Tastaturbewegungen führen den sichtbaren Fokus mit; interne Ziele können weder entfernt noch in eine andere Suite verschoben werden. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
+| D11 | FLZ-Menübezeichnung | Als Admin eine synthetische FLZ-Menübezeichnung speichern, Appmenü und FLZ-Quermenü neu laden und anschließend eine leere sowie eine mehr als 40 Zeichen lange Bezeichnung versuchen. | Der gültige Wert erscheint im Appmenü und als gemeinsame Bezeichnung des FLZ-Quermenüs; ungültige Werte werden verständlich abgewiesen und verändern den zuletzt gültigen Stand nicht. Nichtadmins können den Wert weder lesen noch ändern. | [ ] erfolgreich [ ] nicht erfolgreich [ ] nicht geprüft | |
 
 
 ## Abschlussentscheidung
@@ -84,7 +85,7 @@ Begründung verpflichtend.
 | Anzahl erfolgreich | |
 | Anzahl nicht erfolgreich | |
 | Anzahl nicht geprüft | |
-| Kritische Abweichungen / Ticketreferenzen | Produktentscheidung zur Zielöffnung und zur gemeinsamen Reihenfolge interner und externer Links: siehe `ORGS-EXTERNAL-LINK-NAVIGATION` in `ROADMAP.md`. |
+| Kritische Abweichungen / Ticketreferenzen | |
 | Erneute Prüfung erforderlich bis | |
 | Gesamtentscheidung | [ ] abgenommen [ ] mit Auflagen abgenommen [ ] nicht abgenommen |
 | Begründung der Gesamtentscheidung | |

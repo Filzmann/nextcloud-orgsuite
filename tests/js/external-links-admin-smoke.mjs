@@ -6,15 +6,16 @@ const source = readFileSync(sourceUrl, 'utf8');
 const css = readFileSync(new URL('../../css/external-links-admin.css', import.meta.url), 'utf8');
 
 for (const contract of [
-    "document.createElement('section')", 'Externe Menülinks', "document.createElement('form')",
+    "document.createElement('section')", 'Menüreihenfolge und externe Links', "document.createElement('form')",
     "document.createElement('label')", "document.createElement('input')", "document.createElement('select')",
     "document.createElement('button')", "aria-live", "OC.generateUrl('/apps/orgsuite/api/admin/external-links')",
     "'requesttoken': window.OC.requestToken", "method: 'POST'", 'move-up', 'move-down', 'remove-link',
+    "openMode", "draggable", "dragstart", "drop", "ArrowUp", "ArrowDown", "data-nav-key",
 ]) {
     if (!source.includes(contract)) throw new Error(`Externe-Link-Adminvertrag fehlt: ${contract}`);
 }
 if (source.includes('.innerHTML')) throw new Error('Benutzerdefinierte externe Links dürfen nicht per innerHTML gerendert werden.');
-for (const contract of ['focus-visible', 'grid-template-columns', '@media']) {
+for (const contract of ['focus-visible', 'grid-template-columns', '@media', 'is-dragging']) {
     if (!css.includes(contract)) throw new Error(`Externe-Link-Admin-CSS-Vertrag fehlt: ${contract}`);
 }
 
@@ -48,12 +49,14 @@ class FakeElement {
         this.listeners.set(type, listener);
     }
 
-    async trigger(type, target = this) {
-        return this.listeners.get(type)?.({target, preventDefault: () => {}});
+    async trigger(type, target = this, properties = {}) {
+        return this.listeners.get(type)?.({target, preventDefault: () => {}, ...properties});
     }
 
     matches(selector) {
         if (selector === '[data-link-id]') return this.dataset.linkId !== undefined;
+        if (selector === '[data-nav-key]') return this.dataset.navKey !== undefined;
+        if (selector === '[data-suite-list]') return this.dataset.suiteList !== undefined;
         if (selector === 'button[data-action]') return this.tagName === 'button' && this.dataset.action !== undefined;
         if (selector === 'button[data-action="add-link"]') return this.tagName === 'button' && this.dataset.action === 'add-link';
         const name = selector.match(/^(?:input)?\[name="([^"]+)"\]$/)?.[1];
@@ -80,6 +83,8 @@ class FakeElement {
         if (focusedRow !== undefined) {
             return this.querySelectorAll('[data-link-id]').find(item => item.dataset.linkId === focusedRow)?.querySelector('input[name="label"]') ?? null;
         }
+        const focusedNav = selector.match(/^\[data-nav-key="([^"]+)"\]$/)?.[1];
+        if (focusedNav !== undefined) return this.querySelectorAll('[data-nav-key]').find(item => item.dataset.navKey === focusedNav) ?? null;
         return this.querySelectorAll(selector)[0] ?? null;
     }
 
@@ -127,26 +132,67 @@ vm.runInNewContext(source, {
     fetch: async () => {},
 }, {filename: sourceUrl.pathname});
 const draft = emptyWindow.OrgSuiteExternalLinksAdmin.createDraft('br');
-if (draft.id !== '12345678-1234-1234-1234-123456789abc' || draft.suite !== 'br' || draft.active !== true) {
+if (draft.id !== '12345678-1234-1234-1234-123456789abc' || draft.suite !== 'br' || draft.active !== true || draft.openMode !== 'new') {
     throw new Error('Ein neuer externer Link erhält keinen stabilen sicheren Ausgangszustand.');
 }
 
 const runtime = createRuntime({initialResponse: response({links: [
-    {id: 'flz-docs', suite: 'flz', label: 'FLZ', url: 'https://flz.example.test', active: true},
-    {id: 'br-docs', suite: 'br', label: 'BR', url: 'https://br.example.test', active: false},
-]})});
+    {id: 'flz-docs', suite: 'flz', label: 'FLZ', url: 'https://flz.example.test', active: true, openMode: 'same'},
+    {id: 'br-docs', suite: 'br', label: 'BR', url: 'https://br.example.test', active: false, openMode: 'new'},
+], targets: [
+    {key: 'app:flzcalendar', suite: 'flz', app: 'flzcalendar', label: 'Kalender', kind: 'internal'},
+    {key: 'app:flzplaner', suite: 'flz', app: 'flzplaner', label: 'Assistenzplanung', kind: 'internal'},
+    {key: 'app:brtop', suite: 'br', app: 'brtop', label: 'Sitzungen', kind: 'internal'},
+], order: {
+    flz: ['external:flz-docs', 'app:flzcalendar', 'app:flzplaner'],
+    br: ['app:brtop', 'external:br-docs'],
+}})});
 await tick();
 const section = runtime.root.children[0];
 const form = section.children[3];
 const [toolbar, list, save] = form.children;
 const notice = section.children[2];
-if (list.querySelectorAll('[data-link-id]').length !== 2) throw new Error('Geladene externe Links werden nicht gerendert.');
+if (list.querySelectorAll('[data-link-id]').length !== 2 || list.querySelectorAll('[data-nav-key]').length !== 5) throw new Error('Interne und externe Menüziele werden nicht gemeinsam gerendert.');
+
+const switchRuntime = createRuntime({initialResponse: response({
+    links: [{id: 'switch-link', suite: 'flz', label: 'Vorher', url: 'https://before.example.test', active: true, openMode: 'new'}],
+    targets: [],
+    order: {flz: ['external:switch-link'], br: []},
+})});
+await tick();
+const switchList = switchRuntime.root.children[0].children[3].children[1];
+const switchRow = switchList.querySelectorAll('[data-link-id]')[0];
+switchRow.querySelector('[name="label"]').value = 'Ungespeicherte Änderung';
+switchRow.querySelector('[name="url"]').value = 'https://changed.example.test';
+const switchSuite = switchRow.querySelector('[name="suite"]');
+switchSuite.value = 'br';
+await switchList.trigger('change', switchSuite);
+const movedRow = switchList.querySelectorAll('[data-link-id]')[0];
+if (movedRow.dataset.suite !== 'br'
+    || movedRow.querySelector('[name="label"]').value !== 'Ungespeicherte Änderung'
+    || movedRow.querySelector('[name="url"]').value !== 'https://changed.example.test') {
+    throw new Error('Ein Suite-Wechsel verwirft ungespeicherte Linkfelder.');
+}
+
+const flzRows = () => list.querySelectorAll('[data-suite-list]')[0].querySelectorAll('[data-nav-key]');
+await list.trigger('keydown', flzRows()[2], {altKey: true, key: 'ArrowUp'});
+if (flzRows().map(row => row.dataset.navKey).join(',') !== 'external:flz-docs,app:flzplaner,app:flzcalendar' || !flzRows()[1].focused) {
+    throw new Error('Die gemeinsame Reihenfolge ist nicht per Tastatur mit Fokusnachführung veränderbar.');
+}
+await list.trigger('dragstart', flzRows()[0]);
+await list.trigger('dragover', flzRows()[2]);
+await list.trigger('drop', flzRows()[2]);
+if (flzRows().map(row => row.dataset.navKey).join(',') !== 'app:flzplaner,external:flz-docs,app:flzcalendar') {
+    throw new Error('Die gemeinsame Reihenfolge ist nicht per Drag-and-drop veränderbar.');
+}
 
 await toolbar.trigger('click', new FakeElement('span'));
 await toolbar.trigger('click', toolbar.children[0]);
 if (list.querySelectorAll('[data-link-id]').length !== 3 || !list.querySelector('input[name="label"]')) {
     throw new Error('Ein neuer externer Link wird nicht fokussierbar ergänzt.');
 }
+const added = list.querySelectorAll('[data-link-id]').find(item => item.dataset.linkId === '12345678-1234-1234-1234-123456789abc');
+if (!added?.querySelector('input[name="label"]')?.focused) throw new Error('Ein neuer Link führt den Fokus nicht in sein Bezeichnungsfeld.');
 
 await list.trigger('click', new FakeElement('span'));
 const missingItem = new FakeElement('fieldset');
@@ -162,11 +208,13 @@ await list.trigger('click', action(list.querySelectorAll('[data-link-id]')[1], '
 await list.trigger('click', action(list.querySelectorAll('[data-link-id]')[2], 'remove-link'));
 if (list.querySelectorAll('[data-link-id]').length !== 2) throw new Error('Externe Links werden nicht zuverlässig umgeordnet und entfernt.');
 
-runtime.responses.push(response({links: [{id: 'saved', suite: 'flz', label: 'Gespeichert', url: 'https://saved.example.test', active: true}]}));
+runtime.responses.push(response({links: [{id: 'saved', suite: 'flz', label: 'Gespeichert', url: 'https://saved.example.test', active: true, openMode: 'new'}], targets: [], order: {flz: ['external:saved'], br: []}}));
 await form.trigger('submit');
 const savedRequest = runtime.requests.at(-1);
 if (savedRequest.options.method !== 'POST' || savedRequest.options.headers.requesttoken !== 'token'
-    || JSON.parse(savedRequest.options.body).links.length !== 2 || notice.textContent !== 'Externe Links gespeichert.' || save.disabled) {
+    || JSON.parse(savedRequest.options.body).links.length !== 2
+    || !Array.isArray(JSON.parse(savedRequest.options.body).order.flz)
+    || notice.textContent !== 'Menüreihenfolge und externe Links gespeichert.' || save.disabled) {
     throw new Error('Externe Links werden nicht vollständig und CSRF-geschützt gespeichert.');
 }
 
@@ -177,7 +225,7 @@ if (notice.textContent !== 'HTTP 503' || save.disabled) throw new Error('Speiche
 const failedRuntime = createRuntime({initialResponse: 'offline'});
 await tick();
 const failedSection = failedRuntime.root.children[0];
-if (failedSection.children[2].textContent !== 'Externe Links konnten nicht geladen werden.' || !failedSection.children[3].children[2].disabled) {
+if (failedSection.children[2].textContent !== 'Menüreihenfolge und externe Links konnten nicht geladen werden.' || !failedSection.children[3].children[2].disabled) {
     throw new Error('Ladefehler hinterlassen keinen sicheren deaktivierten Zustand.');
 }
 

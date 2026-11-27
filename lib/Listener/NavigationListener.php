@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\Listener;
 
-use OCA\LocalBase\Catalog\FlzProductCatalog;
 use OCA\OrgSuite\AppInfo\Application;
+use OCA\OrgSuite\Service\SuiteLabelSettingsService;
+use OCA\OrgSuite\Service\SuiteTargetCatalog;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -14,7 +15,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
-use RuntimeException;
 
 /**
  * Zweck: Zeigt pro Fachbereich genau einen App-Einstieg und vermeidet Links auf vollstaendig deaktivierte Suiten.
@@ -22,15 +22,13 @@ use RuntimeException;
  * @template-extends IEventListener<LoadAdditionalEntriesEvent>
  */
 final class NavigationListener implements IEventListener {
-    /** @var array<string, list<string>> */
-    private const BR_TARGETS = ['brtop', 'brstunden'];
-
     public function __construct(
         private IUserSession $userSession,
         private IAppManager $appManager,
         private INavigationManager $navigation,
         private IURLGenerator $url,
-        private FlzProductCatalog $catalog,
+        private SuiteTargetCatalog $targets,
+        private SuiteLabelSettingsService $labels,
     ) {
     }
 
@@ -44,7 +42,7 @@ final class NavigationListener implements IEventListener {
             return;
         }
 
-        $this->addEntryWhenAvailable('flz', 'Filzmann', 80, $user);
+        $this->addEntryWhenAvailable('flz', $this->labels->flzLabel(), 80, $user);
         $this->addEntryWhenAvailable('br', 'BR', 81, $user);
     }
 
@@ -65,28 +63,12 @@ final class NavigationListener implements IEventListener {
     }
 
     private function hasEnabledTarget(string $suite, IUser $user): bool {
-        foreach ($this->targetIds($suite) as $appId) {
-            if ($this->appManager->isEnabledForUser($appId, $user)) {
+        foreach ($this->targets->forSuite($suite) as $target) {
+            if ($this->appManager->isEnabledForUser($target['app'], $user)) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    /** @return list<string> */
-    private function targetIds(string $suite): array {
-        if ($suite === 'br') {
-            return self::BR_TARGETS;
-        }
-        if ($suite !== 'flz') {
-            return [];
-        }
-
-        try {
-            return array_column($this->catalog->menuProducts('flz'), 'id');
-        } catch (RuntimeException) {
-            return [];
-        }
     }
 }

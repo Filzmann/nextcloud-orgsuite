@@ -53,7 +53,8 @@ const navigation = {
         items: [
             {app: 'flzplaner', label: 'Assistenzplanung', href: '/route/flzplaner.page.index'},
             {app: 'flzrecruitment', label: 'Recruitment'},
-            {app: 'orgsuite-external-flz-docs', label: 'Externe Dokumentation', href: 'https://docs.example.test/flz', external: true},
+            {app: 'orgsuite-external-flz-docs', label: 'Externe Dokumentation', href: 'https://docs.example.test/flz', external: true, openMode: 'new'},
+            {app: 'orgsuite-external-flz-wiki', label: 'Externes Wiki', href: 'https://wiki.example.test/flz', external: true, openMode: 'same'},
         ],
     },
 };
@@ -69,11 +70,15 @@ const links = nav.children[0].children.map((item) => item.children[0]);
 if (nav.tagName !== 'NAV' || nav.attributes['aria-label'] !== 'orgsuite:Filzmann-Anwendungen') {
     throw new Error('Das Suite-Menue muss als beschriftete Navigation gerendert werden.');
 }
-if (links.length !== 3 || links[0].attributes['aria-current'] !== 'page'
+if (links.length !== 4 || links[0].attributes['aria-current'] !== 'page'
     || links[0].href !== '/route/flzplaner.page.index' || links[1].href !== '/apps/flzrecruitment/'
     || links[1].textContent !== 'flzrecruitment:Recruitment'
     || links[2].href !== 'https://docs.example.test/flz'
-    || links[2].textContent !== 'Externe Dokumentation') {
+    || links[2].textContent !== 'Externe Dokumentation'
+    || links[2].target !== '_blank'
+    || links[2].attributes.rel !== 'noopener noreferrer'
+    || links[3].target !== undefined
+    || links[3].attributes.rel !== 'noopener noreferrer') {
     throw new Error('Aktiver FLZ-Menuepunkt wurde nicht korrekt gerendert.');
 }
 if (host.dataset.orgsuiteMounted !== 'true') {

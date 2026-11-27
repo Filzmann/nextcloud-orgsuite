@@ -32,8 +32,8 @@ namespace {
     if ($form->appName !== 'localbase' || $form->templateName !== 'organization-admin' || $form->params !== ['standalone' => false]) {
         throw new RuntimeException('OrgSuite bindet nicht das LocalBase-Organisationsformular ein.');
     }
-    if (Util::$scripts !== [['orgsuite', 'external-links-admin']] || Util::$styles !== [['orgsuite', 'external-links-admin']]) {
-        throw new RuntimeException('OrgSuite lädt die Adminassets für externe Links nicht.');
+    if (Util::$scripts !== [['orgsuite', 'suite-label-admin'], ['orgsuite', 'external-links-admin']] || Util::$styles !== [['orgsuite', 'external-links-admin']]) {
+        throw new RuntimeException('OrgSuite lädt die Adminassets nicht vollständig.');
     }
     if ((new Admin())->getSection() !== 'orgsuite' || (new Admin())->getPriority() !== 20) {
         throw new RuntimeException('OrgSuite-Adminsetting besitzt falsche Metadaten.');
@@ -42,7 +42,7 @@ namespace {
     $url = new class implements IURLGenerator {
         public function imagePath(string $appName, string $file): string { return "$appName/$file"; }
     };
-    $section = new AdminSection($url);
+    $section = new AdminSection($url, new \OCA\OrgSuite\Tests\Support\FakeL10N());
     if ($section->getID() !== 'orgsuite' || $section->getName() !== 'Filzmann Hub' || $section->getPriority() !== 60 || $section->getIcon() !== 'orgsuite/flz.svg') {
         throw new RuntimeException('OrgSuite-Adminabschnitt besitzt falsche Metadaten.');
     }

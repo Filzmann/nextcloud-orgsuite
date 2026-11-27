@@ -13,16 +13,25 @@ Gemeinsame Filzmann-/BR-Navigation und Nextcloud-Adminoberfläche für organisat
 
 OrgSuite ist mitgelieferte Infrastruktur und kein separates FLZ-Fachprodukt. Der Produktinstaller aktiviert sie automatisch ab zwei aktiven FLZ-Fachprodukten. Bei einer Einzelinstallation bleibt sie deaktiviert; die Fachapp besitzt dann ihren eigenen Einstieg und Adminabschnitt.
 
-Der FLZ-Produktkatalog enthält außerdem den BQ-Planer als navigierbares
-Entwicklungsprodukt. Seine derzeit deaktivierten Bundle-Flags nehmen ihn noch
-nicht in die aktuellen Release-Artefakte auf.
+Der FLZ-Produktkatalog enthält außerdem den BQ-Planer und die
+Akutschichtvermittlung als navigierbare Entwicklungsprodukte. Ihre derzeit
+deaktivierten Bundle-Flags nehmen sie noch nicht in die aktuellen
+Release-Artefakte auf.
 
 Nach der Aktivierung werden Organisationsdefinition und Freigaben im Nextcloud-Adminbereich der OrgSuite gepflegt. Persistenz, geschützte Admin-API und Organisationseditor liegen in LocalBase.
 
 Im selben Adminabschnitt können Nextcloud-Admins zusätzliche externe
-HTTPS-Links für das FLZ- und BR-Menü anlegen, sortieren, aktivieren und
-entfernen. Diese Linkkonfiguration liegt in OrgSuite; sie erweitert keine
-Rechte in Nextcloud oder im externen Zielsystem.
+HTTPS-Links für das FLZ- und BR-Menü anlegen, aktivieren und entfernen. Sie
+öffnen standardmäßig in einem neuen Tab; pro Link kann derselbe Tab gewählt
+werden. Interne Produktziele und externe Links besitzen je Suite eine
+gemeinsame, per Drag-and-drop oder Alt+Pfeiltasten veränderbare Reihenfolge.
+Diese Navigationskonfiguration liegt in OrgSuite; sie erweitert keine Rechte
+in Nextcloud oder im externen Zielsystem.
+
+Die sichtbare Bezeichnung des FLZ-Einstiegs ist dort ebenfalls konfigurierbar.
+OrgSuite verwendet denselben validierten Wert für den Nextcloud-Appmenüeintrag
+und die zugängliche Bezeichnung des gemeinsamen FLZ-Quermenüs. Ohne eigene
+Konfiguration bleibt `Filzmann` der Standard.
 
 ## Roadmap
 
@@ -38,6 +47,7 @@ Installations-, Betriebs- und Abnahmeunterlagen stehen im öffentlichen [Filzman
 ## Dokumentation
 
 - [Architektur](docs/architecture.md)
+- [Lokalisierungsinventar](docs/l10n-inventory.md)
 - [Manuelle Abnahme](docs/manual-acceptance.md)
 - [Roadmap](ROADMAP.md)
 - [Changelog](CHANGELOG.md)

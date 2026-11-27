@@ -19,9 +19,13 @@ Die priorisierte Produktplanung und offene Entscheidungen stehen in `ROADMAP.md`
 
 OrgSuite stellt genau zwei Haupteinstiege im Nextcloud-Appmenue bereit:
 
-- `FLZ` fuer Filzmann Kalender, Assistenzplanung, Filzmann Urlaubsplanung, Filzmann Raumplaner, FLZ
-  Recruitment und den BQ-Planer. Der BQ-Planer bleibt bis zur Release-Reife
-  durch seine Katalogflags aus Auslieferungsbundles ausgeschlossen.
+- `FLZ` fuer Filzmann Kalender, Assistenzplanung, Filzmann Urlaubsplanung,
+  Filzmann Raumplaner, FLZ Recruitment, den BQ-Planer, die
+  Akutschichtvermittlung und die Kapazitätsmeldungen. BQ-Planer und Akutschichtvermittlung bleiben bis
+  zur jeweiligen Release-Reife durch ihre Katalogflags aus
+  Auslieferungsbundles ausgeschlossen. Kapazitätsmeldungen ist eine neue App ohne
+  LocalBase-Abhängigkeit und wird daher als explizites FLZ-Ziel in
+  `SuiteTargetCatalog::FLZ_EXTRA_TARGETS` geführt, nicht über den LocalBase-Katalog.
 - `BR` fuer BRTop und BR-Stunden. Die eigenständige Berechtigungsmatrix
   gehört zum Portfolio IKT/Datenschutz und ist kein OrgSuite-Ziel.
 
@@ -37,15 +41,22 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
   Berechtigungsmatrix als BR-Ziel, Weiterleitungsziel oder Quermenüeintrag.
 - Nextcloud-Admins verwalten zusätzliche externe Links für FLZ und BR in der
   OrgSuite-Administration. OrgSuite speichert stabile ID, Suite,
-  Bezeichnung, HTTPS-URL, Aktivstatus und Reihenfolge in der eigenen
-  AppConfig. Aktive Links gelten für alle angemeldeten Personen, öffnen im
-  selben Tab und erteilen keine Rechte im Zielsystem. Unsichere URL-Schemata,
-  Zugangsdaten in URLs, ungültige Suites und doppelte IDs werden abgelehnt,
-  ohne den bisherigen Stand zu verändern.
+  Bezeichnung, HTTPS-URL, Aktivstatus, Öffnungsmodus und die gemeinsame
+  Reihenfolge interner und externer Ziele atomar in einem versionierten Wert
+  der eigenen AppConfig. Aktive
+  Links gelten für alle angemeldeten Personen, öffnen standardmäßig mit
+  sicheren `rel`-Attributen in einem neuen Tab und können pro Link auf
+  denselben Tab umgestellt werden. Sie erteilen keine Rechte im Zielsystem.
+  Unsichere URL-Schemata, Zugangsdaten in URLs, ungültige Suites, doppelte
+  IDs sowie unbekannte, fehlende oder suitefremde Sortierziele werden
+  abgelehnt, ohne die Linkliste zu verändern.
 - Ein sichtbarer Link ist keine Berechtigung. Jeder Zielcontroller und jede API prueft Zugriffe selbst.
 - Der Produktinstaller aktiviert OrgSuite erst ab zwei aktivierten FLZ-Fachprodukten. Bei einer Einzelinstallation registriert das Fachprodukt stattdessen seinen eigenen Nextcloud-Einstieg.
 
 ## Repository und gemeinsamer Arbeitsablauf
+
+- Lokalisierung (ZM-06): Sichtbare Texte ausschließlich über Nextcloud-l10n — deutsche Quelltexte via `IL10N::t()`/`window.t('orgsuite', …)`, Kataloge `l10n/en.*` und `l10n/en_GB.*` (Englisch); technische IDs und Nutzerdaten (Linkbezeichnungen, Menübezeichnung) bleiben unübersetzt. `tests/Ui/L10nCatalogContractTest.php` erzwingt das Rohtext-Gate.
+
 
 - Dieses Verzeichnis ist ein eigenstaendiges Git-Repository.
 - Diese Datei und lokal referenzierte Skills bilden bei einem direkten Start in diesem Repository die vollständige Repository-Steuerung.
