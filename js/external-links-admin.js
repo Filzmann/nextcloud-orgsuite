@@ -1,6 +1,9 @@
 (function() {
     'use strict';
 
+    const translate = typeof window.t === 'function' ? window.t : (_app, text) => text;
+
+
     const endpoint = () => window.OC.generateUrl('/apps/orgsuite/api/admin/external-links');
     const externalKey = id => `external:${id}`;
     const createDraft = suite => ({
@@ -29,9 +32,9 @@
         section.setAttribute('aria-labelledby', 'orgsuite-external-heading');
         const heading = document.createElement('h2');
         heading.id = 'orgsuite-external-heading';
-        heading.textContent = 'Menüreihenfolge und externe Links';
+        heading.textContent = translate('orgsuite', 'Menüreihenfolge und externe Links');
         const description = document.createElement('p');
-        description.textContent = 'Interne Produkte und zusätzliche HTTPS-Links lassen sich gemeinsam per Ziehen oder mit Alt+Pfeiltasten sortieren. Externe Links öffnen standardmäßig in einem neuen Tab und erteilen keine Rechte im Zielsystem.';
+        description.textContent = translate('orgsuite', 'Interne Produkte und zusätzliche HTTPS-Links lassen sich gemeinsam per Ziehen oder mit Alt+Pfeiltasten sortieren. Externe Links öffnen standardmäßig in einem neuen Tab und erteilen keine Rechte im Zielsystem.');
         const notice = document.createElement('p');
         notice.className = 'orgsuite-external-notice';
         notice.setAttribute('role', 'status');
@@ -39,13 +42,13 @@
         const form = document.createElement('form');
         const toolbar = document.createElement('div');
         toolbar.className = 'orgsuite-external-toolbar';
-        toolbar.append(addButton('flz', 'Filzmann-Link hinzufügen'), addButton('br', 'BR-Link hinzufügen'));
+        toolbar.append(addButton('flz', translate('orgsuite', 'Filzmann-Link hinzufügen')), addButton('br', translate('orgsuite', 'BR-Link hinzufügen')));
         const list = document.createElement('div');
         list.className = 'orgsuite-external-list';
         const save = document.createElement('button');
         save.type = 'submit';
         save.className = 'primary';
-        save.textContent = 'Menüreihenfolge und externe Links speichern';
+        save.textContent = translate('orgsuite', 'Menüreihenfolge und externe Links speichern');
         form.append(toolbar, list, save);
         section.append(heading, description, notice, form);
         root.append(section);
@@ -115,37 +118,37 @@
             fieldset.dataset.suite = suite;
             fieldset.draggable = true;
             fieldset.tabIndex = 0;
-            fieldset.setAttribute('aria-label', `${item.label || 'Unbenannter Link'} verschieben`);
+            fieldset.setAttribute('aria-label', translate('orgsuite', '{label} verschieben', {label: item.label || translate('orgsuite', 'Unbenannter Link')}));
             if (item.kind === 'external') fieldset.dataset.linkId = item.link.id;
 
             const legend = document.createElement('legend');
-            legend.textContent = item.kind === 'internal' ? item.label : `Externer Menülink ${index + 1}`;
+            legend.textContent = item.kind === 'internal' ? item.label : translate('orgsuite', 'Externer Menülink {index}', {index: index + 1});
             const actions = document.createElement('div');
             actions.className = 'orgsuite-external-actions';
             actions.append(
-                actionButton('move-up', 'Nach oben', index === 0),
-                actionButton('move-down', 'Nach unten', index === count - 1),
+                actionButton('move-up', translate('orgsuite', 'Nach oben'), index === 0),
+                actionButton('move-down', translate('orgsuite', 'Nach unten'), index === count - 1),
             );
 
             if (item.kind === 'internal') {
                 const type = document.createElement('p');
                 type.className = 'orgsuite-external-kind';
-                type.textContent = `Internes Produkt (${item.app})`;
+                type.textContent = translate('orgsuite', 'Internes Produkt ({app})', {app: item.app});
                 fieldset.append(legend, type, actions);
                 return fieldset;
             }
 
-            actions.append(actionButton('remove-link', 'Entfernen'));
+            actions.append(actionButton('remove-link', translate('orgsuite', 'Entfernen')));
             const suiteControl = select('suite', item.link.suite, [['flz', 'Filzmann'], ['br', 'BR']]);
             const active = input('active', '', {type: 'checkbox', checked: item.link.active === true});
-            const activeLabel = fieldLabel('Aktiv', active);
+            const activeLabel = fieldLabel(translate('orgsuite', 'Aktiv'), active);
             activeLabel.className = 'orgsuite-external-active';
             fieldset.append(
                 legend,
-                fieldLabel('Suite', suiteControl),
-                fieldLabel('Bezeichnung', input('label', item.link.label, {type: 'text', required: true, maxLength: 80})),
-                fieldLabel('HTTPS-URL', input('url', item.link.url, {type: 'url', required: true, maxLength: 2048, pattern: 'https://.*'})),
-                fieldLabel('Öffnen', select('openMode', item.link.openMode || 'new', [['new', 'Neuer Tab'], ['same', 'Gleicher Tab']])),
+                fieldLabel(translate('orgsuite', 'Suite'), suiteControl),
+                fieldLabel(translate('orgsuite', 'Bezeichnung'), input('label', item.link.label, {type: 'text', required: true, maxLength: 80})),
+                fieldLabel(translate('orgsuite', 'HTTPS-URL'), input('url', item.link.url, {type: 'url', required: true, maxLength: 2048, pattern: 'https://.*'})),
+                fieldLabel(translate('orgsuite', 'Öffnen'), select('openMode', item.link.openMode || 'new', [['new', translate('orgsuite', 'Neuer Tab')], ['same', translate('orgsuite', 'Gleicher Tab')]])),
                 activeLabel,
                 actions,
             );
@@ -156,7 +159,7 @@
             const content = [];
             for (const [suite, title] of [['flz', 'Filzmann'], ['br', 'BR']]) {
                 const suiteHeading = document.createElement('h3');
-                suiteHeading.textContent = `${title}-Menü`;
+                suiteHeading.textContent = translate('orgsuite', '{suite}-Menü', {suite: title});
                 const suiteList = document.createElement('div');
                 suiteList.className = 'orgsuite-external-suite-list';
                 suiteList.dataset.suiteList = suite;
@@ -312,9 +315,9 @@
                 const data = await request({method: 'POST', body: JSON.stringify({links, order})});
                 applyState(data);
                 render();
-                notice.textContent = 'Menüreihenfolge und externe Links gespeichert.';
+                notice.textContent = translate('orgsuite', 'Menüreihenfolge und externe Links gespeichert.');
             } catch (error) {
-                notice.textContent = error instanceof Error ? error.message : 'Menüreihenfolge und externe Links konnten nicht gespeichert werden.';
+                notice.textContent = error instanceof Error ? error.message : translate('orgsuite', 'Menüreihenfolge und externe Links konnten nicht gespeichert werden.');
             } finally {
                 save.disabled = false;
             }
@@ -324,7 +327,7 @@
             applyState(data);
             render();
         }).catch(error => {
-            notice.textContent = error instanceof Error ? error.message : 'Menüreihenfolge und externe Links konnten nicht geladen werden.';
+            notice.textContent = error instanceof Error ? error.message : translate('orgsuite', 'Menüreihenfolge und externe Links konnten nicht geladen werden.');
             save.disabled = true;
         });
     }

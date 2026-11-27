@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- L10N-Migration (ZM-06): sichtbare Texte über Nextcloud-l10n (deutsche Quelltexte, Kataloge `l10n/en.*` + `l10n/en_GB.*`), inkl. `tests/Ui/L10nCatalogContractTest.php`.
+
+## Unreleased
+
 - Akutschichtvermittlung über den kanonischen LocalBase-Produktkatalog in die
   gemeinsame FLZ-Navigation aufgenommen.
 - Externe FLZ-/BR-Links öffnen standardmäßig sicher in einem neuen Tab und

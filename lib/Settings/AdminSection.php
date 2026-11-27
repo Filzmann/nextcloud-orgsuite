@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace OCA\OrgSuite\Settings;
 
 use OCA\OrgSuite\AppInfo\Application;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 /** Zweck: Registriert einen eigenen, nur für Nextcloud-Admins sichtbaren Suite-Abschnitt. */
 final class AdminSection implements IIconSection {
-    public function __construct(private IURLGenerator $url) {}
+    public function __construct(private IURLGenerator $url, private IL10N $l10n) {}
 
     public function getIcon(): string {
         return $this->url->imagePath(Application::APP_ID, 'flz.svg');
@@ -21,7 +22,7 @@ final class AdminSection implements IIconSection {
     }
 
     public function getName(): string {
-        return 'Filzmann Hub';
+        return $this->l10n->t('Filzmann Hub');
     }
 
     public function getPriority(): int {

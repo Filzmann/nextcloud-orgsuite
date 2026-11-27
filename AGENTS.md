@@ -55,6 +55,9 @@ Die Fachapps bleiben eigenständige Repositories, Datenmodelle und Berechtigungs
 
 ## Repository und gemeinsamer Arbeitsablauf
 
+- Lokalisierung (ZM-06): Sichtbare Texte ausschließlich über Nextcloud-l10n — deutsche Quelltexte via `IL10N::t()`/`window.t('orgsuite', …)`, Kataloge `l10n/en.*` und `l10n/en_GB.*` (Englisch); technische IDs und Nutzerdaten (Linkbezeichnungen, Menübezeichnung) bleiben unübersetzt. `tests/Ui/L10nCatalogContractTest.php` erzwingt das Rohtext-Gate.
+
+
 - Dieses Verzeichnis ist ein eigenstaendiges Git-Repository.
 - Diese Datei und lokal referenzierte Skills bilden bei einem direkten Start in diesem Repository die vollständige Repository-Steuerung.
 - Fuer Git-, Sandbox-, DDEV-/`occ`-Sicherheit, Verifikation und Learning Candidates gilt der lokal mitgefuehrte Skill `work-in-nextcloud-app`; die folgenden OrgSuite-Regeln und Pruefungen ergaenzen ihn.

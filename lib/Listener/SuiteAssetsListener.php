@@ -12,6 +12,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -30,6 +31,7 @@ final class SuiteAssetsListener implements IEventListener {
         private IInitialState $initialState,
         private ExternalLinkSettingsService $externalLinks,
         private SuiteLabelSettingsService $labels,
+        private IL10N $l10n,
     ) {
     }
 
@@ -53,7 +55,7 @@ final class SuiteAssetsListener implements IEventListener {
 
         return [
             'flz' => ['label' => $this->labels->flzNavigationLabel(), 'items' => $this->orderedItems('flz', $user, $configuration)],
-            'br' => ['label' => 'BR-Anwendungen', 'items' => $this->orderedItems('br', $user, $configuration)],
+            'br' => ['label' => $this->l10n->t('BR-Anwendungen'), 'items' => $this->orderedItems('br', $user, $configuration)],
         ];
     }
 

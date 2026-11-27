@@ -1,6 +1,13 @@
 (function() {
     'use strict';
 
+    const translate = typeof window.t === 'function' ? window.t : (_app, text) => text;
+
+
+
+
+
+
     const endpoint = () => window.OC.generateUrl('/apps/orgsuite/api/admin/suite-label');
 
     async function request(options = {}) {
@@ -23,9 +30,9 @@
         section.setAttribute('aria-labelledby', 'orgsuite-label-heading');
         const heading = document.createElement('h2');
         heading.id = 'orgsuite-label-heading';
-        heading.textContent = 'Suite-Menü';
+        heading.textContent = translate('orgsuite', 'Suite-Menü');
         const description = document.createElement('p');
-        description.textContent = 'Diese Bezeichnung erscheint im Nextcloud-Appmenü und benennt das gemeinsame FLZ-Quermenü.';
+        description.textContent = translate('orgsuite', 'Diese Bezeichnung erscheint im Nextcloud-Appmenü und benennt das gemeinsame FLZ-Quermenü.');
         const notice = document.createElement('p');
         notice.className = 'orgsuite-label-notice';
         notice.setAttribute('role', 'status');
@@ -33,7 +40,7 @@
         const form = document.createElement('form');
         const label = document.createElement('label');
         const caption = document.createElement('span');
-        caption.textContent = 'FLZ-Menübezeichnung';
+        caption.textContent = translate('orgsuite', 'FLZ-Menübezeichnung');
         const input = document.createElement('input');
         input.type = 'text';
         input.name = 'flzLabel';
@@ -42,7 +49,7 @@
         const save = document.createElement('button');
         save.type = 'submit';
         save.className = 'primary';
-        save.textContent = 'Menübezeichnung speichern';
+        save.textContent = translate('orgsuite', 'Menübezeichnung speichern');
         label.append(caption, input);
         form.append(label, save);
         section.append(heading, description, notice, form);
@@ -54,9 +61,9 @@
             try {
                 const data = await request({method: 'POST', body: JSON.stringify({flzLabel: input.value.trim()})});
                 input.value = typeof data.flzLabel === 'string' ? data.flzLabel : input.value;
-                notice.textContent = 'Menübezeichnung gespeichert.';
+                notice.textContent = translate('orgsuite', 'Menübezeichnung gespeichert.');
             } catch (error) {
-                notice.textContent = error instanceof Error ? error.message : 'Menübezeichnung konnte nicht gespeichert werden.';
+                notice.textContent = error instanceof Error ? error.message : translate('orgsuite', 'Menübezeichnung konnte nicht gespeichert werden.');
             } finally {
                 save.disabled = false;
             }
@@ -65,7 +72,7 @@
         request().then(data => {
             input.value = typeof data.flzLabel === 'string' ? data.flzLabel : '';
         }).catch(() => {
-            notice.textContent = 'Menübezeichnung konnte nicht geladen werden.';
+            notice.textContent = translate('orgsuite', 'Menübezeichnung konnte nicht geladen werden.');
             input.disabled = true;
             save.disabled = true;
         });

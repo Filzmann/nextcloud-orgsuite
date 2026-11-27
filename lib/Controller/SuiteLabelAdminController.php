@@ -10,6 +10,7 @@ use OCA\OrgSuite\Service\SuiteLabelSettingsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -20,6 +21,7 @@ final class SuiteLabelAdminController extends Controller {
         private IUserSession $session,
         private IGroupManager $groups,
         private SuiteLabelSettingsService $labels,
+        private IL10N $l10n,
     ) {
         parent::__construct(Application::APP_ID, $request);
     }
@@ -34,7 +36,7 @@ final class SuiteLabelAdminController extends Controller {
         try {
             return new JSONResponse(['flzLabel' => $this->labels->saveFlzLabel($flzLabel)]);
         } catch (InvalidArgumentException $error) {
-            return new JSONResponse(['error' => $error->getMessage()], 400);
+            return new JSONResponse(['error' => $this->l10n->t($error->getMessage())], 400);
         }
     }
 
@@ -44,6 +46,6 @@ final class SuiteLabelAdminController extends Controller {
     }
 
     private function denied(): JSONResponse {
-        return new JSONResponse(['error' => 'Keine Berechtigung.'], 403);
+        return new JSONResponse(['error' => $this->l10n->t('Keine Berechtigung.')], 403);
     }
 }

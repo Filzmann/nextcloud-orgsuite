@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\OrgSuite\Service;
 
 use OCA\LocalBase\Catalog\FlzProductCatalog;
+use OCP\IL10N;
 use RuntimeException;
 
 /** Kanonische OrgSuite-Projektion der internen FLZ-/BR-Navigationsziele. */
@@ -24,12 +25,12 @@ final class SuiteTargetCatalog {
         ['app' => 'flz_kapazitaet', 'route' => 'flz_kapazitaet.page.index', 'label' => 'Kapazität'],
     ];
 
-    public function __construct(private FlzProductCatalog $flzProducts) {}
+    public function __construct(private FlzProductCatalog $flzProducts, private IL10N $l10n) {}
 
     /** @return list<array{app:string,route:string,label:string}> */
     public function forSuite(string $suite): array {
         if ($suite === 'br') {
-            return self::BR_TARGETS;
+            return array_map(fn(array $target): array => [...$target, 'label' => $this->l10n->t($target['label'])], self::BR_TARGETS);
         }
         if ($suite !== 'flz') {
             return [];
@@ -47,7 +48,8 @@ final class SuiteTargetCatalog {
 
         $targets = [];
         $seen = [];
-        foreach ([...$catalogTargets, ...self::FLZ_EXTRA_TARGETS] as $target) {
+        $extraTargets = array_map(fn(array $target): array => [...$target, 'label' => $this->l10n->t($target['label'])], self::FLZ_EXTRA_TARGETS);
+        foreach ([...$catalogTargets, ...$extraTargets] as $target) {
             if (isset($seen[$target['app']])) continue;
             $seen[$target['app']] = true;
             $targets[] = $target;
