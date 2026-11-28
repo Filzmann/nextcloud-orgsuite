@@ -29,8 +29,8 @@ namespace {
     use OCP\Util;
 
     $form = (new Admin())->getForm();
-    if ($form->appName !== 'localbase' || $form->templateName !== 'organization-admin' || $form->params !== ['standalone' => false]) {
-        throw new RuntimeException('OrgSuite bindet nicht das LocalBase-Organisationsformular ein.');
+    if ($form->appName !== 'orgsuite' || $form->templateName !== 'admin') {
+        throw new RuntimeException('OrgSuite rendert nicht das eigene Admin-Template.');
     }
     if (Util::$scripts !== [['orgsuite', 'suite-label-admin'], ['orgsuite', 'external-links-admin']] || Util::$styles !== [['orgsuite', 'external-links-admin']]) {
         throw new RuntimeException('OrgSuite lädt die Adminassets nicht vollständig.');

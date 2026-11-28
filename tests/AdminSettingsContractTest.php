@@ -18,7 +18,8 @@ if (!str_contains($info, '<name>Filzmann Hub</name>')) throw new RuntimeExceptio
 if (str_contains($info, '<app>')) throw new RuntimeException('Nicht unterstützte App-Abhängigkeit im OrgSuite-Manifest.');
 foreach (['external_link_admin#settings', 'external_link_admin#save', '/api/admin/external-links'] as $contract) if (!str_contains($routes, $contract)) throw new RuntimeException("Externe-Link-Adminroute fehlt: {$contract}");
 foreach (['suite_label_admin#settings', 'suite_label_admin#save', '/api/admin/suite-label'] as $contract) if (!str_contains($routes, $contract)) throw new RuntimeException("Suite-Bezeichnungs-Adminroute fehlt: {$contract}");
-foreach (["new TemplateResponse('localbase', 'organization-admin'", "'standalone' => false"] as $contract) if (!str_contains($setting, $contract)) throw new RuntimeException("LocalBase-Adminadapter fehlt: {$contract}");
+foreach (["new TemplateResponse(Application::APP_ID, 'admin')"] as $contract) if (!str_contains($setting, $contract)) throw new RuntimeException("Eigenes Admin-Template fehlt: {$contract}");
+if (str_contains($setting, 'localbase')) throw new RuntimeException('OrgSuite darf nicht mehr das LocalBase-Organisationsformular einbinden.');
 foreach (["addScript('orgsuite', 'external-links-admin')", "addStyle('orgsuite', 'external-links-admin')"] as $contract) if (!str_contains($setting, $contract)) throw new RuntimeException("Externe-Link-Adminasset fehlt: {$contract}");
 if (!str_contains($setting, "addScript('orgsuite', 'suite-label-admin')")) throw new RuntimeException('Suite-Bezeichnungs-Adminasset fehlt.');
 if (str_contains($controller, 'NoAdminRequired') || str_contains($controller, 'NoCSRFRequired')) throw new RuntimeException('Externe-Link-Adminendpunkte schwächen Nextclouds Schutzattribute ab.');
