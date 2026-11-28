@@ -1,6 +1,8 @@
 OC.L10N.register(
     "orgsuite",
     {
+  "Zur Organisationsverwaltung (flz_organization)":"Go to organization administration (flz_organization)",
+  "Organisationsweite Einstellungen (Organisation, Kalenderkontext, Rechte innerhalb von Fachgruppen) werden in der flz_organization-Verwaltung gepflegt.":"Organization-wide settings (organization, calendar context, permissions within business groups) are maintained in the flz_organization administration.",
     "externer Link" : "external link",
     "Suite-Menü" : "Suite menu",
     "Diese Bezeichnung erscheint im Nextcloud-Appmenü und benennt das gemeinsame FLZ-Quermenü." : "This label appears in the Nextcloud app menu and names the shared FLZ cross-menu.",

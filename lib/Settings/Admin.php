@@ -15,7 +15,7 @@ final class Admin implements ISettings {
         Util::addScript('orgsuite', 'suite-label-admin');
         Util::addScript('orgsuite', 'external-links-admin');
         Util::addStyle('orgsuite', 'external-links-admin');
-        return new TemplateResponse('localbase', 'organization-admin', ['standalone' => false]);
+        return new TemplateResponse(Application::APP_ID, 'admin');
     }
 
     public function getSection(): string {
