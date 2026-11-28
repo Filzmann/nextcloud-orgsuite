@@ -25,11 +25,7 @@ final class OrgSuiteProcessingMetadataProvider implements ProcessingMetadataProv
         }
 
         try {
-            $content = file_get_contents($path);
-            if ($content === false) {
-                throw new DomainException('Der Verarbeitungsmetadaten-Katalog ist nicht verfügbar.');
-            }
-            $payload = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+            $payload = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
             if (!is_array($payload)) {
                 throw new DomainException('Der Verarbeitungsmetadaten-Katalog ist ungültig.');
             }
