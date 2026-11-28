@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 namespace {
-    use OCA\LocalBase\Catalog\FlzProductCatalog;
+    use OCA\OrgSuite\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Service\SuiteTargetCatalog;
     use function OCA\OrgSuite\Tests\Support\assertSameValue;
 

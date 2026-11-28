@@ -8,7 +8,6 @@ $appRoot = dirname(__DIR__);
 spl_autoload_register(static function (string $class) use ($workspaceRoot, $appRoot): void {
     $prefixes = [
         'OCA\\OrgSuite\\Tests\\' => $appRoot . '/tests/',
-        'OCA\\LocalBase\\' => $workspaceRoot . '/localbase/lib/',
         'OCA\\FlzDataProtection\\' => $appRoot . '/tests/stubs/FlzDataProtection/',
         'OCA\\OrgSuite\\' => $appRoot . '/lib/',
     ];

@@ -22,7 +22,7 @@ namespace OCA\OrgSuite\AppInfo {
 }
 
 namespace {
-    use OCA\LocalBase\Catalog\FlzProductCatalog;
+    use OCA\OrgSuite\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Controller\ExternalLinkAdminController;
     use OCA\OrgSuite\Service\ExternalLinkSettingsService;
     use OCA\OrgSuite\Service\SuiteTargetCatalog;
