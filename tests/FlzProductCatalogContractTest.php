@@ -30,6 +30,11 @@ assertSameValue(
     'Full-Suite-Liste muss Infrastruktur zuerst und flzbqplanung ausgeschlossen führen.'
 );
 assertSameValue(['localbase', 'orgsuite', 'flzrecruitment'], $catalog->productBundleAppIds('flzrecruitment'), 'Produktbundle muss Infrastruktur plus Produkt enthalten.');
+assertSameValue(
+    ['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flz_akut'],
+    array_column($catalog->bundleProducts(), 'id'),
+    'Produktbundle-Liste muss alle freigegebenen Produkte enthalten.'
+);
 assertThrows(static fn() => $catalog->productBundleAppIds('flzbqplanung'), InvalidArgumentException::class, 'flzbqplanung darf vor der Releasefreigabe kein Produktbundle besitzen.');
 assertSameValue('flzcalendar.page.index', $catalog->product('flzcalendar')['route'], 'Produktabfrage muss den Katalogeintrag liefern.');
 assertThrows(static fn() => $catalog->product('unbekannt'), InvalidArgumentException::class, 'Unbekannte Produkte müssen abgelehnt werden.');
@@ -75,6 +80,9 @@ $unknownKind['entries'][] = array_merge($product, ['kind' => 'spezial']);
 assertThrows(static fn() => FlzProductCatalog::validate($unknownKind), UnexpectedValueException::class, 'Unbekannte Produktarten müssen abgelehnt werden.');
 $missingInfra = ['version' => 1, 'entries' => [$product]];
 assertThrows(static fn() => FlzProductCatalog::validate($missingInfra), UnexpectedValueException::class, 'Verbindliche Infrastruktur darf nicht fehlen.');
+$misclassified = $base;
+$misclassified['entries'][0] = array_merge($product, ['id' => 'localbase', 'route' => 'localbase.page.index']);
+assertThrows(static fn() => FlzProductCatalog::validate($misclassified), UnexpectedValueException::class, 'Falsch klassifizierte Infrastruktur muss abgelehnt werden.');
 $menuOrder = $base;
 $menuOrder['entries'][] = $product;
 $menuOrder['entries'][] = array_merge($product, ['id' => 'flztest2', 'route' => 'flztest2.page.index']);
