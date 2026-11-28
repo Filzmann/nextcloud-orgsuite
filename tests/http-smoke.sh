@@ -70,8 +70,8 @@ if [[ -z "$admin_token" ]]; then
 fi
 curl --fail --silent --show-error --insecure --user "$ORGS_ADMIN_USER:$ORGS_ADMIN_PASSWORD" \
     --cookie "$admin_cookies" --cookie-jar "$admin_cookies" -H "requesttoken: $admin_token" \
-    "$base_url/index.php/apps/localbase/api/flz-full-suite/admin/settings" --output "$admin_settings"
-for contract in '"organization"' '"calendarPeerEditing"' '"vacationPeerApproval"'; do
+    "$base_url/index.php/apps/orgsuite/api/admin/suite-label" --output "$admin_settings"
+for contract in '"flzLabel"'; do
     if ! grep -q "$contract" "$admin_settings"; then
         echo "Admin-API-Vertrag fehlt: $contract" >&2
         exit 1
@@ -138,8 +138,8 @@ if (($flz[0]["href"] ?? null) !== "https://docs.example.test/flz" || ($flz[0]["o
 
 status="$(curl --silent --show-error --insecure --user "$ORGS_ADMIN_USER:$ORGS_ADMIN_PASSWORD" \
     --cookie "$admin_cookies" --cookie-jar "$admin_cookies" -H 'Content-Type: application/json' \
-    -X PUT --data '{}' --output "$workdir/csrf.json" --write-out '%{http_code}' \
-    "$base_url/index.php/apps/localbase/api/flz-full-suite/admin/permissions")"
+    -X POST --data '{"flzLabel":"Suite"}' --output "$workdir/csrf.json" --write-out '%{http_code}' \
+    "$base_url/index.php/apps/orgsuite/api/admin/suite-label")"
 if [[ "$status" != '412' ]]; then
     echo "Admin-Schreibzugriff ohne CSRF-Token ergab HTTP $status statt 412." >&2
     exit 1
@@ -171,7 +171,7 @@ fi
 status="$(curl --silent --show-error --insecure --user "$nonadmin:$nonadmin" \
     --cookie "$nonadmin_cookies" --cookie-jar "$nonadmin_cookies" -H "requesttoken: $nonadmin_token" \
     --output "$workdir/denied.json" --write-out '%{http_code}' \
-    "$base_url/index.php/apps/localbase/api/flz-full-suite/admin/settings")"
+    "$base_url/index.php/apps/orgsuite/api/admin/suite-label")"
 if [[ "$status" != '403' ]]; then
     echo "Standardkonto erhielt beim Admin-Endpunkt HTTP $status statt 403." >&2
     exit 1

@@ -10,7 +10,7 @@ namespace {
 $catalog = new FlzProductCatalog();
 assertSameValue(1, $catalog->version(), 'Katalogversion muss 1 sein.');
 assertSameValue(
-    ['localbase', 'orgsuite', 'flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flzbqplanung', 'flz_akut'],
+    ['orgsuite', 'flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flzbqplanung', 'flz_akut'],
     array_column($catalog->entries(), 'id'),
     'Katalogeinträge müssen vollständig geladen werden.'
 );
@@ -25,11 +25,11 @@ assertSameValue(
     'Alle FLZ-Produkte müssen menüfähig sein.'
 );
 assertSameValue(
-    ['localbase', 'orgsuite', 'flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flz_akut'],
+    ['orgsuite', 'flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flz_akut'],
     $catalog->fullSuiteAppIds(),
     'Full-Suite-Liste muss Infrastruktur zuerst und flzbqplanung ausgeschlossen führen.'
 );
-assertSameValue(['localbase', 'orgsuite', 'flzrecruitment'], $catalog->productBundleAppIds('flzrecruitment'), 'Produktbundle muss Infrastruktur plus Produkt enthalten.');
+assertSameValue(['orgsuite', 'flzrecruitment'], $catalog->productBundleAppIds('flzrecruitment'), 'Produktbundle muss Infrastruktur plus Produkt enthalten.');
 assertSameValue(
     ['flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flz_akut'],
     array_column($catalog->bundleProducts(), 'id'),
@@ -53,7 +53,6 @@ unlink($tmp);
 // validate(): Strukturfehler
 $baseEntry = ['id' => 'x', 'kind' => 'infrastructure', 'suite' => null, 'order' => null, 'route' => null, 'productLabel' => null, 'navigationLabel' => null, 'standalone' => false, 'menu' => false, 'fullSuiteBundle' => true, 'productBundle' => true];
 $base = ['version' => 1, 'entries' => [
-    ['id' => 'localbase', 'kind' => 'infrastructure', 'suite' => null, 'order' => null, 'route' => null, 'productLabel' => null, 'navigationLabel' => null, 'standalone' => false, 'menu' => false, 'fullSuiteBundle' => true, 'productBundle' => true],
     ['id' => 'orgsuite', 'kind' => 'infrastructure', 'suite' => null, 'order' => null, 'route' => null, 'productLabel' => null, 'navigationLabel' => null, 'standalone' => false, 'menu' => false, 'fullSuiteBundle' => true, 'productBundle' => true],
 ]];
 assertSameValue(1, FlzProductCatalog::validate($base)['version'], 'Ein gültiger Minimalkatalog muss validieren.');
@@ -81,12 +80,27 @@ assertThrows(static fn() => FlzProductCatalog::validate($unknownKind), Unexpecte
 $missingInfra = ['version' => 1, 'entries' => [$product]];
 assertThrows(static fn() => FlzProductCatalog::validate($missingInfra), UnexpectedValueException::class, 'Verbindliche Infrastruktur darf nicht fehlen.');
 $misclassified = $base;
-$misclassified['entries'][0] = array_merge($product, ['id' => 'localbase', 'route' => 'localbase.page.index']);
+$misclassified['entries'][0] = array_merge($product, ['id' => 'orgsuite', 'route' => 'orgsuite.page.index']);
 assertThrows(static fn() => FlzProductCatalog::validate($misclassified), UnexpectedValueException::class, 'Falsch klassifizierte Infrastruktur muss abgelehnt werden.');
 $menuOrder = $base;
 $menuOrder['entries'][] = $product;
 $menuOrder['entries'][] = array_merge($product, ['id' => 'flztest2', 'route' => 'flztest2.page.index']);
 assertThrows(static fn() => FlzProductCatalog::validate($menuOrder), UnexpectedValueException::class, 'Doppelte Menüreihenfolgen müssen abgelehnt werden.');
+
+// infrastructureFor(): Sortierung mit mehreren Nicht-Pflicht-Infrastrukturen
+$extraInfra = $base;
+$extraInfra['entries'][] = array_merge($baseEntry, ['id' => 'zzzinfra']);
+$extraInfra['entries'][] = array_merge($baseEntry, ['id' => 'aaainfra']);
+$extraInfra['entries'][] = $product;
+$tmpInfra = tempnam(sys_get_temp_dir(), 'catalog');
+file_put_contents($tmpInfra, json_encode($extraInfra, JSON_THROW_ON_ERROR));
+try {
+    $extraCatalog = new FlzProductCatalog($tmpInfra);
+    assertSameValue(['orgsuite', 'aaainfra', 'zzzinfra', 'flztest'], $extraCatalog->fullSuiteAppIds(), 'Pflicht-Infrastruktur muss zuerst, weitere Infrastruktur danach sortiert werden.');
+    assertSameValue(['orgsuite', 'aaainfra', 'zzzinfra', 'flztest'], $extraCatalog->productBundleAppIds('flztest'), 'Produktbundle-Sortierung muss Pflicht-Infrastruktur zuerst führen.');
+} finally {
+    unlink($tmpInfra);
+}
 
 echo 'FlzProductCatalogContractTest: OK' . PHP_EOL;
 
