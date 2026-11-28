@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "app_id": "orgsuite",
+  "processings": [
+    {
+      "processing_id": "suite_administration",
+      "name": "Suite-Administration (externe Links, Suite-Bezeichnung)",
+      "controller": {
+        "component": "orgsuite (Filzmann Hub)",
+        "business_owner": "Datenschutzbeauftragte"
+      },
+      "data_categories": [
+        "Externe Link-Einträge (Bezeichnung, URL, Anzeigereihenfolge, Öffnungsmodus) als AppConfig-Wert external_links",
+        "Suite-Bezeichnung als AppConfig-Wert flz_menu_label"
+      ],
+      "data_subjects": ["Keine; reine Konfiguration ohne Personenbezug"],
+      "purposes": ["Zentrale Anzeige externer Links und anpassbarer Suite-Bezeichnung im Hub", "Navigationsunterstützung ohne eigene Rechtevergabe"],
+      "access_roles": ["Native Nextcloud-Administration im OrgSuite-Adminbereich"],
+      "recipients": [
+        {
+          "category": "Anmeldende Nextcloud-Nutzende",
+          "allowed_disclosures": ["Konfigurierte externe Links und Suite-Bezeichnung zur Anzeige"],
+          "conditions": ["Link-Ziele öffnen in neuem Tab/Fenster; Navigation erteilt keine Rechte"]
+        }
+      ],
+      "data_sources": ["Admin-Eingaben im OrgSuite-Adminbereich", "AppConfig-Werte external_links und flz_menu_label"],
+      "legal_basis": {
+        "status": "PRIVACY-DECISION-REQUIRED",
+        "affected_data": "Konfiguration ohne Personenbezug",
+        "planned_processing": "Suite-Administration",
+        "missing_decision": "Rechtsgrundlage der Konfiguration",
+        "reason": "Fachlich zu entscheiden.",
+        "technical_impact": "Keine freigegebene Rechtsgrundlage behauptet.",
+        "privacy_preserving_alternative": "Nur erforderliche Konfigurationswerte speichern.",
+        "responsible_party": "ungeklärt",
+        "blocking": false
+      },
+      "retention": {
+        "policy_id": "suite_admin_current",
+        "trigger": "Jede Speicherung ersetzt den vorherigen Wert",
+        "duration_or_deadline": "Unbegrenzt bis zur nächsten Änderung",
+        "action": "delete",
+        "conditions_or_holds": ["Keine Historie; Löschung nur auf admin-seitige Anweisung."]
+      },
+      "logging": {
+        "audit_requirements": ["Konfigurationsänderungen ohne personenbezogene Inhalte protokollierbar"],
+        "personal_data_policy": "Keine UIDs in Logs."
+      },
+      "backup": {
+        "relevance": {
+          "status": "PRIVACY-DECISION-REQUIRED",
+          "affected_data": "AppConfig-Werte external_links und flz_menu_label",
+          "planned_processing": "Betriebliche Sicherung",
+          "missing_decision": "Backup-Relevanz",
+          "reason": "Betrieblicher Backupzyklus unbekannt.",
+          "technical_impact": "Kein Entfall behauptbar.",
+          "privacy_preserving_alternative": "Keine app-eigene Kopie.",
+          "responsible_party": "ungeklärt",
+          "blocking": false
+        },
+        "restore_handling": {
+          "status": "PRIVACY-DECISION-REQUIRED",
+          "affected_data": "Wiederhergestellte Suite-Konfiguration",
+          "planned_processing": "Erneute Nutzung",
+          "missing_decision": "Restore-Bewertung",
+          "reason": "Restore betrieblich zu bewerten.",
+          "technical_impact": "Keine automatische Löschung.",
+          "privacy_preserving_alternative": "Keine zusätzlichen Kopien.",
+          "responsible_party": "ungeklärt",
+          "blocking": false
+        }
+      },
+      "exports_and_reports": {
+        "article_15_relevance": "Nicht anwendbar; keine personenbezogenen Daten.",
+        "other_outputs": ["Anzeige der Links und Bezeichnung in der Suite-Navigation"],
+        "minimization": "Nur anzuzeigende Konfigurationswerte."
+      },
+      "data_subject_rights": {
+        "article_15": "Nicht anwendbar.",
+        "rectification": "Administrierende Personen berichtigen die Konfiguration.",
+        "restriction": {"status": "PRIVACY-DECISION-REQUIRED", "affected_data": "Konfiguration", "planned_processing": "Einschränkung", "missing_decision": "Nicht definiert.", "reason": "Kein Personenbezug.", "technical_impact": "Kein Pfad erforderlich.", "privacy_preserving_alternative": "Link deaktivieren.", "responsible_party": "ungeklärt", "blocking": false},
+        "erasure_or_anonymization": {"status": "PRIVACY-DECISION-REQUIRED", "affected_data": "Konfiguration", "planned_processing": "Löschung", "missing_decision": "Nicht definiert.", "reason": "Kein Personenbezug.", "technical_impact": "Keine automatische Löschung.", "privacy_preserving_alternative": "Eintrag entfernen.", "responsible_party": "ungeklärt", "blocking": false}
+      },
+      "international_transfers": "Externe Links können auf Drittland-Dienste verweisen; die App übermittelt selbst keine Daten an Drittländer.",
+      "automated_decisions": "Keine automatisierte Entscheidung mit rechtlicher Wirkung.",
+      "special_safeguards": ["Externe Links öffnen nicht im selben Kontext", "Navigation erteilt keine Rechte", "Admin-Schreibzugriff serverseitig geprüft"],
+      "systems": ["Nextcloud", "orgsuite", "AppConfig-Schlüssel external_links und flz_menu_label"]
+    }
+  ]
+}
