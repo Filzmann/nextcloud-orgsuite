@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\AppInfo;
 
+use OCA\FlzDataProtection\PublicApi\V1\RegisterProcessingMetadataProvidersEvent;
+use OCA\OrgSuite\Privacy\OrgSuiteProcessingMetadataProviderListener;
+
 use OCA\OrgSuite\Listener\NavigationListener;
 use OCA\OrgSuite\Listener\SuiteAssetsListener;
 use OCP\AppFramework\App;
@@ -25,6 +28,7 @@ final class Application extends App implements IBootstrap {
     }
 
     public function register(IRegistrationContext $context): void {
+        $context->registerEventListener(RegisterProcessingMetadataProvidersEvent::class, OrgSuiteProcessingMetadataProviderListener::class);
         $context->registerEventListener(LoadAdditionalEntriesEvent::class, NavigationListener::class);
         $context->registerEventListener(BeforeTemplateRenderedEvent::class, SuiteAssetsListener::class);
     }

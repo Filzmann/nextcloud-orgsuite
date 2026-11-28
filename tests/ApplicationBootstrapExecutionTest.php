@@ -14,7 +14,9 @@ namespace OCP\AppFramework\Http\Events { class BeforeTemplateRenderedEvent {} }
 namespace OCP\Navigation\Events { class LoadAdditionalEntriesEvent {} }
 
 namespace {
+    use OCA\FlzDataProtection\PublicApi\V1\RegisterProcessingMetadataProvidersEvent;
     use OCA\OrgSuite\AppInfo\Application;
+    use OCA\OrgSuite\Privacy\OrgSuiteProcessingMetadataProviderListener;
     use OCA\OrgSuite\Listener\NavigationListener;
     use OCA\OrgSuite\Listener\SuiteAssetsListener;
     use OCP\AppFramework\Bootstrap\IBootContext;
@@ -31,6 +33,7 @@ namespace {
     $application->boot(new class implements IBootContext {});
 
     if ($registration->listeners !== [
+        [RegisterProcessingMetadataProvidersEvent::class, OrgSuiteProcessingMetadataProviderListener::class],
         [LoadAdditionalEntriesEvent::class, NavigationListener::class],
         [BeforeTemplateRenderedEvent::class, SuiteAssetsListener::class],
     ]) {
