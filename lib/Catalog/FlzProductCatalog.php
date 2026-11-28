@@ -14,7 +14,7 @@ use UnexpectedValueException;
  */
 final class FlzProductCatalog {
     public const VERSION = 1;
-    private const REQUIRED_INFRASTRUCTURE = ['localbase', 'orgsuite'];
+    private const REQUIRED_INFRASTRUCTURE = ['orgsuite'];
 
     /** @var array{version: int, entries: list<array<string, mixed>>}|null */
     private ?array $catalog = null;
@@ -154,7 +154,7 @@ final class FlzProductCatalog {
             $entries[] = $entry;
         }
 
-        if (!isset($seenIds['localbase'], $seenIds['orgsuite'])) {
+        if (!isset($seenIds['orgsuite'])) {
             throw new UnexpectedValueException('Verbindliche Suite-Infrastruktur fehlt.');
         }
         foreach (self::REQUIRED_INFRASTRUCTURE as $infrastructureId) {

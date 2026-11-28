@@ -2,19 +2,6 @@
   "version": 1,
   "entries": [
     {
-      "id": "localbase",
-      "kind": "infrastructure",
-      "suite": null,
-      "order": null,
-      "route": null,
-      "productLabel": null,
-      "navigationLabel": null,
-      "standalone": false,
-      "menu": false,
-      "fullSuiteBundle": true,
-      "productBundle": true
-    },
-    {
       "id": "orgsuite",
       "kind": "infrastructure",
       "suite": null,
