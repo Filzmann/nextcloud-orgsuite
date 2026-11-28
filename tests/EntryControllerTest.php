@@ -35,7 +35,7 @@ namespace OCA\OrgSuite\AppInfo {
 }
 
 namespace {
-    use OCA\LocalBase\Catalog\FlzProductCatalog;
+    use OCA\OrgSuite\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Controller\EntryController;
     use OCA\OrgSuite\Service\SuiteTargetCatalog;
     use OCP\App\IAppManager;

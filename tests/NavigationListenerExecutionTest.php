@@ -15,7 +15,7 @@ namespace OCP\App { interface IAppManager { public function isEnabledForUser($ap
 namespace OCA\OrgSuite\AppInfo { final class Application { public const APP_ID = 'orgsuite'; } }
 
 namespace {
-    use OCA\LocalBase\Catalog\FlzProductCatalog;
+    use OCA\OrgSuite\Catalog\FlzProductCatalog;
     use OCA\OrgSuite\Listener\NavigationListener;
     use OCA\OrgSuite\Service\SuiteLabelSettingsService;
     use OCA\OrgSuite\Service\SuiteTargetCatalog;

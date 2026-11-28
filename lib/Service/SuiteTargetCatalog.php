@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrgSuite\Service;
 
-use OCA\LocalBase\Catalog\FlzProductCatalog;
+use OCA\OrgSuite\Catalog\FlzProductCatalog;
 use OCP\IL10N;
 use RuntimeException;
 
