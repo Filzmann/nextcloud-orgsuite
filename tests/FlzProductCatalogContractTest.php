@@ -89,14 +89,15 @@ assertThrows(static fn() => FlzProductCatalog::validate($menuOrder), UnexpectedV
 
 // infrastructureFor(): Sortierung mit mehreren Nicht-Pflicht-Infrastrukturen
 $extraInfra = $base;
-$extraInfra['entries'][] = array_merge($baseEntry, ['id' => 'zzz-infra']);
-$extraInfra['entries'][] = array_merge($baseEntry, ['id' => 'aaa-infra']);
+$extraInfra['entries'][] = array_merge($baseEntry, ['id' => 'zzzinfra']);
+$extraInfra['entries'][] = array_merge($baseEntry, ['id' => 'aaainfra']);
+$extraInfra['entries'][] = $product;
 $tmpInfra = tempnam(sys_get_temp_dir(), 'catalog');
 file_put_contents($tmpInfra, json_encode($extraInfra, JSON_THROW_ON_ERROR));
 try {
     $extraCatalog = new FlzProductCatalog($tmpInfra);
-    assertSameValue(['orgsuite', 'aaa-infra', 'zzz-infra', 'flzcalendar', 'flzplaner', 'flzurlaub', 'flzroom', 'flzrecruitment', 'flz_akut'], $extraCatalog->fullSuiteAppIds(), 'Pflicht-Infrastruktur muss zuerst, weitere Infrastruktur danach sortiert werden.');
-    assertSameValue(['orgsuite', 'aaa-infra', 'zzz-infra'], $extraCatalog->productBundleAppIds('flzcalendar'), 'Produktbundle-Sortierung muss Pflicht-Infrastruktur zuerst führen.');
+    assertSameValue(['orgsuite', 'aaainfra', 'zzzinfra', 'flztest'], $extraCatalog->fullSuiteAppIds(), 'Pflicht-Infrastruktur muss zuerst, weitere Infrastruktur danach sortiert werden.');
+    assertSameValue(['orgsuite', 'aaainfra', 'zzzinfra', 'flztest'], $extraCatalog->productBundleAppIds('flztest'), 'Produktbundle-Sortierung muss Pflicht-Infrastruktur zuerst führen.');
 } finally {
     unlink($tmpInfra);
 }
